@@ -1,0 +1,43 @@
+
+
+.image-fondo {
+    /* background-image: url("/assets/imagenes/epidemiology.jpg"); */
+   height: 40em;
+   height: 35em;
+   border: red;
+}
+.lavel-color{
+    font-family: Dynalight;
+    font-size: 4em;
+    color: red;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+    
+h1{
+    font-family: Dynalight;
+    font-size: 5em;
+    color: #fff;
+}
+
+form{
+
+}
+
+/* For width 400px and larger: */
+@media only screen and (min-width: 400px) {
+    body {
+      background-image: url('img_flowers.jpg');
+    }
+}
+
+/* @media only screen and (max-width: 500px) and (min-width: 400px) {
+    body {
+      background-image: url('img_flowers.jpg');
+    }
+} */
