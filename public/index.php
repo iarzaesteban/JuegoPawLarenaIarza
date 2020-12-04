@@ -8,6 +8,7 @@
 </head>
 <body >
     <div class="image-fondo" > 
+
         <section class="container">
             <h1>Epidemiology</h1>
 
@@ -19,7 +20,10 @@
                 <label class="lavel-color">Password</label>
                 <input class="imput" type="password" name="password" required />
 
-                <button type="submit" name="register" value="register">Log In</button>
+                <button class="submitboton" type="submit" name="register" value="register">Log In</button>
+
+                <button class="salirboton"  name="salir" value="salir">Salir</button>
+
             </form>
         </section>
 
