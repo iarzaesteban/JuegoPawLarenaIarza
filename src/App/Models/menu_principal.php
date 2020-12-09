@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Paw\Core\Model;
+use Exception;
+
+use Paw\Core\Exceptions\invalidValueFormatException;
+
+
+class Menu_principal extends Model {
+
+    public $table = 'menu_principal';
+    private $queryBuilder;
+
+    public function setQueryBuilder(QueryBuilder  $qb){
+        $this->queryBuilder = $qb;
+
+    }
+    public $fields = [
+        'juegos'    => null,
+        'puntajes'  => null
+    ];
+
+    public function obtenerSalas(){
+
+    }
+
+    public function ingresarSala(){
+
+    }
+
+    public function verTop(){
+
+    }
+
+    public function obtenerEnfermedades(){
+
+    }
+
+    public function verListaJugadores(){
+
+    }
+
+    public function inicarJuego(){
+
+    }
+}
+
+?>
