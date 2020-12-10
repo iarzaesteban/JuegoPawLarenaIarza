@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Paw\Core\Model;
+use Src\Core\Model;
 use Exception;
 
-use Paw\Core\Exceptions\invalidValueFormatException;
+use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Tablero extends Model {

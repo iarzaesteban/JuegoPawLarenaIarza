@@ -6,9 +6,11 @@ namespace Core;
 use Core\Database\QueryBuilder;
 
 use Core\Traits\loggable;
+use Core\Traits\connectable;
 
 class Model{
     use loggable;
+    use connectable;
 
     private $table;
     private $id;

@@ -1,0 +1,27 @@
+{% extends "Partials/base.twig" %}
+
+{% block header %}
+    {{ parent() }}
+    	
+{% endblock %}
+
+{% block main %}
+    <h1 class="titulo-principal"> Empidemoilogy </h1>
+    <p class="eslogan">El luego que te enferma</p>
+
+    <form class="frm-login" action="login">
+        <label>
+            Usuario
+            <input name="usuario" id="usuario" required></input>
+        </label>
+        <label>
+            Password
+            <input name="password" id="password" required></input>
+        </label>
+
+        <button class="submitboton" type="submit" name="register" value="register">Log In</button>
+
+        <button class="salirboton"  name="salir" value="salir">Salir</button>
+    </form>
+    	
+{% endblock %}

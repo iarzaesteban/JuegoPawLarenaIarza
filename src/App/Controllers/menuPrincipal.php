@@ -1,39 +1,29 @@
 <?php
 
 
-namespace App\Controllers;
+namespace Src\App\Controllers;
 
-use Core\Controller;
+use Src\Core\Controller;
 
-use App\Models\menu_principal;
+use Src\App\Models\menu_principal;
 
-class MenuPartidaController extends Controller{
+class MenuPrincipal extends Controller{
 
     public ?string $modelname = menu_principal::class;
 
 
-
-
     public function index(){
-
         $titulo = 'Menu';
-        //Example
-        // $socios = $this->model->getAll();
-        // var_dump($socios);
-        // require $this->viewDir.'socios.index.view.php';
-
+        if (is_null($this->session->get("USUARIO"))) {
+            //todo: url para usuarios no logeados (landing)
+            $this->twigLoader('landingpage.twig', []);
+        } else {
+            $this->twigLoader('login.twig', []);
+        }
     }
 
     public function get(){
-        //Example
-        // global $request;
-        // $socioId = $request->get('id');
-
-        // $socio = $this->model->get($socioId);
-        // $titulo = 'Socio';
-
-        // require $this->viewDir.'socios.show.view.php';
-
+        
     }
 
     public function set(){

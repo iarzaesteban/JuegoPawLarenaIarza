@@ -1,17 +1,22 @@
 <?php
-namespace  Core;
+namespace Src\Core;
 
 
 use Exception;
 use Core\Request;
 use http\Encoding\Stream\Debrotli;
 use Core\Exceptions\RouteNotFoundException;
-use Core\Traits\loggable;
+use Src\Core\Traits\tSession;
+use Src\Core\Traits\tRequest;
+use Src\Core\Traits\loggable;
+use Src\Core\Traits\connectable;
 
 class Router{
 
-
-    use loggable; //cuando esta aca adentro php lo interpreta como un trait router va a incorporar todas las propiedades de este.
+    use tSession;
+    use tRequest;
+    use loggable;
+    use connectable;
 
     public array $routes = [
         "GET" =>[],
@@ -57,20 +62,23 @@ class Router{
 
     public function call($controller, $method){
 
-        $controller_name = "Paw\\App\\Controllers\\{$controller}";
+        $controller_name = "Src\\App\\Controllers\\{$controller}";
         $objController = new $controller_name;
+        $objController->setSession($this->session);
+        $objController->setConnection($this->connection);
+        $objController->setRequest($this->request);
         $objController->$method();
 
     }
 
 
-    public function  direct(Request $request){
+    public function  direct(){
 
 
         try {
 
 
-            list($path, $http_method) = $request->route();
+            list($path, $http_method) = $this->request->route();
 
             //toda esta parte me parecio medio confusa. pero entendi masomenos.
 

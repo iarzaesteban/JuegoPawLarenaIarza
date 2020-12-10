@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Core\Database;
+namespace Src\Core\Database;
 
 use PDO;
 use PDOException;
-use Core\Config;
-use Core\Traits\loggable;
+use Src\Core\Config;
+use Src\Core\Traits\loggable;
 
 
 
