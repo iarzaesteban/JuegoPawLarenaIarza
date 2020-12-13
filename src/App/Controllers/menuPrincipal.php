@@ -15,8 +15,16 @@ class MenuPrincipal extends Controller{
     public function index(){
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
-            //todo: url para usuarios no logeados (landing)
             $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            $this->twigLoader('user.landingpage.twig', []);
+        }
+    }
+
+    public function crearCuenta(){
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.createAccount.twig', []);
         } else {
             $this->twigLoader('user.landingpage.twig', []);
         }

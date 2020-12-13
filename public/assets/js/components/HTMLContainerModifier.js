@@ -12,4 +12,10 @@ class HTMLContainerModifier {
     static redirectOnClick(containerID, url) {
         this.loadEvent(containerID, "click", ()=>{document.location.replace(url)})
     }
+
+    static PostDinamicoFormConResultadoOut(formID, outID, buttonID, url) {
+
+    }
+
+    
 }

@@ -4,9 +4,6 @@ class AppPaw
    {
 
         document.addEventListener("DOMContentLoaded", () => {
-            Paw.cargarScript("Paw-Menu", "/assets/js/components/HTMLContainerModifier.js", () => {
-               //var htmlContainerModifier = new HTMLContainerModifier();
-            });
 
         });
    }

@@ -1,0 +1,29 @@
+{% extends "Partials/base.twig" %}
+
+{% block header %}
+    {{ parent() }}
+    <script src="/assets/js/components/HTMLContainerModifier.js"></script>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}    
+    <form name="nueva-cuenta" id="nueva-cuenta">
+        <out id="signup-out" class="invisible">
+        </out>
+        <label>Usuario
+            <input required name="usuario" id="usuario" class="input-login" placeholder="usuario">
+        </label>
+        <label>Mail
+            <input required name="mail" id="mail" class="input-login" placeholder="mail">
+        </label>
+        <label>Password
+            <input required type="password" name="password" id="password" class="input-login" placeholder="password">
+        </label>
+        <button id="nueva-cuenta-submit" class="submit">Crear cuenta</button>
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            HTMLContainerModifier.PostDinamicoFormConResultadoOut("nueva-cuenta","signup-out","nueva-cuenta-submit","/crearCuenta")
+        })
+    </script>
+{% endblock %}

@@ -44,3 +44,4 @@ $router->setConnection($connection);
 $router->setRequest($request);
 $router->setSession($session);
 $router->get('/','menuPrincipal@index');
+$router->get('/crearCuenta','menuPrincipal@crearCuenta');
