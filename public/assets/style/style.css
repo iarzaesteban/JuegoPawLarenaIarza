@@ -121,8 +121,8 @@ button{
 } */ 
 @media only screen and (orientation:landscape){
 
-.image-fondo {
-  
+body {
+    background-image: url("/assets/imagenes/epidemiology.jpg");
 }
 
 .container {  
@@ -153,6 +153,11 @@ button{
    width: 10vw;
   -webkit-text-stroke: 1px black;
   transform: skew(20deg);
+  background-color: salmon;
+}
+
+.botonPrincipal{
+  background-color: salmon;
 }
 
 .submitboton{
@@ -163,6 +168,4 @@ button{
 .salirboton{
   left: 4vw;
   top: 7vh;
-}
-
 }

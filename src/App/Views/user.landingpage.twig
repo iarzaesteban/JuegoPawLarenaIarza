@@ -1,0 +1,11 @@
+{% extends "Partials/landingpage.twig" %}
+
+{% block header %}
+    {{ parent() }}
+    <script src="/assets/js/components/HTMLContainerModifier.js"></script>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    <button class="botonPrincipal" id="jugar" name="jugar">Jugar</button>
+{% endblock %}

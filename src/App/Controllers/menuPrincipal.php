@@ -16,9 +16,9 @@ class MenuPrincipal extends Controller{
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
             //todo: url para usuarios no logeados (landing)
-            $this->twigLoader('landingpage.twig', []);
+            $this->twigLoader('guest.landingpage.twig', []);
         } else {
-            $this->twigLoader('login.twig', []);
+            $this->twigLoader('user.landingpage.twig', []);
         }
     }
 
