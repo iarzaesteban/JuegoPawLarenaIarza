@@ -18,23 +18,35 @@ class HTMLContainerModifier {
         if (div) {
             div.addEventListener("submit", function(ev) {
                 ev.preventDefault()
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: $("#"+formID).serialize(),
-                    dataType: "text",
-                    sucess: function(data) {
+                $.post(url,
+                    $("#"+formID).serialize(),
+                    function(data, status){
                         var res = document.getElementById(outID)
+                        console.log(data)
                         if (res) {
-                            res.html(data)
+                            res.innerHTML = data
                         } else {
                             console.error("No se encontró el elemento out: " + outID)
                         }
-                    },
-                    error: function(http, status, exception) {
-                        console.error(status + " ||| " + exception)
-                    }
                 })
+                // $.ajax({
+                //     type: "POST",
+                //     url: url,
+                //     data: $("#"+formID).serialize(),
+                //     dataType: "text",
+                //     sucess: function(data) {
+                //         var res = document.getElementById(outID)
+                //         console.log(data)
+                //         if (res) {
+                //             res.html(data)
+                //         } else {
+                //             console.error("No se encontró el elemento out: " + outID)
+                //         }
+                //     },
+                //     error: function(http, status, exception) {
+                //         console.error(status + " ||| " + exception)
+                //     }
+                //})
                 return false
             })
         } else {

@@ -45,4 +45,4 @@ $router->setRequest($request);
 $router->setSession($session);
 $router->get('/','menuPrincipal@index');
 $router->get('/crearCuenta','menuPrincipal@crearCuenta');
-$router->post('/crearCuenta','menuPrincipal@crearCuenta');
+$router->post('/crearCuenta','menuPrincipal@crearCuentaAlmacenar');

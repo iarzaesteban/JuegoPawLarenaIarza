@@ -6,6 +6,7 @@ namespace Src\App\Controllers;
 use Src\Core\Controller;
 
 use Src\App\Models\menu_principal;
+use Src\App\Models\Jugador;
 
 class MenuPrincipal extends Controller{
 
@@ -27,6 +28,19 @@ class MenuPrincipal extends Controller{
             $this->twigLoader('guest.createAccount.twig', []);
         } else {
             $this->twigLoader('user.landingpage.twig', []);
+        }
+    }
+
+    public function crearCuentaAlmacenar(){
+        $titulo = 'Menu';
+        $nombre = $this->request->get('usuario');
+        $password = $this->request->get('password');
+        $mail = $this->request->get('mail');
+        $jugador = new Jugador($nombre, $password, $mail);
+        if ($jugador->save()) {
+            $this->twigLoader('user.accountCreated.twig', []);
+        } else {
+            $this->twigLoader('guest.accountCreationFailled.twig', []);
         }
     }
 

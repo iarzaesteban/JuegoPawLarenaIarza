@@ -40,7 +40,7 @@ class ConnectionBuilder
             );
         }catch (PDOException $e){
             $this->logger->error('Internal Server Error', ["Error"=>$e]);
-            die("ERROR INTERNO - CONSULTE AL ADMINISTRADOR");
+            die("ERROR INTERNO - BASE DE DATOS - CONSULTE AL ADMINISTRADOR");
         }
 
 

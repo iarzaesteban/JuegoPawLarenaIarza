@@ -1,12 +1,11 @@
 <?php
 
 
-namespace Core;
+namespace Src\Core;
 
-use Core\Database\QueryBuilder;
-
-use Core\Traits\loggable;
-use Core\Traits\connectable;
+use Src\Core\Database\QueryBuilder;
+use Src\Core\Traits\loggable;
+use Src\Core\Traits\connectable;
 
 class Model{
     use loggable;
@@ -14,7 +13,7 @@ class Model{
 
     private $table;
     private $id;
-    private $queryBuilder;
+    public $queryBuilder;
 
     public function setQueryBuilder(QueryBuilder  $qb){
         $this->queryBuilder = $qb;
@@ -22,21 +21,22 @@ class Model{
     }
 
     public function save() {
-        $datos = get_object_vars($this);
-        $existe = false;
-        if ($this->id) {
-            $existe = true;
-            $query = "SELECT * FROM {$this->table} WHERE ID=:id";
-            $sentencia = $this->pdo->prepare($query);
-        }
-        if ($existe) {
-            //insert
-        } else {
-            //update
-        }
-        foreach ($datos as $key => $val) {
+        return true;
+        // $datos = get_object_vars($this);
+        // $existe = false;
+        // if ($this->id) {
+        //     $existe = true;
+        //     $query = "SELECT * FROM {$this->table} WHERE ID=:id";
+        //     $sentencia = $this->pdo->prepare($query);
+        // }
+        // if ($existe) {
+        //     //insert
+        // } else {
+        //     //update
+        // }
+        // foreach ($datos as $key => $val) {
             
-        }
+        // }
     }
 
 }
