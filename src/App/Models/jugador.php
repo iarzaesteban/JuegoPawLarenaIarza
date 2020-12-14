@@ -27,7 +27,8 @@ class Jugador extends Model {
 
     public function setQueryBuilder(QueryBuilder  $qb){
         $this->queryBuilder = $qb;
-
+    }
+    
     public $fields = [
         'id'    => null,
         'carta'  => null,
