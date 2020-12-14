@@ -21,6 +21,7 @@ class Jugador extends Model {
     private $queryBuilder;
 
     public $nombre ;
+    public $enfermedad;
     public $mail;
     public $cartas = array();
     public $casillerosOcupados = array();
@@ -28,7 +29,7 @@ class Jugador extends Model {
     public function setQueryBuilder(QueryBuilder  $qb){
         $this->queryBuilder = $qb;
     }
-    
+
     public $fields = [
         'id'    => null,
         'carta'  => null,
@@ -48,6 +49,14 @@ class Jugador extends Model {
 
     public function getCartas(){
         return $this->cartas;
+    }
+
+    public function setEnfermedad($e){
+        $this->enfermedad = $e;
+    }
+
+    public function getEnfermedad(){
+        return $this->enfermedad;
     }
 
    public function getCasillerosOcupados(){

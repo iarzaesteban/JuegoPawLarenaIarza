@@ -25,10 +25,6 @@ class Dado extends Model {
         return $this->caraSeleccionada;
     }
 
-    public function setCara($c){
-        $this->caraSleccionada = $c;
-    }
-
     public function tirar(){
         $this->caraSeleccionada = mt_rand(1,$cantCaras);
     }
@@ -43,7 +39,6 @@ class Dado extends Model {
         'descripcion'  => null
     ];
 
-    puclic
 
 
     
