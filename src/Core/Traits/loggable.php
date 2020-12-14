@@ -1,10 +1,10 @@
 <?php
 
-namespace Src\Core\Traits;
+namespace Paw\Core\Traits;
 
 use Monolog\Logger;
 
-trait loggable {
+trait  loggable {
 
     public $logger;
 

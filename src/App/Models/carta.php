@@ -10,12 +10,26 @@ use Src\Core\Exceptions\invalidValueFormatException;
 
 class Carta extends Model {
 
+
+    public function __construct($cd){
+        $this->descripcionCarta = $cd;
+    }  
+
     public $table = 'carta';
     private $queryBuilder;
+    public $descripcionCarta;
+
+
+    public function setDescripcionCarta($cd){
+        $this->descripcionCarta = $cd;
+    }
+
+    public function getDescipcionCarta(){
+        return $this->descipcionCarta;
+    }
 
     public function setQueryBuilder(QueryBuilder  $qb){
         $this->queryBuilder = $qb;
-
     }
     public $fields = [
         'id'    => null,
@@ -23,13 +37,11 @@ class Carta extends Model {
         'descripcion'  => null,  
     ];
 
+
     public function tirarCarta(){
 
     }
 
-    public function getDescipcion(){
-
-    }
 
 
     

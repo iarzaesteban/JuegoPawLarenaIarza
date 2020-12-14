@@ -17,6 +17,29 @@ class Puntaje extends Model {
         $this->queryBuilder = $qb;
 
     }
+    public $nombreJugador;
+    public $casillerosOcupados;
+    public $tiempo;
+
+    public function __construct($nj,$co,$t){
+        $this->nombreJugador = $nj;
+        $this->casillerosOcupados = $co;
+        $this->tiempo = $t;
+
+    }
+
+    public function getNombreJugador(){
+        return $this->nombreJugador;
+    }
+
+    public function getCasillerosOcupados(){
+        return $this->casillerosOcupados;
+    }
+
+    public function getTiempo(){
+        return $this->tiempo;
+    }
+
     public $fields = [
         'id'    => null,
         'nombreJugador'  => null,

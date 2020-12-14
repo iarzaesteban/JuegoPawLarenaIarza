@@ -22,11 +22,37 @@ class Multiplicador extends Model {
         'multiplicador'  => null,
         'turnosDeVida'  => null
     ];
-
-    public function isVigente(){
-
-    }
+    public $multiplciador;
+    public $turnoDeVida;
+    public $isVigente;  
     
+    
+    public function setMultiplicador($m){
+        $this->multiplicador = $m;
+    }
+
+    public function setTurnoDeVida($tv){
+        $this->turnoDeVida = $tv;
+    }
+
+    public function setIsVigente($v){
+        $this->isVigente = $v;
+    }
+
+    public function getMultiplicador(){
+        return $this->multiplicador;
+    }
+
+
+    public function getTurnoDeVida(){
+        return $this->turnoDeVida;
+    }
+
+    public function getIsVigente(){
+        return $this->isVigente;
+    }
+
+
 }
 
 ?>
