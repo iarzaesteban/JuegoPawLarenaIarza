@@ -44,6 +44,32 @@ class MenuPrincipal extends Controller{
         }
     }
 
+    public function login(){
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.login.twig', []);
+        } else {
+            $this->twigLoader('user.landingpage.twig', []);
+        }
+    }
+
+    public function loginAutenticar(){
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $nombre = $this->request->get('usuario');
+            $password = $this->request->get('password');
+            $jugador = new Jugador($nombre, $password);
+            if ($jugador->autenticar()) {
+                $this->session->put("USUARIO", $nombre);
+                $this->twigLoader('user.loginCorrect.twig', []);
+            } else {
+                $this->twigLoader('guest.loginIncorect.twig', []);
+            }
+        } else {
+            $this->twigLoader('user.landingpage.twig', []);
+        }
+    }
+
     public function get(){
         
     }

@@ -8,11 +8,12 @@
 {% block main %}
     {{ parent() }}    
     <button class="botonPrincipal" id="crearCuentaBoton" name="crearCuentaBoton">Crear cuenta</button>
-    <button class="botonPrincipal" href>Ingresar</button>
+    <button class="botonPrincipal" id="ingresarBoton" name="ingresarBoton">Ingresar</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.redirectOnClick("crearCuentaBoton","/crearCuenta")
+            HTMLContainerModifier.redirectOnClick("ingresarBoton","/login")
         })
     </script>
 {% endblock %}

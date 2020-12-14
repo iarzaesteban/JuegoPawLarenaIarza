@@ -13,7 +13,10 @@ use Src\Core\Session;
 use Src\Core\Config;
 use Src\Core\Database\ConnectionBuilder;
 
-
+if(session_id() == ''){
+    //session has not started
+    session_start();
+}
 $whoops = new \Whoops\Run;
 $whoops ->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
@@ -46,3 +49,5 @@ $router->setSession($session);
 $router->get('/','menuPrincipal@index');
 $router->get('/crearCuenta','menuPrincipal@crearCuenta');
 $router->post('/crearCuenta','menuPrincipal@crearCuentaAlmacenar');
+$router->get('/login','menuPrincipal@login');
+$router->post('/login','menuPrincipal@loginAutenticar');

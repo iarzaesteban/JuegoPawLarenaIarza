@@ -31,6 +31,10 @@ class Jugador extends Model {
         return true;
     }
 
+    public function autenticar() {
+        return true;
+    }
+
     public function tirarCarta(){
 
     }
