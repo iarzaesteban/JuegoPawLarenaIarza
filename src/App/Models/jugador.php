@@ -18,17 +18,12 @@ class Jugador extends Model {
 
 
     public $table = 'jugador';
-    private $queryBuilder;
 
     public $nombre ;
     public $enfermedad;
     public $mail;
     public $cartas = array();
     public $casillerosOcupados = array();
-
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-    }
 
     public $fields = [
         'id'    => null,
@@ -71,7 +66,11 @@ class Jugador extends Model {
         }
 
     }
-    
+
+    public function save() {
+
+        return parent::save();
+    }    
 }
 
 ?>
