@@ -13,12 +13,19 @@ use Monolog\Handler\StreamHandler;
 use Dotenv\Dotenv;
 
 
-use Core\Request;
-use Core\Router;
-use Core\Config;
-use Core\Database\ConnectionBuilder;
+use Src\Core\Request;
+use Src\Core\Router;
+use Src\Core\Session;
+use Src\Core\Config;
+use Src\Core\Database\ConnectionBuilder;
 
-
+if(session_id() == ''){
+    //session has not started
+    session_start();
+}
+$whoops = new \Whoops\Run;
+$whoops ->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 
 
 
@@ -56,16 +63,11 @@ $request = new Request;
 $router = new Router;
 
 $router->setLogger($log);
-$router->get('/','TwigPageController@index');
-$router->get('/turnos','TwigTurnoController@turnos');
-$router->get('/nuevo_turno','TwigTurnoController@nuevo_turno');
-$router->post('/nuevo_turno','TwigTurnoController@nuevo_turno_proccess');
-$router->get('/estudios','TwigPageController@estudios');
-$router->get('/obras_sociales','TwigPageController@obras_sociales');
-$router->get('/especialidades','TwigPageController@especialidades');
-$router->get('/noticias','TwigPageController@noticias');
-$router->get('/institucional','TwigPageController@institucional');
-$router->get('/socios','TwigSocioController@index');
-$router->get('/socio','TwigSocioController@get');
-$router->get('/socio/edit','TwigSocioController@edit');
-$router->post('/Socio/edit','TwigSocioController@set');
+$router->setConnection($connection);
+$router->setRequest($request);
+$router->setSession($session);
+$router->get('/','menuPrincipal@index');
+$router->get('/crearCuenta','menuPrincipal@crearCuenta');
+$router->post('/crearCuenta','menuPrincipal@crearCuentaAlmacenar');
+$router->get('/login','menuPrincipal@login');
+$router->post('/login','menuPrincipal@loginAutenticar');

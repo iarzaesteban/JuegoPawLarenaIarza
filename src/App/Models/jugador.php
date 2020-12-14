@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Src\App\Models;
 
 use Src\Core\Model;
 use Exception;
@@ -28,12 +28,13 @@ class Jugador extends Model {
     public function setQueryBuilder(QueryBuilder  $qb){
         $this->queryBuilder = $qb;
 
-    }
     public $fields = [
         'id'    => null,
         'carta'  => null,
         'casillero'  => null,
-         
+        'nombre' => null,
+        'password' => null,
+        'mail' => null
     ];
 
     public function serCarta(Carta $carta){
