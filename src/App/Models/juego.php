@@ -49,7 +49,7 @@ class Juego extends Model {
     
     public function obtenerSalasAbiertas() {
         $this->logger->debug("juego->obtenerSalasAbiertas()");
-        $query = "SELECT * FROM $this->table WHERE estado = 'abierta'";
+        $query = "SELECT * FROM $this->table WHERE estado = '$this->estadoNoIniciado'";
         $sentencia = $this->connection->prepare($query);
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
