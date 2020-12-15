@@ -21,6 +21,7 @@ class Jugador extends Model {
     private $queryBuilder;
 
     public $nombre ;
+    public $id;
     public $enfermedad;
     public $mail;
     public $cartas = array();
@@ -39,7 +40,15 @@ class Jugador extends Model {
         'mail' => null
     ];
 
-    public function serCarta(Carta $carta){
+    public function setID($id){
+        $this->id = $id;
+    }
+
+    public function getID(){
+        return $this->id ;
+    }
+
+    public function setCarta(Carta $carta){
         $this->cartas[] = $carta;
     }
 
@@ -61,6 +70,12 @@ class Jugador extends Model {
 
    public function getCasillerosOcupados(){
        return $this->casillerosOcupados;
+   }
+
+   public function tirarCarta(Carta $carta){
+    if(in_array($carta ,$this->cartas) ){
+        $carta->invocar();
+    } 
    }
 
     public function setCasillerosOcupados($posciones){

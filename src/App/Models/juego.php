@@ -51,8 +51,9 @@ class Juego extends Model {
     public $comodines = array();
     public $jugadores = array();
     public $jugadorEnTurno ;
+    public $tablero;
 
-    public function iniciarJuego(){
+    public function iniciarJuego($configuraciones,$descripciones){
         $pos = 0;
 
         for($contador = 0; $contador < count($this->comodines); $contador++){//Mezclamos comodines
@@ -64,9 +65,15 @@ class Juego extends Model {
         for($contador = 0; $contador < count($this->comodines); $contador++){//repartimos comodines
             for($contador1 = 0; $contador1 < count($this->jugadores); $contador1++){
                 $this->jugadores[$contador1]->setCarta($this->comodines[$contador]);
+                if($contador < 4){
+                    $this->jugadores[$contador]->setID($contador);
+                }
             }
         }
+        $this->tablero = new Tablero($configuraciones->get("filas"), $configuraciones->get("columnas"),$descripciones);
+
         $id = mt_rand(0,3);
+
         $this->jugadorEnTurno =  $this->jugadores[$id];
     }
 
@@ -79,44 +86,60 @@ class Juego extends Model {
         for($i = 0; $i < count($cantDados); $i++){
             $this->dados->tirarDado();
         }
+        return $this->dados;
     }
 
-    public function obtenerEnfermedad(){
-        
+    public function obtenerEnfermedades(){
+        return $this->enfermedades;
     } 
 
-    public function tirarCarta(){
-
+    public function tirarCarta(Carta $carta,Jugador $jugador){
+        if(in_array($jugador ,$this->enfermedades) ){
+            $jugador->tirarCarta($carta);
+        }
     }
 
     public function obtenerComodines(){
-
+        return $this->jugadorEnTurno->getCartas();
     }
 
-    public function ocuparCasilleros(){
+    public function ocuparCasilleros(Casillero $casilleros){
+        $this->tablero->setCasilleros($this->jugadorEnTurno,$casilleros);
+    }
 
+    public function cambiarJugador(){
+        $id = $this->jugadorEnTurno->getID();
+        if(($id + 1) < 4){
+            $this->jugadorEnTurno = $this->jugadores[$id + 1];
+        }else{
+            $this->jugadorEnTurno = $this->jugadores[0];
+        }
     }
 
     public function getJugadorTurno(){
-
+        return $this->jugadorEnTurno;
     }
 
     public function getListaJugadores(){
-
+        return $this->jugadores;
     }
 
     public function seleccionarCantidadJugadores(){
-
+        return count($this->jugadores);
     }
 
-    
 
     public function obtenerAgentes(){
-
+        return $this->agentes;
     }
     
-    public function inggresarSala(){
-
+    public function ingresarSala(Jugador $jugador){
+        if (count($this->jugadores) <=3 ){
+            $this->jugadores = $jugador;
+        }else{
+            print("Maximo 4 jugadores");
+        }
+        
     }    
     
     
