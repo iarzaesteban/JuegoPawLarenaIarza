@@ -8,13 +8,10 @@ use Exception;
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
-class Jugador extends Model {
+class Usuario extends Model {
 
-    public function __construct($nombre, $mail){
+    public function __construct($nombre, $password, $mail = null){
         $this->fields = [
-            'id'    => null,
-            'carta'  => null,
-            'casillero'  => null,
             'nombre' => null,
             'password' => null,
             'mail' => null
@@ -22,8 +19,9 @@ class Jugador extends Model {
         $this->nombre = $nombre;
         $this->mail = $mail;
         $this->fields["nombre"] = $nombre;
+        $this->fields["password"] = $password;
         $this->fields["mail"] = $mail;
-        $this->table = 'jugador';
+        $this->table = 'usuario';
     }  
 
     public $nombre ;
@@ -80,7 +78,7 @@ class Jugador extends Model {
             return false;
         }
         return parent::save();
-    }    
+    }      
 }
 
 ?>

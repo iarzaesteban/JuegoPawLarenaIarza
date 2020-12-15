@@ -6,7 +6,7 @@ namespace Src\App\Controllers;
 use Src\Core\Controller;
 
 use Src\App\Models\menu_principal;
-use Src\App\Models\Jugador;
+use Src\App\Models\Usuario;
 
 class MenuPrincipal extends Controller{
 
@@ -36,7 +36,9 @@ class MenuPrincipal extends Controller{
         $nombre = $this->request->get('usuario');
         $password = $this->request->get('password');
         $mail = $this->request->get('mail');
-        $jugador = new Jugador($nombre, $password, $mail);
+        $jugador = new Usuario($nombre, $password, $mail);
+        $jugador->setLogger($this->logger);
+        $jugador->setConnection($this->connection);
         if ($jugador->save()) {
             $this->twigLoader('user.accountCreated.twig', []);
         } else {
