@@ -1,0 +1,12 @@
+{% extends "Partials/base.twig" %}
+
+
+{% block main %}
+    <h3>Ingresar un nombre para la nueva sala</h3>
+    <form id="form-nombre-sala" method="GET" action="/crearSala">
+        <out id="out-nombre-sala"></out>
+        <label>Nombre de sala: <input name="nombre-sala"></label>
+        <button id="nombre-sala-submit">Crear sala</button>
+    </form>
+    </script>
+{% endblock %}

@@ -75,7 +75,7 @@ class MenuPrincipal extends Controller{
         }
     }
 
-    public function crearSala(){
+    public function sala(){
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.landingpage.twig', []);
@@ -85,6 +85,70 @@ class MenuPrincipal extends Controller{
             $juego->setConnection($this->connection);
             $juegos = $juego->obtenerSalasAbiertas();
             $this->twigLoader('user.room.twig', compact("juegos"));
+        }
+    }
+
+    public function crearSala(){
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->twigLoader('user.room.name.setting.twig', []);
+            } else {
+                $nombreSala = $this->request->get("nombre-sala");
+                $usuario = $this->session->get("USUARIO");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($this->request->get("nombre-sala"));
+                if ($juego->crear($this->session->get("USUARIO"))) {
+                    $this->twigLoader('user.room.creation.twig', compact("nombreSala", "usuario"));
+                } else {
+                    $mensaje = "Nombre ya existe";
+                    $this->twigLoader('user.room.name.setting.twig', compact("mensaje"));
+                }
+            }
+        }
+    }
+
+    public function obtenerListaJugadores() {
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                //ignore
+            } else {
+                $nombreSala = $this->request->get("nombreSala");
+                $usuario = $this->session->get("USUARIO");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($nombreSala);
+                $jugadores = $juego->getJugadores();
+                $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
+            }
+        }
+    }
+
+    public function crearSalaIngresarNombre() {
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombreSala"))) {
+                //ignore
+            } else {
+                $nombreSala = $this->request->get("nombreSala");
+                $usuario = $this->session->get("USUARIO");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($nombreSala);
+                $jugadores = $juego->getJugadores();
+                $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
+            }
         }
     }
 

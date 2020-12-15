@@ -11,4 +11,10 @@
         <button id="crearSala"> Crear sala </button>
     </li>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            HTMLContainerModifier.redirectOnClick("crearSala","/crearSala")
+            HTMLContainerModifier.redirectOnClickWithParam("irASala","/login", "innerText", "nombre")
+        })
+    </script>
 {% endblock %}

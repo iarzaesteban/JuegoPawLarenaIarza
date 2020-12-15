@@ -11,16 +11,17 @@ use Src\Core\Exceptions\invalidValueFormatException;
 
 class Juego extends Model {
 
+    public $estadoNoIniciado = "NO_INICIADO";
+    
     public function __construct($nom = null,$cantDados = [],$enfermedades = [],$comodines = [],$jugador = null) {
         $this->fields = [
             'id'    => null,
             'nombre'  => null,
             'estado'  => null,
             'dados'  => null,
-            'enfermedades'  => null,  
             'comodin'  => null,  
-            'jugadores'  => null,  
             'jugadorEnTurno'  => null,  
+            'creador' => null
         ];
         $this->table = 'juego';
         $this->nombre =$nom;
@@ -37,6 +38,7 @@ class Juego extends Model {
         }
     }
 
+    private $enfermedades = array();
     public $nombre;
     public $estado;
     public $dados= array();
@@ -142,8 +144,30 @@ class Juego extends Model {
             print("Maximo 4 jugadores");
         }
         
-    }    
+    }   
     
+    public function setNombre($nombre) {
+        $this->fields["nombre"] = $nombre;
+    }
+
+    public function getJugadores() {
+        $query = "SELECT * FROM $this->table WHERE nombre=:nombre and estado='$this->estadoNoIniciado'";
+        $sentencia = $this->connection->prepare($query);
+        $sentencia->bindValue(":nombre", $this->fields["nombre"]);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
+    
+    public function crear($usuario) {
+        if ($this->hasValue("nombre", $this->fields["nombre"])) {
+            return false;
+        }
+        $this->fields["estado"] = $this->estadoNoIniciado;
+        $this->fields["creador"] = $usuario;
+        $this->jugadores[] = $usuario;
+        return $this->save();
+    }
 }
 
     
