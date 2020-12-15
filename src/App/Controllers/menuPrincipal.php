@@ -8,6 +8,8 @@ use Src\Core\Controller;
 use Src\App\Models\menu_principal;
 use Src\App\Models\Usuario;
 use Src\App\Models\Juego;
+use Src\App\Controllers\MenuPartidaController;
+
 
 class MenuPrincipal extends Controller{
 
@@ -127,9 +129,11 @@ class MenuPrincipal extends Controller{
     public function obtenerListaJugadores() {
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warn("Acceso no autorizado");
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warn("Prm.invalidos");
                 //ignore
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
@@ -161,6 +165,26 @@ class MenuPrincipal extends Controller{
                 $juego->setNombre($nombreSala);
                 $jugadores = $juego->getJugadores();
                 $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
+            }
+        }
+    }
+
+    public function isJuegoListo() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                //ignore
+            } else {
+                $nombreSala = $this->request->get("nombre-sala");
+                $usuario = $this->session->get("USUARIO");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($nombreSala);
+                if ($juego->isListo()) {
+                    echo "OK";
+                }
             }
         }
     }
@@ -205,13 +229,12 @@ class MenuPrincipal extends Controller{
             } else {
                 $nombreSala = $this->request->get("nombreSala");
                 $this->session->put("nombre-sala", $nombreSala);
-                $usuario = $this->session->get("USUARIO");
-                $juego = new Juego();
-                $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
-                $juego->setNombre($nombreSala);
-                $jugadores = $juego->getJugadores();
-                $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
+                $menuPartida = new MenuPartidaController();
+                $menuPartida->setLogger($this->logger);
+                $menuPartida->setConnection($this->connection);
+                $menuPartida->setRequest($this->request);
+                $menuPartida->setSession($this->session);
+                $menuPartida->verTablero();
             }
         }
     }

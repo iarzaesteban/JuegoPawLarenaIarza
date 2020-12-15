@@ -76,3 +76,5 @@ $router->get('/sala','menuPrincipal@sala');
 $router->get('/crearSala','menuPrincipal@crearSala');
 $router->post('/salaObtenerListaJugadores','menuPrincipal@obtenerListaJugadores');
 $router->get('/iniciarJuego','menuPrincipal@iniciarJuego');
+$router->post('/isJuegoListo','menuPrincipal@isJuegoListo');
+$router->post('/partida','MenuPartidaController@verTablero');

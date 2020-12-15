@@ -182,6 +182,12 @@ class Juego extends Model {
             return false;
         }
     }
+
+    public function isListo() {
+        $juego = $this->queryByField("nombre", $this->fields["nombre"]);
+        $this->logger->debug("Estado del juego: ". json_encode($juego));
+        return $juego[0]["estado"] == $this->estadoNoIniciado;
+    }
 }
 
     

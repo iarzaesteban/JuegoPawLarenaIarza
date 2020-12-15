@@ -46,13 +46,26 @@ class HTMLContainerModifier {
         }
     }
 
+    static redirectWithCondition(url, strExpected, time, urlReturn, params) {
+        setInterval(function(){
+            $.post(url,
+                params,
+                function(data, status){
+                    console.log(data)
+                    if (strExpected == data){
+                        console.log("Redirigiendo...")
+                        document.location.replace(url)
+                    }
+            })
+        },time,"JavaScript");
+    }
+
     static postConScheduler(outID, url, time, params = []) {
         setInterval(function(){
             $.post(url,
                 params,
                 function(data, status){
                     var res = document.getElementById(outID)
-                    console.log(data)
                     if (res) {
                         res.innerHTML = data
                     } else {

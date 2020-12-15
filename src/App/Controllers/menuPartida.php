@@ -68,10 +68,19 @@ class MenuPartidaController extends Controller{
 
     }
 
+    public function verTablero() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warn("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warn("Prm.invalidos");
+                $this->twigLoader('guest.landingpage.twig', []);
+            } else {
 
-
-
-
+            }
+        }
+    }
 
 
 }
