@@ -27,6 +27,7 @@ $whoops = new \Whoops\Run;
 $whoops ->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
 
+$session = new Session();
 
 
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__.'/../');

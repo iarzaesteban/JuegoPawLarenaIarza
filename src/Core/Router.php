@@ -67,6 +67,7 @@ class Router{
         $objController->setSession($this->session);
         $objController->setConnection($this->connection);
         $objController->setRequest($this->request);
+        $objController->setLogger($this->logger);
         $objController->$method();
 
     }

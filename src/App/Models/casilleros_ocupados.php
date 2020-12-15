@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Src\App\Models;
 
 use src\Core\Model;
 use Exception;
