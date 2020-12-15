@@ -42,7 +42,7 @@ class HTMLContainerModifier {
             if (property == "innerText") {
                 url += "?" + nameParam + "=" + document.getElementById(id).innerText
             }
-            redirectOnClick(id, url)
+            this.redirectOnClick(id, url)
         }
     }
 
