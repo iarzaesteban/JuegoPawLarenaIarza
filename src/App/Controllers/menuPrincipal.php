@@ -103,6 +103,7 @@ class MenuPrincipal extends Controller{
                 $juego->setConnection($this->connection);
                 $juego->setNombre($this->request->get("nombre-sala"));
                 if ($juego->crear($this->session->get("USUARIO"))) {
+                    $juego->agregarJugador($this->session->get("USUARIO"));
                     $this->twigLoader('user.room.creation.twig', compact("nombreSala", "usuario"));
                 } else {
                     $mensaje = "Nombre ya existe";
@@ -120,14 +121,15 @@ class MenuPrincipal extends Controller{
             if (is_null($this->request->get("nombre-sala"))) {
                 //ignore
             } else {
-                $nombreSala = $this->request->get("nombreSala");
+                $nombreSala = $this->request->get("nombre-sala");
                 $usuario = $this->session->get("USUARIO");
                 $juego = new Juego();
                 $juego->setLogger($this->logger);
                 $juego->setConnection($this->connection);
                 $juego->setNombre($nombreSala);
                 $jugadores = $juego->getJugadores();
-                $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
+                $this->logger->debug("jugadores: ". json_encode($jugadores));
+                $this->twigLoader('user.room.players.twig', compact("nombreSala", "jugadores"));
             }
         }
     }

@@ -5,6 +5,7 @@ namespace Src\App\Models;
 use Src\Core\Model;
 use Exception;
 use PDO;
+use Src\App\Models\Jugador;
 
 use Src\Core\Exceptions\invalidValueFormatException;
 
@@ -149,8 +150,10 @@ class Juego extends Model {
     }
 
     public function getJugadores() {
+        $this->logger->debug("juego->getJugadores()");
         $query = "SELECT P.* FROM $this->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
         $query .= " J.nombre=:nombre and J.estado='$this->estadoNoIniciado'";
+        $this->logger->debug("query: $query");
         $sentencia = $this->connection->prepare($query);
         $sentencia->bindValue(":nombre", $this->fields["nombre"]);
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
@@ -164,8 +167,20 @@ class Juego extends Model {
         }
         $this->fields["estado"] = $this->estadoNoIniciado;
         $this->fields["creador"] = $usuario;
-        $this->jugadores[] = $usuario;
         return $this->save();
+    }
+
+    public function agregarJugador($jugadorNombre) {
+        $this->logger->debug("juego->agregarJugador($jugadorNombre)");
+        $jugador = new Jugador($jugadorNombre, $this->fields["nombre"]);
+        $jugador->setLogger($this->logger);
+        $jugador->setConnection($this->connection);
+        if ($jugador->save()) {
+            $this->jugadores[] = $jugador;
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
