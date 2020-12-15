@@ -81,4 +81,14 @@ class Model{
         $sentencia->execute();
         return count($sentencia->fetchAll()) <> 0;
     }
+
+    public function queryByField($field, $value) {
+        $this->logger->debug("Models->queryByField($field, $value)");
+        $query = "SELECT * FROM $this->table WHERE $field = :field";
+        $sentencia = $this->connection->prepare($query);
+        $sentencia->bindValue(":field", $value);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
 }

@@ -12,7 +12,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            HTMLContainerModifier.postConScheduler("lista-jugadores","/salaObtenerListaJugadores?nombre-sala={{nombreSala}}", 1000, ['{{nombreSala}}'])
+            HTMLContainerModifier.postConScheduler("lista-jugadores","/salaObtenerListaJugadores?nombre-sala={{nombre}}", 1000, ['{{nombre}}'])
+            HTMLContainerModifier.redirectWithCondition("/isJuegoListo?nombre-sala={{nombre}}", "OK", 1000, "/partida?nombre-sala={{nombre}}", {"nombre-sala" : "{{nombre}}"})
         })
     </script>
 {% endblock %}
