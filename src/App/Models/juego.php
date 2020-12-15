@@ -4,32 +4,25 @@ namespace Src\App\Models;
 
 use Src\Core\Model;
 use Exception;
+use PDO;
 
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Juego extends Model {
 
-    public $table = 'juego';
-    private $queryBuilder;
-
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-
-    }
-    
-    public $fields = [
-        'id'    => null,
-        'nombre'  => null,
-        'estado'  => null,
-        'dados'  => null,
-        'enfermedades'  => null,  
-        'comodin'  => null,  
-        'jugadores'  => null,  
-        'jugadorEnTurno'  => null,  
-    ];
-
-    public function __construct($nom,$cantDados,$enfermedades,$comodines,$jugador){
+    public function __construct($nom = null,$cantDados = [],$enfermedades = [],$comodines = [],$jugador = null) {
+        $this->fields = [
+            'id'    => null,
+            'nombre'  => null,
+            'estado'  => null,
+            'dados'  => null,
+            'enfermedades'  => null,  
+            'comodin'  => null,  
+            'jugadores'  => null,  
+            'jugadorEnTurno'  => null,  
+        ];
+        $this->table = 'juego';
         $this->nombre =$nom;
         for($contador = 0; $contador < count($cantDados); $contador++){
             $this->dados = new Dado();
@@ -52,6 +45,15 @@ class Juego extends Model {
     public $jugadores = array();
     public $jugadorEnTurno ;
     public $tablero;
+    
+    public function obtenerSalasAbiertas() {
+        $this->logger->debug("juego->obtenerSalasAbiertas()");
+        $query = "SELECT * FROM $this->table WHERE estado = 'abierta'";
+        $sentencia = $this->connection->prepare($query);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
 
     public function iniciarJuego($configuraciones,$descripciones){
         $pos = 0;
@@ -141,8 +143,6 @@ class Juego extends Model {
         }
         
     }    
-    
-    
     
 }
 

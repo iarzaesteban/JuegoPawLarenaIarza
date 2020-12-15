@@ -1,0 +1,14 @@
+{% extends "Partials/base.twig" %}
+
+
+{% block main %}
+
+    <li>
+        {% for juego in juegos %} 
+            <button id="irASala"> {{juego.fields.nombre}} </button>
+        {% endfor %}
+
+        <button id="crearSala"> Crear sala </button>
+    </li>
+
+{% endblock %}

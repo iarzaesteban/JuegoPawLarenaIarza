@@ -7,6 +7,7 @@ use Src\Core\Controller;
 
 use Src\App\Models\menu_principal;
 use Src\App\Models\Usuario;
+use Src\App\Models\Juego;
 
 class MenuPrincipal extends Controller{
 
@@ -71,6 +72,19 @@ class MenuPrincipal extends Controller{
             }
         } else {
             $this->twigLoader('user.landingpage.twig', []);
+        }
+    }
+
+    public function crearSala(){
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            $juego = new Juego();
+            $juego->setLogger($this->logger);
+            $juego->setConnection($this->connection);
+            $juegos = $juego->obtenerSalasAbiertas();
+            $this->twigLoader('user.room.twig', compact("juegos"));
         }
     }
 
