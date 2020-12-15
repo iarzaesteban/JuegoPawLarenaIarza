@@ -29,24 +29,6 @@ class HTMLContainerModifier {
                             console.error("No se encontró el elemento out: " + outID)
                         }
                 })
-                // $.ajax({
-                //     type: "POST",
-                //     url: url,
-                //     data: $("#"+formID).serialize(),
-                //     dataType: "text",
-                //     sucess: function(data) {
-                //         var res = document.getElementById(outID)
-                //         console.log(data)
-                //         if (res) {
-                //             res.html(data)
-                //         } else {
-                //             console.error("No se encontró el elemento out: " + outID)
-                //         }
-                //     },
-                //     error: function(http, status, exception) {
-                //         console.error(status + " ||| " + exception)
-                //     }
-                //})
                 return false
             })
         } else {
@@ -54,5 +36,30 @@ class HTMLContainerModifier {
         }
     }
 
+    static redirectOnClickWithParam(id, url, property, nameParam) {
+        var div = document.getElementById(id)
+        if (div){
+            if (property == "innerText") {
+                url += "?" + nameParam + "=" + document.getElementById(id).innerText
+            }
+            redirectOnClick(id, url)
+        }
+    }
+
+    static postConScheduler(outID, url, time, params = []) {
+        setInterval(function(){
+            $.post(url,
+                params,
+                function(data, status){
+                    var res = document.getElementById(outID)
+                    console.log(data)
+                    if (res) {
+                        res.innerHTML = data
+                    } else {
+                        console.error("No se encontró el elemento out: " + outID)
+                    }
+            })
+        },time,"JavaScript");
+    }
 
 }

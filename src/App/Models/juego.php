@@ -4,32 +4,25 @@ namespace Src\App\Models;
 
 use Src\Core\Model;
 use Exception;
+use PDO;
+use Src\App\Models\Jugador;
 
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Juego extends Model {
 
-    public $table = 'juego';
-    private $queryBuilder;
-
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-
-    }
+    public $estadoNoIniciado = "NO_INICIADO";
     
-    public $fields = [
-        'id'    => null,
-        'nombre'  => null,
-        'estado'  => null,
-        'dados'  => null,
-        'enfermedades'  => null,  
-        'comodin'  => null,  
-        'jugadores'  => null,  
-        'jugadorEnTurno'  => null,  
-    ];
-
-    public function __construct($nom,$cantDados,$enfermedades,$comodines,$jugador){
+    public function __construct($nom = null,$cantDados = [],$enfermedades = [],$comodines = [],$jugador = null) {
+        $this->fields = [
+            'id'    => null,
+            'nombre'  => null,
+            'estado'  => null, 
+            'jugadorEnTurno'  => null,  
+            'creador' => null
+        ];
+        $this->table = 'juego';
         $this->nombre =$nom;
         for($contador = 0; $contador < count($cantDados); $contador++){
             $this->dados = new Dado();
@@ -44,6 +37,7 @@ class Juego extends Model {
         }
     }
 
+    private $enfermedades = array();
     public $nombre;
     public $estado;
     public $dados= array();
@@ -52,6 +46,15 @@ class Juego extends Model {
     public $jugadores = array();
     public $jugadorEnTurno ;
     public $tablero;
+    
+    public function obtenerSalasAbiertas() {
+        $this->logger->debug("juego->obtenerSalasAbiertas()");
+        $query = "SELECT * FROM $this->table WHERE estado = 'abierta'";
+        $sentencia = $this->connection->prepare($query);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
 
     public function iniciarJuego($configuraciones,$descripciones){
         $pos = 0;
@@ -140,10 +143,45 @@ class Juego extends Model {
             print("Maximo 4 jugadores");
         }
         
-    }    
+    }   
     
+    public function setNombre($nombre) {
+        $this->fields["nombre"] = $nombre;
+    }
+
+    public function getJugadores() {
+        $this->logger->debug("juego->getJugadores()");
+        $query = "SELECT P.* FROM $this->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
+        $query .= " J.nombre=:nombre and J.estado='$this->estadoNoIniciado'";
+        $this->logger->debug("query: $query");
+        $sentencia = $this->connection->prepare($query);
+        $sentencia->bindValue(":nombre", $this->fields["nombre"]);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
     
-    
+    public function crear($usuario) {
+        if ($this->hasValue("nombre", $this->fields["nombre"])) {
+            return false;
+        }
+        $this->fields["estado"] = $this->estadoNoIniciado;
+        $this->fields["creador"] = $usuario;
+        return $this->save();
+    }
+
+    public function agregarJugador($jugadorNombre) {
+        $this->logger->debug("juego->agregarJugador($jugadorNombre)");
+        $jugador = new Jugador($jugadorNombre, $this->fields["nombre"]);
+        $jugador->setLogger($this->logger);
+        $jugador->setConnection($this->connection);
+        if ($jugador->save()) {
+            $this->jugadores[] = $jugador;
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
     

@@ -1,0 +1,20 @@
+{% extends "Partials/base.twig" %}
+
+
+{% block main %}
+
+    <out id="out-nombre-sala"></out>
+    <label>Nombre de sala: {{nombreSala}}
+    <button id="nombre-sala-submit">Iniciar</button>
+
+    <li id="lista-jugadores">
+    </li>
+    
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            HTMLContainerModifier.redirectOnClick("nombre-sala-submit","/iniciarJuego")
+            HTMLContainerModifier.postConScheduler("lista-jugadores","/salaObtenerListaJugadores?nombre-sala={{nombreSala}}", 1000, ['{{nombreSala}}'])
+        })
+    </script>
+{% endblock %}

@@ -72,3 +72,7 @@ $router->get('/crearCuenta','menuPrincipal@crearCuenta');
 $router->post('/crearCuenta','menuPrincipal@crearCuentaAlmacenar');
 $router->get('/login','menuPrincipal@login');
 $router->post('/login','menuPrincipal@loginAutenticar');
+$router->get('/sala','menuPrincipal@sala');
+$router->get('/crearSala','menuPrincipal@crearSala');
+$router->post('/salaObtenerListaJugadores','menuPrincipal@obtenerListaJugadores');
+$router->get('/iniciarJuego','menuPrincipal@iniciarJuego');
