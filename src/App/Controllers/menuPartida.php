@@ -45,27 +45,28 @@ class MenuPartidaController extends Controller{
     }
 
     public function tirarDados(){
-
+        return $this->modelname->tirarDado();
     } 
 
-    public function tirarComodin(){
 
+    public function tirarComodin(Carta $carta){
+        $this->modelname->tirarComodin($carta,$this->modelname->getListaJugadores($this->getJugadorTurno()));
     }
 
     public function obtenerComodines(){
-
+        return $this->modelname->obtenerComodines();
     }
 
-    public function ocuparCasilleros(){
-
+    public function ocuparCasilleros(Casillero $casilleros){
+        $this->modelname->ocuparCasilleros($casilleros);
     }
 
     public function getJugadorTurno(){
-
+        $this->molname->getJugadorTurno();
     }
 
     public function getListaJugadores(){
-
+        $this->modelname->getListaJugadores();
     }
 
 

@@ -93,9 +93,9 @@ class Juego extends Model {
         return $this->enfermedades;
     } 
 
-    public function tirarCarta(Carta $carta,Jugador $jugador){
-        if(in_array($jugador ,$this->enfermedades) ){
-            $jugador->tirarCarta($carta);
+    public function tirarComodin(Carta $carta,Jugador $jugador){
+        if(in_array($jugador ,$this->jugadores) ){
+           $jugador->tirarCarta($carta);
         }
     }
 
