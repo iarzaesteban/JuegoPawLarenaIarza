@@ -38,8 +38,8 @@ class Carta extends Model {
     ];
 
 
-    public function tirarCarta(){
-
+    public function invocar(){
+        return $this->descripcionCarta;
     }
 
 
