@@ -23,7 +23,8 @@
       "monolog/monolog": "^2.1",
       "vlucas/phpdotenv": "^5.2",
       "twig/twig": "3.0",
-      "robmorgan/phinx": "^0.12.4"
+      "robmorgan/phinx": "^0.12.4",
+        "google/apiclient": "2.7"
     },
     "autoload": {
       "psr-4": {
@@ -34,4 +35,3 @@
       "kint-php/kint": "^3.3"
     }
   }
-  

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controllers;
+namespace Src\App\Controllers;
 
 use Core\Controller;
 
