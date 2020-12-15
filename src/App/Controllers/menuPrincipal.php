@@ -60,7 +60,9 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $nombre = $this->request->get('usuario');
             $password = $this->request->get('password');
-            $jugador = new Jugador($nombre, $password);
+            $jugador = new Usuario($nombre, $password);
+            $jugador->setLogger($this->logger);
+            $jugador->setConnection($this->connection);
             if ($jugador->autenticar()) {
                 $this->session->put("USUARIO", $nombre);
                 $this->twigLoader('user.loginCorrect.twig', []);
