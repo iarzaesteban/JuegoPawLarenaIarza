@@ -81,13 +81,14 @@ class MenuPrincipal extends Controller{
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
             if ($this->request->get("nombre")) {
-                $juego = new Juego();
-                $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
-                $juego->setNombre($this->request->get("nombre"));
-                $jugadores = $juego->getJugadores();
-                $nombre = $this->request->get("nombre");
-                $this->twigLoader('user.room.creation.twig', compact("jugadores", "nombre"));
+                $this->ingresarSala();
+                // $juego = new Juego();
+                // $juego->setLogger($this->logger);
+                // $juego->setConnection($this->connection);
+                // $juego->setNombre($this->request->get("nombre"));
+                // $jugadores = $juego->getJugadores();
+                // $nombre = $this->request->get("nombre");
+                // $this->twigLoader('user.room.creation.twig', compact("jugadores", "nombre"));
             } else {
                 $juego = new Juego();
                 $juego->setLogger($this->logger);
@@ -181,7 +182,14 @@ class MenuPrincipal extends Controller{
     } 
 
     public function ingresarSala(){
-
+        $juego = new Juego();
+        $juego->setLogger($this->logger);
+        $juego->setConnection($this->connection);
+        $juego->setNombre($this->request->get("nombre"));
+        $juego->agregarJugador($this->session->get("USUARIO"));
+        $jugadores = $juego->getJugadores();
+        $nombre = $this->request->get("nombre");
+        $this->twigLoader('user.room.creation.twig', compact("jugadores", "nombre"));
     }
 
     public function obtenerAgentes(){
@@ -189,7 +197,23 @@ class MenuPrincipal extends Controller{
     }
 
     public function iniciarJuego(){
-
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombreSala"))) {
+                $this->twigLoader('user.landingpage.twig', []);
+            } else {
+                $nombreSala = $this->request->get("nombreSala");
+                $this->session->put("nombre-sala", $nombreSala);
+                $usuario = $this->session->get("USUARIO");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($nombreSala);
+                $jugadores = $juego->getJugadores();
+                $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
+            }
+        }
     }
 
     public function verTop(){
