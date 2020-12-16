@@ -13,15 +13,32 @@ use Src\App\Models\tipo_casillero;
 class Casillero extends Model {
 
 
-    // public function __construct($dc){
-    //     $this->descripcionCasillero = new Tipo_casillero($dc);
-    // }  
-
-    public $table = 'casillero';
+    public function __construct($x = 0, $y = 0){
+        $this->fields = [
+            'id'    => null,
+            'posicionX'  => $x,
+            'posicionY'  => $y,
+            "tablero" => null
+        ];
+        $this->x = $x;
+        $this->y = $y;
+        $this->table = 'casillero';
+    }  
 
     public $descripcionCasillero;
     public $jugador;
 
+    private $x;
+    private $y;
+
+    public function setTablero($tablero) {
+        $this->fields["tablero"] = $tablero;
+    }
+
+    public function setPosicion($x, $y) {
+        $this->fields["posicionX"] = $x;
+        $this->fields["posicionY"] = $y;
+    }
 
     public function setDescripcionCasillero($dc){
         $this->descripcionCasillero = $dc;
@@ -43,12 +60,6 @@ class Casillero extends Model {
         return $this->descipcionCasillero;
     }
 
-    public $fields = [
-        'id'    => null,
-        'nombre'  => null,
-        'descripcion'  => null,  
-    ];
-
 
     public function tirarCarta(){
 
@@ -61,6 +72,14 @@ class Casillero extends Model {
     public function findByTablero($tablero) {
         $this->logger->debug("Tablero: ". json_encode($tablero->fields));
         return $this->findByFields(["tablero" => $tablero->fields["id"]]);
+    }
+
+    public function load() {
+        $posicion = new Posicion($this->x, $this->y);
+        $posicion->setLogger($this->logger);
+        $posicion->setConnection($this->connection);
+        $posicion->load();
+        $this->fields["posicion"] = $posicion->fields["id"];
     }
 }
 

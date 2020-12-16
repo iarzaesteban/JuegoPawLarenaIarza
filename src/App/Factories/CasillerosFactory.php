@@ -13,21 +13,21 @@ class CasillerosFactory {
         $k = 0;
         for ($i = 0 ; $i <$filas ; $i++) {
             $fila = array();
-            for ($i = 0 ; $i <$filas ; $i++) {
-                $fila[] = CasillerosFactory::getCasilleroRandom();
+            for ($k = 0 ; $k <$filas ; $k++) {
+                $fila[] = CasillerosFactory::getCasilleroRandom($i ,$k);
             }
             $res[] = $fila;
         }
         return $res;
     }
 
-    static function getCasilleroRandom() {
+    static function getCasilleroRandom($i ,$k) {
         $res = null;
         $random = rand(1,100);
         if ($random < 90) {
-            $res = new CasilleroNormal();
+            $res = new CasilleroNormal($i ,$k);
         } else {
-            $res = new CasilleroNormal();
+            $res = new CasilleroNormal($i ,$k);
         }
         return $res;
     }

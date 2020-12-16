@@ -14,8 +14,8 @@ class Juego extends Model {
 
     public $estadoNoIniciado = "NO_INICIADO";
     public $estadoIniciado = "INICIADO";
-    public $columnas = 30;
-    public $filasCadaPar = 30;
+    public $columnas = 10;
+    public $filasCadaPar = 10;
     
     public function __construct($nom = null,$cantDados = [],$enfermedades = [],$comodines = [],$jugador = null) {
         $this->fields = [
@@ -80,19 +80,21 @@ class Juego extends Model {
                 }
             }
         }
-        $casilleros = $this->generarCasilleros();
-        //$this->logger->debug(json_encode($casilleros));
-        $this->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas, $casilleros);
-        $this->tablero->setConnection($this->connection);
+        //$casilleros = $this->generarCasilleros();
+        //$this->logger->debug("Casilleros: " . json_encode($casilleros));
+        $this->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas);
         $this->tablero->setLogger($this->logger);
-        $id = mt_rand(0,3);
+        $this->tablero->setConnection($this->connection);
+        $this->tablero->fields["juegoID"] = $this->fields["id"];
+        $this->tablero->fields["cantidadColumnas"] = $this->columnas;
+        $this->tablero->setCasilleros($this->generarCasilleros());
+        $this->tablero->save();
         $this->jugadores = $this->getJugadores();
         $this->setEstadoJugadores($this->estadoIniciado);
         $this->fields["estado"] = $this->estadoIniciado;
         //$this->logger->debug("Jugadores: " . json_encode($this->jugadores));
         $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
         $this->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
-        $this->tablero->fields["juegoID"] = $this->fields["id"];
         $this->save();
     }
 
@@ -155,11 +157,13 @@ class Juego extends Model {
         return $this->agentes;
     }
     
-    public function ingresarSala(Jugador $jugador){
+    public function ingresarSala($jugador){
+        $this->load();
         if (count($this->jugadores) <=3 ){
-            $this->jugadores = $jugador;
+            return $this->agregarJugador($jugador);
         }else{
             print("Maximo 4 jugadores");
+            return false;
         }
         
     }   
@@ -170,8 +174,9 @@ class Juego extends Model {
 
     public function getJugadores() {
         $this->logger->debug("juego->getJugadores()");
+        $this->load();
         $query = "SELECT P.* FROM $this->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
-        $query .= " J.nombre=:nombre and J.estado='$this->estadoNoIniciado'";
+        $query .= " J.nombre=:nombre and J.estado='" . $this->fields["estado"];
         $this->logger->debug("query: $query");
         $sentencia = $this->connection->prepare($query);
         $sentencia->bindValue(":nombre", $this->fields["nombre"]);
@@ -200,7 +205,7 @@ class Juego extends Model {
             $this->jugadores[] = $jugador;
             return true;
         } else {
-            $this->logger->debug("jguador no guardado");
+            $this->logger->debug("jugador no guardado");
             return false;
         }
     }
@@ -229,7 +234,6 @@ class Juego extends Model {
         $tablero->setLogger($this->logger);
         $tablero->setConnection($this->connection);
         $tablero->setJuegoId($this->fields["id"]);
-        $tablero->fields["cantidadColumnas"] = $this->columnas;
         $tablero->load();
         $this->tablero = $tablero;
     }
@@ -239,8 +243,10 @@ class Juego extends Model {
     }
 
     public function save() {
+        $res = parent::save();
         if (!is_null($this->tablero)) {
-            $this->tablero->save();
+            //
+            //$this->tablero->save();
         }
         if (!is_null($this->jugadores)) {
             foreach ($this->jugadores as $jugador) {
@@ -259,7 +265,7 @@ class Juego extends Model {
                 
             }
         }
-        return parent::save();
+        return $res;
     }
 
     public function setEstadoJugadores($estado) {

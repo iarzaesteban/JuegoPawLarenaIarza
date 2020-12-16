@@ -14,20 +14,18 @@ class Tablero extends Model {
 
     public $table = 'tablero';
 
-    public $casilleros = array();
+    public $casilleros;
     public $filas;
     public $columnas;
 
-    public function __construct($fil = 0,$col = 0,$casilleros = []){//$descripcionesCasilleros array de desc de casilleros en tablero
+    public function __construct($fil = 0,$col = 0){//$descripcionesCasilleros array de desc de casilleros en tablero
         $c = 0;
         $this->filas = $fil;
         $this->columnas = $col;
-        $this->casilleros = $casilleros;
         $this->fields = [
             'id'    => null,
-            'casillero'  => null,
             "juegoID" => null,
-            "cantidadColumnas" => 0
+            "cantidadColumnas" => $col
         ];
     //     for ($contador = 0; $contador < $fil; $contador++) {
     //         for ($contador1 = 0; $contador1 < $col; $contador1++) {
@@ -38,13 +36,17 @@ class Tablero extends Model {
     //    }
     }
 
+    public function setCasilleros($casilleros) {
+        $this->casilleros = $casilleros;
+    }
+
     public function getCasillerosOcupados(){
         return $this->casilleros;
     }
 
-    public function setCasilleros(Jugador $jugador,$fila,$columna){//fila y culumna array para setear los lugaros ocupados por el jugador
-        $this->casilleros[$fila][$columna]->setJugador($jugador);
-    }
+    // public function setCasilleros(Jugador $jugador,$fila,$columna){//fila y culumna array para setear los lugaros ocupados por el jugador
+    //     $this->casilleros[$fila][$columna]->setJugador($jugador);
+    // }
 
     public function getCasillerosOcupadosJugador(Jugador $jugador){
         $tableroAux = array();
@@ -66,7 +68,7 @@ class Tablero extends Model {
 
     public function load() {
         $this->loadByFields(["juegoID" => $this->fields["juegoID"]]);
-        $casillero = new casillero;
+        $casillero = new casillero(0,0,$this->logger, $this->connection);
         $casillero->setLogger($this->logger);
         $casillero->setConnection($this->connection);
         $flatCasilleros = $casillero->findByTablero($this);
@@ -74,8 +76,9 @@ class Tablero extends Model {
         $c = 1;
         $fila = array();
         foreach($flatCasilleros as $fields) {
+            $this->logger->debug(json_encode($fields));
             $casillero = new casillero;
-            $casillero->setFields($fields);
+            $casillero->setPosicion($fields["posicionX"], $fields["posicionY"]);
             array_push($fila, $casillero);
             $c += 1;
             if ($c > $this->fields["cantidadColumnas"]) {
@@ -88,6 +91,28 @@ class Tablero extends Model {
 
     public function getFilasCasilleros() {
         return $this->casilleros;
+    }
+
+    public function save() {
+        $res = true;
+        $this->loadByFields(["juegoID" => $this->fields["juegoID"]]);
+        $this->logger->debug("ID de tablero: ".$this->fields["id"] );
+        if (is_null($this->fields["id"])){
+            $res = parent::save();
+            $this->loadByFields(["juegoID" => $this->fields["juegoID"]]);
+            $this->logger->debug("ID de tablero ahora: ".$this->fields["id"] );
+        }
+        //$this->logger->debug("casilleros: " .json_encode($this->casilleros));
+        foreach($this->casilleros as $fila) {
+            //$this->logger->debug("fila: " . json_encode($fila));
+            foreach($fila as $casillero) {
+                $casillero->setTablero($this->fields["id"]);
+                $casillero->setLogger($this->logger);
+                $casillero->setConnection($this->connection);
+                $casillero->save();
+            }
+        }
+        return $res;
     }
 }
 

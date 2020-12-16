@@ -119,7 +119,7 @@ class MenuPrincipal extends Controller{
                 $juego->setConnection($this->connection);
                 $juego->setNombre($this->request->get("nombre-sala"));
                 if ($juego->crear($this->session->get("USUARIO"))) {
-                    $juego->agregarJugador($this->session->get("USUARIO"));
+                    $juego->ingresarSala($this->session->get("USUARIO"));
                     $this->twigLoader('user.room.admin.twig', compact("nombreSala", "usuario"));
                 } else {
                     $mensaje = "Nombre ya existe";
@@ -213,7 +213,7 @@ class MenuPrincipal extends Controller{
         $juego->setLogger($this->logger);
         $juego->setConnection($this->connection);
         $juego->setNombre($this->request->get("nombre"));
-        if (!$juego->agregarJugador($this->session->get("USUARIO"))){
+        if (!$juego->ingresarSala($this->session->get("USUARIO"))){
             $this->logger->error("Jugador no ingresado");
         }
         $jugadores = $juego->getJugadores();
