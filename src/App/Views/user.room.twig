@@ -1,15 +1,18 @@
 {% extends "Partials/base.twig" %}
-
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/assets/style/user-room.css"/>
+{% endblock %}
 
 {% block main %}
-
-    <li>
-        {% for juego in juegos %} 
+    <h1 class="titulo-principal"> Epidemoilogy </h1>
+    {% for juego in juegos %} 
+        <li>
             <button id="irASala"> {{juego.nombre}} </button>
-        {% endfor %}
+    {% endfor %}
 
-        <button id="crearSala"> Crear sala </button>
-    </li>
+            <button id="crearSala"> Crear sala </button>
+        </li>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
