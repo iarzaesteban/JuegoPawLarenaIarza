@@ -6,6 +6,7 @@ use Src\Core\Model;
 use Exception;
 use PDO;
 use Src\App\Models\Jugador;
+use Src\App\Models\Dado;
 use Src\App\Factories\CasillerosFactory;
 use Src\Core\Exceptions\invalidValueFormatException;
 
@@ -23,7 +24,9 @@ class Juego extends Model {
             'nombre'  => null,
             'estado'  => null, 
             'jugadorEnTurno'  => null,  
-            'creador' => null
+            'creador' => null,
+            'notificacion' => null,
+            'ultimoNumero' => null
         ];
         $this->table = 'juego';
         $this->nombre =$nom;
@@ -106,11 +109,14 @@ class Juego extends Model {
 
     }
 
-    public function tirarDado(){
-        for($i = 0; $i < count($cantDados); $i++){
-            $this->dados->tirarDado();
+    public function tirarDado($jugador){
+        if ($jugador == $this->fields["jugadorEnTurno"]){
+            $this->dado = new Dado();
+
+            return $this->dados;
+        } else {
+            return "Tirada no autorizada. " . $this->getNotificacion();
         }
-        return $this->dados;
     }
 
     public function obtenerEnfermedades(){
@@ -285,6 +291,14 @@ class Juego extends Model {
         $this->logger->debug("juego->getFilasCasilleros()");
         //$this->logger->debug("tablero: " . json_encode($this->tablero));
         return $this->tablero->getFilasCasilleros();   
+    }
+
+    public function isJugadorTirando($jugador) {
+        return $this->fields["jugadorEnTurno"] == $jugador;
+    }
+
+    public function getNotificacion() {
+        return $this->fields["notificacion"];
     }
 
     static public function getAyuda() {

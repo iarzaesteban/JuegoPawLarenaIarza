@@ -75,6 +75,23 @@ class HTMLContainerModifier {
         },time,"JavaScript");
     }
 
+    static postDinamico(outID, buttonID, url) {
+        this.loadEvent(buttonID, "click", ()=>{
+            $.post(url,
+                [],
+                function(data, status){
+                    var res = document.getElementById(outID)
+                    console.log(data)
+                    if (res) {
+                        res.innerHTML = data
+                    } else {
+                        console.error("No se encontró el elemento out: " + outID)
+                    }
+            })
+            return false
+        })
+    }
+
     static removeClass(id, c) {
         var div = document.getElementById(id)
         if (div) {

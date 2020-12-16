@@ -1,16 +1,16 @@
 {% extends "Partials/base.twig" %}
 
 {% block head %}
-    {{ parent() }}
     <link rel="stylesheet" type="text/css" href="/assets/style/game.css"/>
+    {{ parent() }}
     <script src="/assets/js/components/Celda.js"></script>
     <script src="/assets/js/components/TableroManager.js"></script>
 {% endblock %}
 
 {% block header %}
-    <section>
-        <p> Jugador: {{jugador.fields.nombre}} </p>
-        <p> Puntuación: {{jugador.fields.puntuacion}}</p>
+    <section class="header-juego">
+        <span> Jugador: {{jugador.fields.nombre}} </span>
+        <span> Puntuación: {{jugador.fields.puntuacion}}</span>
         <a id="ayuda">Ayuda</a>
     </section>
 {% endblock %}
@@ -30,8 +30,9 @@
         {% endfor %}
     </section>
 
-    <section class="menu" id="menu">
-
+    <section class="menu" >
+        <out id="menu"></out>
+        <button id="tirar">Tirar</button>
     </section>
 
     <section class="cartas" id="cartas">
@@ -44,8 +45,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            HTMLContainerModifier.postConScheduler("menu","/getMenu?nombre-sala={{juego.fields.nombre}}", 1000, []);
-            HTMLContainerModifier.postConScheduler("menu","/getCartas?nombre-sala={{juego.fields.nombre}}", 1000, []);
+            HTMLContainerModifier.postConScheduler("menu","/getMenu?nombre-sala={{juego.fields.nombre}}", 4000, []);
+            HTMLContainerModifier.postConScheduler("cartas","/getCartas?nombre-sala={{juego.fields.nombre}}", 4000, []);
+            HTMLContainerModifier.postDinamico("menu","tirar","/tirar?nombre-sala={{juego.fields.nombre}}")
         })
     </script>
 {% endblock %}
