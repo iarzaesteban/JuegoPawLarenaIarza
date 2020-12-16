@@ -107,6 +107,7 @@ class MenuPrincipal extends Controller{
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warn("Nombre de sala nulo");
                 $this->twigLoader('user.room.name.setting.twig', []);
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
@@ -224,10 +225,16 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
-            if (is_null($this->request->get("nombreSala"))) {
+            if (is_null($this->request->get("nombre-sala"))) {
                 $this->twigLoader('user.landingpage.twig', []);
             } else {
                 $nombreSala = $this->request->get("nombreSala");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($this->request->get("nombre-sala"));
+                $juego->setEstadoIniciado();
+                $juego->iniciarJuego();
                 $this->session->put("nombre-sala", $nombreSala);
                 $menuPartida = new MenuPartidaController();
                 $menuPartida->setLogger($this->logger);

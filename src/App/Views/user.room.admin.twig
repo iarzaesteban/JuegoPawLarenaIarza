@@ -13,7 +13,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            HTMLContainerModifier.redirectOnClick("nombre-sala-submit","/iniciarJuego")
+            HTMLContainerModifier.redirectOnClick("nombre-sala-submit","/iniciarJuego?nombre-sala={{nombreSala}}")
             HTMLContainerModifier.postConScheduler("lista-jugadores","/salaObtenerListaJugadores?nombre-sala={{nombreSala}}", 1000, ['{{nombreSala}}'])
         })
     </script>

@@ -6,13 +6,16 @@ use Src\Core\Model;
 use Exception;
 use PDO;
 use Src\App\Models\Jugador;
-
+use Src\App\Factories\CasillerosFactory;
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Juego extends Model {
 
     public $estadoNoIniciado = "NO_INICIADO";
+    public $estadoIniciado = "INICIADO";
+    public $columnas = 30;
+    public $filasCadaPar = 30;
     
     public function __construct($nom = null,$cantDados = [],$enfermedades = [],$comodines = [],$jugador = null) {
         $this->fields = [
@@ -56,7 +59,11 @@ class Juego extends Model {
         return $sentencia->fetchAll();
     }
 
-    public function iniciarJuego($configuraciones,$descripciones){
+    public function setEstadoIniciado() {
+        $this->fields["estado"] = $this->estadoIniciado;
+    }
+
+    public function iniciarJuego(){
         $pos = 0;
 
         for($contador = 0; $contador < count($this->comodines); $contador++){//Mezclamos comodines
@@ -73,13 +80,22 @@ class Juego extends Model {
                 }
             }
         }
-        $this->tablero = new Tablero($configuraciones->get("filas"), $configuraciones->get("columnas"),$descripciones);
-
+        $this->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas, $this->generarCasilleros());
+        $this->tablero->setConnection($this->connection);
+        $this->tablero->setLogger($this->logger);
         $id = mt_rand(0,3);
-
-        $this->jugadorEnTurno =  $this->jugadores[$id];
+        $this->jugadores = $this->getJugadores();
+        $this->fields["estado"] = $this->estadoIniciado;
+        $this->logger->debug("Jugadores: " . json_encode($this->jugadores));
+        $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
+        $this->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
+        $this->tablero->fields["juegoID"] = $this->fields["id"];
+        $this->save();
     }
 
+    public function obtenerCantidadFilas() {
+        return $this->filasCadaPar * intdiv((count($this->jugadores)), 2);
+    }
     
     public function find(){
 
@@ -186,7 +202,57 @@ class Juego extends Model {
     public function isListo() {
         $juego = $this->queryByField("nombre", $this->fields["nombre"]);
         $this->logger->debug("Estado del juego: ". json_encode($juego));
-        return $juego[0]["estado"] == $this->estadoNoIniciado;
+        return $juego[0]["estado"] == $this->estadoIniciado;
+    }
+
+    private function generarCasilleros() {
+        return CasillerosFactory::getRandom($this->obtenerCantidadFilas(), $this->columnas);
+    }
+
+    public function load() {
+        $this->loadByFields([
+            "nombre" => $this->fields["nombre"],
+            "estado" => $this->fields["estado"]
+        ]);
+        $this->logger->debug("Juego: " . json_encode($this->fields));
+        $jugador = new Jugador();
+        $jugador->setLogger($this->logger);
+        $jugador->setConnection($this->connection);
+        $this->jugadores = $jugador->findByJuego($this);
+        $tablero = new Tablero();
+        $tablero->setLogger($this->logger);
+        $tablero->setConnection($this->connection);
+        $tablero->setJuegoId($this->fields["id"]);
+        $tablero->load();
+        $this->tablero = $tablero;
+    }
+
+    public function getTablero() {
+        return $this->tablero;
+    }
+
+    public function save() {
+        if (!is_null($this->tablero)) {
+            $this->tablero->save();
+        }
+        if (!is_null($this->jugadores)) {
+            foreach ($this->jugadores as $jugador) {
+                $jug = new Jugador();
+                $jug->setLogger($this->logger);
+                $jug->setConnection($this->connection);
+                $jug->setNombre($jugador["nombre"]);
+                $jug->setEstado($this->fields["estado"]);
+                $jug->setPuntuacion(0);
+                $jug->setJuego($this->fields["nombre"]);
+                $jug->save();
+            }
+        }
+        if (!is_null($this->comodines)) {
+            foreach ($this->comodines as $jugador) {
+                
+            }
+        }
+        return parent::save();
     }
 }
 

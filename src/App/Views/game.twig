@@ -1,0 +1,27 @@
+{% extends "Partials/base.twig" %}
+
+{% block header %}
+    <section>
+        <p> Jugador: {{jugador.fields.nombre}} </p>
+        <p> Puntuación: {{jugador.fields.puntuacion}}</p>
+        <a id="ayuda">Ayuda</a>
+    </section>
+{% endblock %}
+
+{% block main %}
+
+    <li class="tablero" id="tablero">
+        {% for juego in juegos %} 
+            <li class="fila" id="fila">
+                <button id="celda_x_y"> {{juego.nombre}} </button>
+            </li>
+        {% endfor %}
+    </li>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            HTMLContainerModifier.redirectOnClick("crearSala","/crearSala")
+            HTMLContainerModifier.redirectOnClickWithParam("irASala","/sala", "innerText", "nombre")
+        })
+    </script>
+{% endblock %}

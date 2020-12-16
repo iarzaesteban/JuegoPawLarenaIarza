@@ -6,30 +6,35 @@ use src\Core\Model;
 use Exception;
 
 use Src\Core\Exceptions\invalidValueFormatException;
-use src\App\Models\casillero;
-use src\App\Models\jugador;
+use Src\App\Models\casillero;
+use Src\App\Models\jugador;
 
 
 class Tablero extends Model {
 
     public $table = 'tablero';
-    private $queryBuilder;
 
     public $casilleros = array();
     public $filas;
     public $columnas;
 
-    public function __construct($fil,$col,$descripcionesCasilleros){//$descripcionesCasilleros array de desc de casilleros en tablero
+    public function __construct($fil = 0,$col = 0,$casilleros = []){//$descripcionesCasilleros array de desc de casilleros en tablero
         $c = 0;
         $this->filas = $fil;
         $this->columnas = $col;
-        for ($contador = 0; $contador < $fil; $contador++) {
-            for ($contador1 = 0; $contador1 < $col; $contador1++) {
-                $casillero = new Casillero($descripcionesCasilleros[$c]);
-                $this->casilleros = $casillero;
-                $c++;
-           }
-       }
+        $this->casilleros = $casilleros;
+        $this->fields = [
+            'id'    => null,
+            'casillero'  => null,
+            "juegoID" => null
+        ];
+    //     for ($contador = 0; $contador < $fil; $contador++) {
+    //         for ($contador1 = 0; $contador1 < $col; $contador1++) {
+    //             $casillero = new Casillero($descripcionesCasilleros[$c]);
+    //             $this->casilleros = $casillero;
+    //             $c++;
+    //        }
+    //    }
     }
 
     public function getCasillerosOcupados(){
@@ -52,20 +57,25 @@ class Tablero extends Model {
            }
        }
         return $tableroAux;
-    }
-
-
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-
-    }
-    public $fields = [
-        'id'    => null,
-        'casillero'  => null
-    ];
-
-   
+    }  
     
+    public function setJuegoId($id) {
+        $this->fields["juegoID"] = $id;
+    }
+
+    public function load() {
+        $this->loadByFields(["juegoID" => $this->fields["juegoID"]]);
+        $casillero = new casillero;
+        $casillero->setLogger($this->logger);
+        $casillero->setConnection($this->connection);
+        $flatCasilleros = $casillero->findByTablero($this);
+        $this->casilleros = array();
+        foreach($flatCasilleros as $fields) {
+            $casillero = new casillero;
+            $casillero->setFields($fields);
+            array_push($this->casilleros, $casillero);
+        }
+    }
 }
 
 ?>

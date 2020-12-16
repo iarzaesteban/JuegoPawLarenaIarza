@@ -25,7 +25,7 @@ class Model{
     }
 
     public function save() {
-        $this->logger->debug("Guardando en $this->table -> " . implode($this->fields));
+        $this->logger->debug("Guardando en $this->table -> " . json_encode($this->fields));
         if (! $this->exists()) {
             $this->logger->debug("Insert");
             $campos = "(";
@@ -90,5 +90,55 @@ class Model{
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return $sentencia->fetchAll();
+    }
+
+    public function load() {
+        $this->logger->debug("Models->load()");
+        $query = "SELECT * FROM $this->table WHERE id = :id";
+        $sentencia = $this->connection->prepare($query);
+        $sentencia->bindValue(":id", $this->id);
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        $res = $sentencia->fetchAll();
+        if (count($res) == 1) {
+            foreach ($res[0] as $clave => $valor){
+                if (array_key_exists($clave, $this->fields)) {
+                    $this->fields[$clave] = $valor;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function findByFields($params) {
+        $query = "SELECT * FROM $this->table WHERE ";
+        foreach ($params as $clave => $valor){
+            $query .= "$clave = :$clave AND ";
+        }
+        $query  = substr($query,0,strlen($query) - 4); # sin la ultima coma
+        $sentencia = $this->connection->prepare($query);
+        foreach ($params as $clave => $valor){
+            $this->logger->debug("bind value -> : $clave     valor -> $valor");
+            $sentencia->bindValue(":" . $clave, $valor);
+        }
+        $this->logger->debug("query: $query");
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+    }
+
+    public function loadByFields($params) {
+        $res = $this->findByFields($params);
+        $this->logger->debug(json_encode($res));
+        if (count($res) == 1) {
+            foreach ($res[0] as $clave => $valor){
+                if (array_key_exists($clave, $this->fields)){
+                    $this->fields[$clave] = $valor;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

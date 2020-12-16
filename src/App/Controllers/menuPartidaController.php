@@ -3,9 +3,9 @@
 
 namespace Src\App\Controllers;
 
-use Core\Controller;
-
-use App\Models\juego;
+use Src\Core\Controller;
+use Src\App\Models\juego;
+use Src\App\Models\Jugador;
 
 class MenuPartidaController extends Controller{
 
@@ -78,10 +78,31 @@ class MenuPartidaController extends Controller{
                 $this->logger->warn("Prm.invalidos");
                 $this->twigLoader('guest.landingpage.twig', []);
             } else {
-
+                $juego = $this->instanciarJuego("nombre-sala");
+                $jugador = $this->instanciarUsuario();
+                $tablero = $juego->getTablero();
+                $jugadores = $juego->getJugadores();
+                $this->twigLoader('game.twig', compact("tablero", "jugadores", "jugador", "juego"));
             }
         }
     }
 
+    public function instanciarJuego($param){
+        $juego = new Juego();
+        $juego->setLogger($this->logger);
+        $juego->setConnection($this->connection);
+        $juego->setNombre($this->request->get($param));
+        $juego->setEstadoIniciado();
+        $juego->load();
+        return $juego;
+    }
 
+    public function instanciarUsuario() {
+        $usuario = new Jugador();
+        $usuario->setLogger($this->logger);
+        $usuario->setConnection($this->connection);
+        $usuario->setNombre($this->session->get("USUARIO"));
+        $usuario->load();
+        return $usuario;
+    }
 }

@@ -10,10 +10,12 @@ use Src\Core\Exceptions\invalidValueFormatException;
 
 class Jugador extends Model {
 
-    public function __construct($nombre, $juego){
+    public function __construct($nombre = "", $juego = ""){
         $this->fields = [
             'nombre' => null,
-            'juego'  => null
+            'juego'  => null,
+            "puntuacion" => null,
+            "estado" => null
         ]; 
         $this->nombre = $nombre;
         $this->fields["nombre"] = $nombre;
@@ -36,6 +38,22 @@ class Jugador extends Model {
     //     'password' => null,
     //     'mail' => null
     // ];
+
+    public function setNombre($nombre) {
+        $this->fields["nombre"] = $nombre;
+    }
+
+    public function setPuntuacion($puntuacion) {
+        $this->fields["puntuacion"] = $puntuacion;
+    }
+
+    public function setJuego($juego) {
+        $this->fields["juego"] = $juego;
+    }
+
+    public function setEstado($estado) {
+        $this->fields["estado"] = $estado;
+    }
 
     public function setID($id){
         $this->id = $id;
@@ -82,6 +100,26 @@ class Jugador extends Model {
             $c = $c +2;
         }
 
+    }
+    
+    public function load(){
+        $user = $this->queryByField("nombre", $this->fields["nombre"]);
+        if (count($user) == 1) {
+            foreach ($user[0] as $clave => $valor){
+                if (array_key_exists($clave, $this->fields)) {
+                    $this->fields[$clave] = $valor;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function findByJuego($juego) {
+        return $this->findByFields([
+            "juego" => $juego->fields["nombre"],
+            "estado" => $juego->fields["estado"]
+        ]);
     }
 }
 
