@@ -82,8 +82,9 @@ class MenuPartidaController extends Controller{
                 $jugador = $this->instanciarUsuario();
                 $tablero = $juego->getTablero();
                 $jugadores = $juego->getJugadores();
+                $filasCasilleros = $juego->getFilasCasilleros();
                 $ayuda = Juego::getAyuda();
-                $this->twigLoader('game.twig', compact("tablero", "jugadores", "jugador", "juego"));
+                $this->twigLoader('game.twig', compact("tablero", "jugadores", "jugador", "juego", "filasCasilleros"));
             }
         }
     }

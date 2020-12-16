@@ -2,7 +2,7 @@
 
 namespace Src\App\Models;
 
-use src\App\Models\Casillero;
+use Src\App\Models\Casillero;
 
 class CasilleroNormal extends Casillero {
 

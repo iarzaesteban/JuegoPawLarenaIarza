@@ -26,7 +26,8 @@ class Tablero extends Model {
         $this->fields = [
             'id'    => null,
             'casillero'  => null,
-            "juegoID" => null
+            "juegoID" => null,
+            "cantidadColumnas" => 0
         ];
     //     for ($contador = 0; $contador < $fil; $contador++) {
     //         for ($contador1 = 0; $contador1 < $col; $contador1++) {
@@ -70,11 +71,23 @@ class Tablero extends Model {
         $casillero->setConnection($this->connection);
         $flatCasilleros = $casillero->findByTablero($this);
         $this->casilleros = array();
+        $c = 1;
+        $fila = array();
         foreach($flatCasilleros as $fields) {
             $casillero = new casillero;
             $casillero->setFields($fields);
-            array_push($this->casilleros, $casillero);
+            array_push($fila, $casillero);
+            $c += 1;
+            if ($c > $this->fields["cantidadColumnas"]) {
+                array_push($this->casilleros, $fila);
+                $fila = array();
+                $c = 1;
+            }
         }
+    }
+
+    public function getFilasCasilleros() {
+        return $this->casilleros;
     }
 }
 

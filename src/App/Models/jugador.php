@@ -114,6 +114,19 @@ class Jugador extends Model {
         }
         return false;
     }
+    
+    public function save(){
+        $user = $this->findByFields([
+            "nombre" => $this->fields["nombre"],
+            "estado" => $this->fields["estado"],
+            "juego" => $this->fields["juego"]
+        ]);
+        if (count($user) == 0) {
+            $this->logger->debug("guardando jugador");
+            return parent::save();
+        }
+        return false;
+    }
 
     public function findByJuego($juego) {
         return $this->findByFields([

@@ -32,6 +32,7 @@ final class MyNewMigration extends AbstractMigration
         $table->addColumn('nombre', 'string')
               ->addColumn('juego', 'string')
               ->addColumn('juegoID', 'integer')
+              ->addColumn('cantidadColumnas', 'integer')
               ->create();
         $table = $this->table('comodin');
         

@@ -65,7 +65,7 @@ class Juego extends Model {
 
     public function iniciarJuego(){
         $pos = 0;
-
+        $this->load();
         for($contador = 0; $contador < count($this->comodines); $contador++){//Mezclamos comodines
             $pos = mt_rand(0,count($this->comodines));
             $carta = $this->comodines[$contador];
@@ -80,14 +80,16 @@ class Juego extends Model {
                 }
             }
         }
-        $this->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas, $this->generarCasilleros());
+        $casilleros = $this->generarCasilleros();
+        //$this->logger->debug(json_encode($casilleros));
+        $this->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas, $casilleros);
         $this->tablero->setConnection($this->connection);
         $this->tablero->setLogger($this->logger);
         $id = mt_rand(0,3);
         $this->jugadores = $this->getJugadores();
         $this->setEstadoJugadores($this->estadoIniciado);
         $this->fields["estado"] = $this->estadoIniciado;
-        $this->logger->debug("Jugadores: " . json_encode($this->jugadores));
+        //$this->logger->debug("Jugadores: " . json_encode($this->jugadores));
         $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
         $this->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
         $this->tablero->fields["juegoID"] = $this->fields["id"];
@@ -194,16 +196,18 @@ class Juego extends Model {
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
         if ($jugador->save()) {
+            $this->logger->debug("jugador guardado");
             $this->jugadores[] = $jugador;
             return true;
         } else {
+            $this->logger->debug("jguador no guardado");
             return false;
         }
     }
 
     public function isListo() {
         $juego = $this->queryByField("nombre", $this->fields["nombre"]);
-        $this->logger->debug("Estado del juego: ". json_encode($juego));
+        //$this->logger->debug("Estado del juego: ". json_encode($juego));
         return $juego[0]["estado"] == $this->estadoIniciado;
     }
 
@@ -216,7 +220,7 @@ class Juego extends Model {
             "nombre" => $this->fields["nombre"],
             "estado" => $this->fields["estado"]
         ]);
-        $this->logger->debug("Juego: " . json_encode($this->fields));
+        //$this->logger->debug("Juego: " . json_encode($this->fields));
         $jugador = new Jugador();
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
@@ -225,6 +229,7 @@ class Juego extends Model {
         $tablero->setLogger($this->logger);
         $tablero->setConnection($this->connection);
         $tablero->setJuegoId($this->fields["id"]);
+        $tablero->fields["cantidadColumnas"] = $this->columnas;
         $tablero->load();
         $this->tablero = $tablero;
     }
@@ -267,6 +272,13 @@ class Juego extends Model {
             $jugador->fields["puntuacion"] = $flatJug["puntuacion"];
             $jugador->save();
         }
+    }
+
+    public function getFilasCasilleros() {
+        $this->load();     
+        $this->logger->debug("juego->getFilasCasilleros()");
+        //$this->logger->debug("tablero: " . json_encode($this->tablero));
+        return $this->tablero->getFilasCasilleros();   
     }
 
     static public function getAyuda() {

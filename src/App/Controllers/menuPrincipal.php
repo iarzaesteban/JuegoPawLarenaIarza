@@ -7,6 +7,7 @@ use Src\Core\Controller;
 
 use Src\App\Models\menu_principal;
 use Src\App\Models\Usuario;
+use Src\App\Models\CasilleroNormal;
 use Src\App\Models\Juego;
 use Src\App\Controllers\MenuPartidaController;
 

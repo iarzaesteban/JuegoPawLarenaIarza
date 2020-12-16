@@ -5,9 +5,9 @@ namespace Src\App\Models;
 use Src\Core\Model;
 use Exception;
 
-use src\Core\Exceptions\invalidValueFormatException;
-use src\App\Models\jugador;
-use src\App\Models\tipo_casillero;
+use Ssrc\Core\Exceptions\invalidValueFormatException;
+use Src\App\Models\jugador;
+use Src\App\Models\tipo_casillero;
 
 
 class Casillero extends Model {

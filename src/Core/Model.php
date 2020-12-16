@@ -130,7 +130,7 @@ class Model{
 
     public function loadByFields($params) {
         $res = $this->findByFields($params);
-        $this->logger->debug(json_encode($res));
+        //$this->logger->debug(json_encode($res));
         if (count($res) == 1) {
             foreach ($res[0] as $clave => $valor){
                 if (array_key_exists($clave, $this->fields)){

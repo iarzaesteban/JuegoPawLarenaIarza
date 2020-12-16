@@ -2,11 +2,8 @@
 
 namespace Src\App\Factories;
 
-use Src\Core\Model;
-use Exception;
-use src\App\Models\Casillero;
-use src\App\Models\CasilleroNormal;
-use src\App\Models\CasilleroBosque;
+use Src\App\Models\CasilleroNormal;
+use Src\App\Models\CasilleroBosque;
 
 
 class CasillerosFactory {
@@ -17,7 +14,7 @@ class CasillerosFactory {
         for ($i = 0 ; $i <$filas ; $i++) {
             $fila = array();
             for ($i = 0 ; $i <$filas ; $i++) {
-                $fila[] = CasilleroFactory::getCasilleroRandom();
+                $fila[] = CasillerosFactory::getCasilleroRandom();
             }
             $res[] = $fila;
         }
@@ -25,10 +22,13 @@ class CasillerosFactory {
     }
 
     static function getCasilleroRandom() {
+        $res = null;
         $random = rand(1,100);
         if ($random < 90) {
-            return new CasilleroNormal;
+            $res = new CasilleroNormal();
+        } else {
+            $res = new CasilleroNormal();
         }
-        return new CasilleroBosque;
+        return $res;
     }
 }
