@@ -4,6 +4,10 @@
 }
 
 
+
+body {
+  background-image: url("/assets/imagenes/epidemiology.jpg");
+}
 .image-fondo {
   padding: 5em;
 }
@@ -34,15 +38,12 @@ h1{
 }
 
 button{
-  border-color: red;
-  display: block;
-  height: 15vh;
-  width: 15vw;
-  position: relative;
-  opacity: 50%;
-  color: red;
-  font-size: 2.5em;
-  -webkit-text-stroke: 2px black;
+  font-size: 1em;
+  height: 8vh;
+  width: 10vw;
+  -webkit-text-stroke: 1px black;
+  transform: skew(20deg);
+  background-color: salmon;
 }
 
 
@@ -56,21 +57,149 @@ button{
   bottom: 2.5vh;
 }
 
-/* For width 400px and larger: */
-@media only screen and (min-width: 400px) {
-    .image-fondo {
+#top{
+  position: relative;
+  left: 30vw;
+  top:3vh;
+}
+
+#jugar{
+  position: relative;
+  left: 55vw;
+  top: 3vh;
   
-  padding: 10em;
 }
 
 
+.titulo-principal{
+  -webkit-transform: rotate(-7deg); 
+  -moz-transform: rotate(-7deg); 
+  -ms-transform: rotate(-7deg); 
+  -o-transform: rotate(-7deg); 
+  transform: rotate(-7deg); 
+
+  font-size: 3em;  
+  color: white;
+  margin:auto;
+  padding-top: 0.5em;
+  padding-left: 4em ;
+}
+
+.eslogan{
+  text-align: center;
+  font-size: 1.5em; 
+  font-weight: bold;
+  font-style: italic;
+}
+
+.reglas{
+  font-size: 1.5em; 
+  font-style: italic;
+  margin: auto;
+}
+
+
+
+@media only screen and (orientation:landscape) and (min-width: 1024px) {
+
+body {
+    background-image: url("/assets/imagenes/epidemiology.jpg");
+}
+
+.container {  
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+
+  display: inline-block;
+  width: 50vw;
+  height: 50vh;
+  text-align: center;
+}
+
+
+h1{
+  font-size: 1em;
+}
+
+section .lavel-color{
+    font-size: 1em;
+} 
+
+button{
+  font-size: 1em;
+  height: 8vh;
+  width: 10vw;
+  -webkit-text-stroke: 1px black;
+  transform: skew(20deg);
+  background-color: salmon;
+}
+
+.botonPrincipal{
+  background-color: salmon;
+}
+
+.submitboton{
+  left: 40vw;
+  top: 15vh;
+}
+
+.titulo-principal{
+  -webkit-transform: rotate(-7deg); 
+  -moz-transform: rotate(-7deg); 
+  -ms-transform: rotate(-7deg); 
+  -o-transform: rotate(-7deg); 
+  transform: rotate(-7deg); 
+  
+  font-size: 5em;  
+  margin:auto;
+  padding-top: 0.5em;
+  padding-left: 3.3em ;
+}
+
+.eslogan{
+  text-align: center;
+  font-size: 1.5em; 
+  font-weight: bold;
+  font-style: italic;
+}
+
+.reglas{
+  font-size: 1.5em; 
+  font-style: italic;
+  margin: auto;
+}
+
+.salirboton{
+  left: 4vw;
+  top: 7vh;
+}
+#top{
+  position: relative;
+  left: 30vw;
+  top:3vh;
+}
+
+#jugar{
+  position: relative;
+  left: 50vw;
+  bottom: 3vh;
+  
+}
+}
+  
+
+@media only screen and  (min-width: 1025px) {
 .container{
   background-image: url("/assets/imagenes/epidemiology.jpg"); 
   background-size: contain;
   display: inline-block;
-  width: 70vw;
-  height: 90vh;
+  width: 35vw;
+  height: 50vh;
   text-align: center;
+  background-color:green;
 }
 
     
@@ -90,8 +219,8 @@ h1{
 button{
   border-color: red;
   display: block;
-  height: 15vh;
-  width: 15vw;
+  height: 11vh;
+  width: 11vw;
   position: relative;
   opacity: 50%;
   color: red;
@@ -110,62 +239,42 @@ button{
   bottom: 2.5vh;
 }
 
-
-
+.titulo-principal{
+  -webkit-transform: rotate(-7deg); 
+  -moz-transform: rotate(-7deg); 
+  -ms-transform: rotate(-7deg); 
+  -o-transform: rotate(-7deg); 
+  transform: rotate(-7deg); 
+  
+  font-size: 6em;  
+  margin:auto;
+  padding-top: 0.5em;
+  padding-left: 4em ;
 }
 
-/* @media only screen and (max-width: 500px) and (min-width: 400px) {
-    body {
-      background-image: url('img_flowers.jpg');
-    }
-} */ 
-@media only screen and (orientation:landscape){
 
-body {
-    background-image: url("/assets/imagenes/epidemiology.jpg");
-}
-
-.container {  
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  transform: rotate(0deg);
-
-  display: inline-block;
-  width: 50vw;
-  height: 50vh;
+.eslogan{
   text-align: center;
-}
-}
-
-h1{
-  font-size: 1em;
+  font-size: 1.5em; 
+  font-weight: bold;
+  font-style: italic;
 }
 
-section .lavel-color{
-   font-size: 1em;
-} 
-
-button{
-   font-size: 1em;
-   height: 8vh;
-   width: 10vw;
-  -webkit-text-stroke: 1px black;
-  transform: skew(20deg);
-  background-color: salmon;
+.reglas{
+  font-size: 1.5em; 
+ font-style: italic;
+ margin: auto;
 }
 
-.botonPrincipal{
-  background-color: salmon;
+
+#top{
+  position: relative;
+  left: 30vw;
+  top:14vh;
 }
 
-.submitboton{
-  left: 40vw;
-  top: 15vh;
-}
-
-.salirboton{
-  left: 4vw;
-  top: 7vh;
+#jugar{
+  position: relative;
+  left: 55vw;
+  bottom: 18vh;
 }
