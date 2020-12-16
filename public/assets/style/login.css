@@ -44,7 +44,7 @@
     position: relative;
     width: 25vw;
     height: 10vh;
-    left: 25vw;
+    left: 30vw;
 }
 
 #nueva-cuenta-login label{
@@ -69,7 +69,7 @@
 }
 
 .titulo-principal{
-    padding-left:5em ;
+    padding-left:3.5em ;
 }
 .eslogan{
     padding-right:1em ;
@@ -77,16 +77,27 @@
 }
 
 
-@media only screen and  (min-width: 1000px) {
+@media only screen and  (min-width: 1025px) {
+
+
 
 #nueva-cuenta-login{
-    left: 40vw;
+    left: 30vw;
 }
 
+.eslogan{
+    padding-right:3em ;
+}
 
 .titulo-principal{
-    padding-left:1em;
+    padding-left:4em;
 }
 
+#nueva-cuenta-login #nueva-cuenta-submit-login{
+    font-size: 2em;
+    top:5vh;
+    left:7vw;
+    width: 25vw;
+}
 }
 
