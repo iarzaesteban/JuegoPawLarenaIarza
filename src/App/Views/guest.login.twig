@@ -7,7 +7,7 @@
 
 {% block main %}
     {{ parent() }}    
-    <form name="nueva-cuenta" id="nueva-cuenta">
+    <form name="nueva-cuenta-login" id="nueva-cuenta-login">
         <out id="signup-out" class="invisible">
         </out>
         <label>Usuario
@@ -16,7 +16,7 @@
         <label>Password
             <input required type="password" name="password" id="password" class="input-login" placeholder="password">
         </label>
-        <button id="nueva-cuenta-submit" class="">Crear cuenta</button>
+        <button id="nueva-cuenta-submit-login" class="">Crear cuenta</button>
     </form>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
