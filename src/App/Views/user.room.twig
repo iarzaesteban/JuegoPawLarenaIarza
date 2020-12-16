@@ -5,7 +5,7 @@
 
     <li>
         {% for juego in juegos %} 
-            <button id="irASala"> {{juego.nombre}} </button>
+            <button id="irASala_{{juego.nombre}}"> {{juego.nombre}} </button>
         {% endfor %}
 
         <button id="crearSala"> Crear sala </button>
@@ -14,7 +14,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.redirectOnClick("crearSala","/crearSala")
-            HTMLContainerModifier.redirectOnClickWithParam("irASala","/sala", "innerText", "nombre")
+            {% for juego in juegos %} 
+                HTMLContainerModifier.redirectOnClick("irASala_{{juego.nombre}}","/sala?nombre={{juego.nombre}}")
+            {% endfor %}
         })
     </script>
 {% endblock %}

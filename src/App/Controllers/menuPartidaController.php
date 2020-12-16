@@ -71,18 +71,18 @@ class MenuPartidaController extends Controller{
 
     public function verTablero() {
         if (is_null($this->session->get("USUARIO"))) {
-            $this->logger->warn("Acceso no autorizado");
+            $this->logger->warning("Acceso no autorizado");
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
-                $this->logger->warn("Prm.invalidos");
+                $this->logger->warning("Prm.invalidos");
                 $this->twigLoader('guest.landingpage.twig', []);
             } else {
                 $juego = $this->instanciarJuego("nombre-sala");
                 $jugador = $this->instanciarUsuario();
                 $tablero = $juego->getTablero();
                 $jugadores = $juego->getJugadores();
-                $ayuda = $juego->getAyuda();
+                $ayuda = Juego::getAyuda();
                 $this->twigLoader('game.twig', compact("tablero", "jugadores", "jugador", "juego"));
             }
         }
@@ -90,11 +90,11 @@ class MenuPartidaController extends Controller{
 
     public function getMenu() {
         if (is_null($this->session->get("USUARIO"))) {
-            $this->logger->warn("Acceso no autorizado");
+            $this->logger->warning("Acceso no autorizado");
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
-                $this->logger->warn("Prm.invalidos");
+                $this->logger->warning("Prm.invalidos");
                 $this->twigLoader('guest.landingpage.twig', []);
             } else {
                 
@@ -104,11 +104,11 @@ class MenuPartidaController extends Controller{
 
     public function getCartas() {
         if (is_null($this->session->get("USUARIO"))) {
-            $this->logger->warn("Acceso no autorizado");
+            $this->logger->warning("Acceso no autorizado");
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
-                $this->logger->warn("Prm.invalidos");
+                $this->logger->warning("Prm.invalidos");
                 $this->twigLoader('guest.landingpage.twig', []);
             } else {
                 

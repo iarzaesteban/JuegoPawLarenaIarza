@@ -19,6 +19,7 @@ final class MyNewMigration extends AbstractMigration
         $table->addColumn('nombre', 'string')
               ->addColumn('juego', 'string')
               ->addColumn('estado', 'string')
+              ->addColumn('puntuacion', 'integer')
               ->create();
         $table = $this->table('usuario');
         

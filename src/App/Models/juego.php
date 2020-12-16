@@ -85,6 +85,7 @@ class Juego extends Model {
         $this->tablero->setLogger($this->logger);
         $id = mt_rand(0,3);
         $this->jugadores = $this->getJugadores();
+        $this->setEstadoJugadores($this->estadoIniciado);
         $this->fields["estado"] = $this->estadoIniciado;
         $this->logger->debug("Jugadores: " . json_encode($this->jugadores));
         $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
@@ -189,6 +190,7 @@ class Juego extends Model {
     public function agregarJugador($jugadorNombre) {
         $this->logger->debug("juego->agregarJugador($jugadorNombre)");
         $jugador = new Jugador($jugadorNombre, $this->fields["nombre"]);
+        $jugador->fields["estado"] = $this->estadoNoIniciado;
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
         if ($jugador->save()) {
@@ -255,7 +257,19 @@ class Juego extends Model {
         return parent::save();
     }
 
-    public function getAyuda() {
+    public function setEstadoJugadores($estado) {
+        $jugadores = $this->getJugadores();
+        foreach ($jugadores as $flatJug) {
+            $jugador = new Jugador($flatJug["nombre"], $flatJug["juego"]);
+            $jugador->setLogger($this->logger);
+            $jugador->setConnection($this->connection);
+            $jugador->fields["estado"] = $estado;
+            $jugador->fields["puntuacion"] = $flatJug["puntuacion"];
+            $jugador->save();
+        }
+    }
+
+    static public function getAyuda() {
         return "Reglas:
         
         Comienza el juego, y se elige un orden de tirada al azar.

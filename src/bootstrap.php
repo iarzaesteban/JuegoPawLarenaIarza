@@ -78,5 +78,6 @@ $router->post('/salaObtenerListaJugadores','menuPrincipal@obtenerListaJugadores'
 $router->get('/iniciarJuego','menuPrincipal@iniciarJuego');
 $router->post('/isJuegoListo','menuPrincipal@isJuegoListo');
 $router->post('/partida','MenuPartidaController@verTablero');
+$router->get('/partida','MenuPartidaController@verTablero');
 $router->post('/getMenu','MenuPartidaController@getMenu');
 $router->post('/getCartas','MenuPartidaController@getCartas');
