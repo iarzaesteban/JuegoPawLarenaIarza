@@ -23,7 +23,11 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.landingpage.twig', compact("ayuda"));
         } else {
+<<<<<<< Updated upstream
             $this->twigLoader('user.landingpage.twig', compact("ayuda"));
+=======
+            $this->twigLoader('guest.loginIncorect.twig', []);
+>>>>>>> Stashed changes
         }
     }
 
