@@ -21,7 +21,8 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.landingpage.twig', []);
         } else {
-            $this->twigLoader('user.landingpage.twig', []);
+            $this->twigLoader('guest.login.twig', []);
+            //$this->twigLoader('user.landingpage.twig', []);
         }
     }
 

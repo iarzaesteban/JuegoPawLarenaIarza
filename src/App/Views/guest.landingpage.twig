@@ -2,10 +2,12 @@
 
 {% block header %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/assets/style/create-account-guest.css"/>
     <script src="/assets/js/components/HTMLContainerModifier.js"></script>
 {% endblock %}
 
 {% block main %}
+
     {{ parent() }}    
     <button class="botonPrincipal" id="crearCuentaBoton" name="crearCuentaBoton">Crear cuenta</button>
     <button class="botonPrincipal" id="ingresarBoton" name="ingresarBoton">Ingresar</button>
@@ -16,4 +18,5 @@
             HTMLContainerModifier.redirectOnClick("ingresarBoton","/login")
         })
     </script>
+    
 {% endblock %}

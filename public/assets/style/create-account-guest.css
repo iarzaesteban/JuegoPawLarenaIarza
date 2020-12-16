@@ -1,0 +1,67 @@
+#crearCuentaBoton{
+    position: relative;
+    top:2vh;
+    right: 12vw;
+    width: 15vw;
+}
+#ingresarBoton{
+    position: relative;
+    top:2vh;
+    left: 48vw;
+    width: 15vw;
+}
+
+#top{
+    top:2vh;
+    width: 15vw; 
+    left: 41vw;
+}
+section p{
+    font-size: 0.8em;
+}
+
+@media only screen and (orientation:landscape) and (min-width: 1024px) {
+
+button{
+    font-size: 1.5em;
+}
+#crearCuentaBoton{
+    position: relative;
+    
+    top:2vh;
+    right: 12vw;
+    width: 15vw;
+}
+
+.reglas{
+    font-size: 2em; 
+    font-style: italic;
+    margin: auto;
+  }
+  
+section p{
+    font-size: 1.2em;
+}
+
+}
+
+@media only screen and  (min-width: 1025px) {
+
+#crearCuentaBoton{
+    position: relative;
+    top:2vh;
+    right: 12vw;
+    width: 15vw;
+}
+
+.reglas{
+    font-size: 3em; 
+    font-style: italic;
+    margin: auto;
+    }
+    
+section p{
+    font-size: 2em;
+}
+
+}

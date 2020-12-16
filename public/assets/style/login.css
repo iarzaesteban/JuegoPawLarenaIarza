@@ -2,63 +2,91 @@
     display: wrap;
     position: relative;
     width: 15vw;
-    left: 35vw;
+    left: 25vw;
+}
+
+#nueva-cuenta-login input{
+    display: block;
+    font-size: x-large;
+    width: 50vw;
+    height: 5vh;
+}
+.titulo-principal{
+    padding-left:4.5em ;
+}
+.eslogan{
+    padding-left:2em ;
+}
+
+.image-fondo {
+    padding: 5em;
 }
 
 #nueva-cuenta-login label{
     font-style: italic;
     font-weight: bold;
 }
+
 #nueva-cuenta-login #nueva-cuenta-submit-login{
     position: relative;
     top:5vh;
-    left:5vw;
-    width: 15vw;
+    left:13vw;
+    width: 25vw;
 }
 
-@media only screen and (orientation:landscape) and (min-width: 1024px) {
 
+
+@media only screen and (orientation:landscape) and (min-width: 1024px) {
 
 #nueva-cuenta-login{
     display: wrap;
     font-size: 2em;
     position: relative;
-    top:5vh;
     width: 25vw;
     height: 10vh;
-    left: 30vw;
-    }
-    
-    #nueva-cuenta-login label{
+    left: 25vw;
+}
+
+#nueva-cuenta-login label{
     display: block;
     font-style: italic;
     font-size: 1.5em;
     font-weight: bold;
-    }
+}
     
-    #nueva-cuenta-login input{
+#nueva-cuenta-login input{
     display: block;
     font-size: x-large;
     width: 40vw;
     height: 5vh;
-    }
+}
     
-    #nueva-cuenta-login #nueva-cuenta-submit-login{
+#nueva-cuenta-login #nueva-cuenta-submit-login{
     position: relative;
     top:5vh;
     left:7vw;
     width: 25vw;
-    }
+}
+
+.titulo-principal{
+    padding-left:5em ;
+}
+.eslogan{
+    padding-right:1em ;
+}
+}
+
+
+@media only screen and  (min-width: 1000px) {
+
+#nueva-cuenta-login{
+    left: 40vw;
+}
+
+
+.titulo-principal{
+    padding-left:1em;
+}
 
 }
 
-@media only screen and  (min-width: 1025px) {
-
-#nueva-cuenta-login #nueva-cuenta-submit-login{
-    position: relative;
-    right: 5vw;
-
-    height: 15vh;
-    width: 35vw;
-    }    
-}
