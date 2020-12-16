@@ -17,7 +17,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.redirectOnClick("crearSala","/crearSala")
-            HTMLContainerModifier.redirectOnClickWithParam("irASala","/sala", "innerText", "nombre")
+            {% for juego in juegos %} 
+                HTMLContainerModifier.redirectOnClick("irASala_{{juego.nombre}}","/sala?nombre={{juego.nombre}}")
+            {% endfor %}
         })
     </script>
 {% endblock %}

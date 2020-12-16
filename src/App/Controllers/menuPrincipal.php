@@ -7,6 +7,7 @@ use Src\Core\Controller;
 
 use Src\App\Models\menu_principal;
 use Src\App\Models\Usuario;
+use Src\App\Models\CasilleroNormal;
 use Src\App\Models\Juego;
 use Src\App\Controllers\MenuPartidaController;
 
@@ -18,10 +19,11 @@ class MenuPrincipal extends Controller{
 
     public function index(){
         $titulo = 'Menu';
+        $ayuda = Juego::getAyuda();
         if (is_null($this->session->get("USUARIO"))) {
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->twigLoader('guest.landingpage.twig', compact("ayuda"));
         } else {
-            $this->twigLoader('user.room.twig', []);
+            $this->twigLoader('user.landingpage.twig', compact("ayuda"));
         }
     }
 
@@ -30,7 +32,7 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.createAccount.twig', []);
         } else {
-            $this->twigLoader('user.landingpage.twig', []);
+            $this->index();
         }
     }
 
@@ -55,7 +57,7 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.login.twig', []);
         } else {
-            $this->twigLoader('user.landingpage.twig', []);
+            $this->index();
         }
     }
 
@@ -74,14 +76,14 @@ class MenuPrincipal extends Controller{
                 $this->twigLoader('guest.loginIncorect.twig', []);
             }
         } else {
-            $this->twigLoader('user.landingpage.twig', []);
+            $this->index();
         }
     }
 
     public function sala(){
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->index();
         } else {
             if ($this->request->get("nombre")) {
                 $this->ingresarSala();
@@ -105,9 +107,10 @@ class MenuPrincipal extends Controller{
     public function crearSala(){
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->index();
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Nombre de sala nulo");
                 $this->twigLoader('user.room.name.setting.twig', []);
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
@@ -117,7 +120,7 @@ class MenuPrincipal extends Controller{
                 $juego->setConnection($this->connection);
                 $juego->setNombre($this->request->get("nombre-sala"));
                 if ($juego->crear($this->session->get("USUARIO"))) {
-                    $juego->agregarJugador($this->session->get("USUARIO"));
+                    $juego->ingresarSala($this->session->get("USUARIO"));
                     $this->twigLoader('user.room.admin.twig', compact("nombreSala", "usuario"));
                 } else {
                     $mensaje = "Nombre ya existe";
@@ -130,11 +133,11 @@ class MenuPrincipal extends Controller{
     public function obtenerListaJugadores() {
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
-            $this->logger->warn("Acceso no autorizado");
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->logger->warning("Acceso no autorizado");
+            $this->index();
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
-                $this->logger->warn("Prm.invalidos");
+                $this->logger->warning("Prm.invalidos");
                 //ignore
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
@@ -153,7 +156,7 @@ class MenuPrincipal extends Controller{
     public function crearSalaIngresarNombre() {
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->index();
         } else {
             if (is_null($this->request->get("nombreSala"))) {
                 //ignore
@@ -172,7 +175,7 @@ class MenuPrincipal extends Controller{
 
     public function isJuegoListo() {
         if (is_null($this->session->get("USUARIO"))) {
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->index();
         } else {
             if (is_null($this->request->get("nombre-sala"))) {
                 //ignore
@@ -211,7 +214,9 @@ class MenuPrincipal extends Controller{
         $juego->setLogger($this->logger);
         $juego->setConnection($this->connection);
         $juego->setNombre($this->request->get("nombre"));
-        $juego->agregarJugador($this->session->get("USUARIO"));
+        if (!$juego->ingresarSala($this->session->get("USUARIO"))){
+            $this->logger->error("Jugador no ingresado");
+        }
         $jugadores = $juego->getJugadores();
         $nombre = $this->request->get("nombre");
         $this->twigLoader('user.room.creation.twig', compact("jugadores", "nombre"));
@@ -223,12 +228,18 @@ class MenuPrincipal extends Controller{
 
     public function iniciarJuego(){
         if (is_null($this->session->get("USUARIO"))) {
-            $this->twigLoader('guest.landingpage.twig', []);
+            $this->index();
         } else {
-            if (is_null($this->request->get("nombreSala"))) {
-                $this->twigLoader('user.landingpage.twig', []);
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->index();
             } else {
                 $nombreSala = $this->request->get("nombreSala");
+                $juego = new Juego();
+                $juego->setLogger($this->logger);
+                $juego->setConnection($this->connection);
+                $juego->setNombre($this->request->get("nombre-sala"));
+                $juego->setEstadoIniciado();
+                $juego->iniciarJuego();
                 $this->session->put("nombre-sala", $nombreSala);
                 $menuPartida = new MenuPartidaController();
                 $menuPartida->setLogger($this->logger);

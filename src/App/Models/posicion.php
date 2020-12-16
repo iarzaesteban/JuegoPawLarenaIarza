@@ -10,12 +10,15 @@ use Src\Core\Exceptions\invalidValueFormatException;
 
 class Posicion extends Model {
 
-    public $table = 'posicion';
-    private $queryBuilder;
-
     public function __construct($x,$y){
-        $this->x = x;
-        $this->y = y;
+        $this->x = $x;
+        $this->y = $y;
+        $this->fields = [
+            "id" => null,
+            'posicionX'    => $x,
+            'posicionY'  => $y
+        ];
+        $this->table = 'posicion';
     }
 
     public $x;
@@ -39,15 +42,27 @@ class Posicion extends Model {
         return $this->y;
     }
 
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-    }
     public $fields = [
         'x'    => null,
         'y'  => null
     ];
 
-
+    public function load() {
+        $res = $this->findByFields([
+            "posicionX" => $this->fields["posicionX"],
+            "posicionY" => $this->fields["posicionY"]
+        ]);
+        if (count($res) == 1) {
+            $this->fields["id"] = $res[0]["id"];
+        } else {
+            if ($this->save()){
+                $this->loadByFields([
+                    "posicionX" => $this->fields["posicionX"],
+                    "posicionY" => $this->fields["posicionY"]
+                ]);
+            }            
+        }
+    }
     
 }
 

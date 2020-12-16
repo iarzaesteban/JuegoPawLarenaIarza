@@ -44,7 +44,20 @@ class Usuario extends Model {
             return false;
         }
         return parent::save();
-    }      
+    }     
+    
+    public function load(){
+        $user = $this->queryByField("nombre", $this->fields["nombre"]);
+        if (count($user) == 1) {
+            foreach ($user[0] as $clave => $valor){
+                if (array_key_exists($clave, $this->fields)) {
+                    $this->fields[$clave] = $valor;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>

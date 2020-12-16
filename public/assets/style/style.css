@@ -288,5 +288,10 @@ button{
   bottom: 18vh;
 }
 
-
+#nueva-cuenta #nueva-cuenta-submit{
+  position: relative;
+  top:7vh;
+  left:12vw;
+  height: 10vh;
+  width: 25vw;
 }
