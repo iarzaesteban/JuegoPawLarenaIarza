@@ -1,8 +1,14 @@
 {% extends "Partials/base.twig" %}
-
-
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/assets/style/sala-settings.css"/>
+{% endblock %}
 {% block main %}
+    <h1 class="titulo-principal"> Epidemoilogy </h1>
+    <p class="eslogan">El juego que te enferma</p>
+
     <h3>Ingresar un nombre para la nueva sala</h3>
+
     <form id="form-nombre-sala" method="GET" action="/crearSala">
         <out id="out-nombre-sala"></out>
         <label>Nombre de sala: <input name="nombre-sala"></label>
