@@ -75,4 +75,18 @@ class HTMLContainerModifier {
         },time,"JavaScript");
     }
 
+    static removeClass(id, c) {
+        var div = document.getElementById(id)
+        if (div) {
+            div.classList.remove(c);
+        }
+    }
+
+    static addClass(id, c) {
+        var div = document.getElementById(id)
+        if (div) {
+            div.classList.add(c);
+        }
+    }
+
 }

@@ -278,3 +278,7 @@ button{
   left: 55vw;
   bottom: 18vh;
 }
+
+.seleccionada {
+  background-color: salmon;
+}

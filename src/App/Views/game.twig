@@ -1,5 +1,11 @@
 {% extends "Partials/base.twig" %}
 
+{% block head %}
+    {{ parent() }}
+    <script src="/assets/js/components/Celda.js"></script>
+    <script src="/assets/js/components/TableroManager.js"></script>
+{% endblock %}
+
 {% block header %}
     <section>
         <p> Jugador: {{jugador.fields.nombre}} </p>
@@ -14,8 +20,9 @@
         {% for fila in filasCasilleros %} 
             <ul class="fila" id="fila">
                 {% for casillero in fila %} 
-                    <div class="celda" id="celda">
-                        <a id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}"> {{casillero.fields.id}} </a>
+                    <div>
+                        <button id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}" class="celda"> A </button>
+                        <script>new Celda("{{casillero.fields.posicionX}}","{{casillero.fields.posicionY}}","{{casillero.fields.jugador}}")</script>
                     </div>
                 {% endfor %}
             </ul>
@@ -35,11 +42,9 @@
     </section>
 
     <script>
-        /*document.addEventListener("DOMContentLoaded", () => {
-            HTMLContainerModifier.redirectOnClick("crearSala","/crearSala")
-            HTMLContainerModifier.redirectOnClickWithParam("irASala","/sala", "innerText", "nombre")
+        document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.postConScheduler("menu","/getMenu?nombre-sala={{juego.fields.nombre}}", 1000, []);
             HTMLContainerModifier.postConScheduler("menu","/getCartas?nombre-sala={{juego.fields.nombre}}", 1000, []);
-        })*/
+        })
     </script>
 {% endblock %}
