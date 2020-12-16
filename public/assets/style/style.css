@@ -56,6 +56,32 @@ button{
   bottom: 2.5vh;
 }
 
+.titulo-principal{
+  -webkit-transform: rotate(-7deg); 
+  -moz-transform: rotate(-7deg); 
+  -ms-transform: rotate(-7deg); 
+  -o-transform: rotate(-7deg); 
+  transform: rotate(-7deg); 
+  
+  font-size: 7em;  
+  margin:auto;
+  padding-top: 0.5em;
+  padding-left: 3em ;
+}
+
+
+.eslogan{
+  text-align: center;
+  font-size: 2em; 
+  font-weight: bold;
+  font-style: italic;
+}
+
+.reglas{
+  font-size: 2em; 
+ font-style: italic;
+ margin: auto;
+}
 /* For width 400px and larger: */
 @media only screen and (min-width: 400px) {
     .image-fondo {
@@ -110,7 +136,18 @@ button{
   bottom: 2.5vh;
 }
 
+#top{
+  position: relative;
+  left: 30vw;
+  top:5vh;
+}
 
+#jugar{
+  position: relative;
+  left: 55vw;
+  bottom: 3vh;
+  
+}
 
 }
 
