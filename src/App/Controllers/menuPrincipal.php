@@ -26,13 +26,12 @@ class MenuPrincipal extends Controller{
     }
 
     public function crearCuenta(){
-        $this->twigLoader('guest.createAccount.twig', []);
-        // $titulo = 'Menu';
-        // if (is_null($this->session->get("USUARIO"))) {
-        //     $this->twigLoader('guest.createAccount.twig', []);
-        // } else {
-        //     $this->twigLoader('user.landingpage.twig', []);
-        // }
+        $titulo = 'Menu';
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->twigLoader('guest.createAccount.twig', []);
+        } else {
+            $this->twigLoader('user.landingpage.twig', []);
+        }
     }
 
     public function crearCuentaAlmacenar(){
