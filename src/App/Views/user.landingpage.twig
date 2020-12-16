@@ -1,12 +1,14 @@
 {% extends "Partials/landingpage.twig" %}
 
 {% block header %}
+    <link rel="stylesheet" type="text/css" href="/assets/style/user-landing-page.css"/>
     {{ parent() }}
 {% endblock %}
 
 {% block main %}
     {{ parent() }}
     <button class="botonPrincipal" id="jugar" name="jugar">Jugar</button>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.redirectOnClick("jugar","/sala")

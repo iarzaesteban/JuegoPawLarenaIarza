@@ -13,6 +13,12 @@
     top:2vh;
     left:6vw;
     width: 15vw;
+    border-color: red;
+    display: block;
+    opacity: 50%;
+    color: red;
+    font-size: 1em;
+    -webkit-text-stroke: 1px black;
 }
 
 @media only screen and (orientation:landscape) and (min-width: 1024px) {
@@ -20,7 +26,6 @@
     display: wrap;
     font-size: x-large;
     position: relative;
-    top:10vh;
     width: 25vw;
     height: 10vh;
     left: 25vw;
@@ -38,12 +43,18 @@
     width: 50vw;
     height: 5vh;
 }
+
 #nueva-cuenta #nueva-cuenta-submit{
     position: relative;
-    top:7vh;
+    top:2vh;
     left:12vw;
-    height: 10vh;
     width: 25vw;
+    border-color: red;
+    display: block;
+    opacity: 50%;
+    color: red;
+    font-size: 1.5em;
+    -webkit-text-stroke: 2px black;
 }
 }
 
@@ -54,5 +65,6 @@
     left:12vw;
     height: 10vh;
     width: 25vw;
+
 }
 }
