@@ -1,0 +1,10 @@
+
+#fila {
+    display: flex;
+}
+
+  
+
+#seleccionada {
+    background-color: red;
+}

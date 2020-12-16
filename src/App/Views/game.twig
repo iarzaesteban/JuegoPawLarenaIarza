@@ -2,6 +2,7 @@
 
 {% block head %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/assets/style/game.css"/>
     <script src="/assets/js/components/Celda.js"></script>
     <script src="/assets/js/components/TableroManager.js"></script>
 {% endblock %}
@@ -16,18 +17,18 @@
 
 {% block main %}
 
-    <li class="tablero" id="tablero">
+    <section class="tablero" id="tablero">
         {% for fila in filasCasilleros %} 
             <ul class="fila" id="fila">
                 {% for casillero in fila %} 
-                    <div>
+                    <li>
                         <button id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}" class="celda"> A </button>
                         <script>new Celda("{{casillero.fields.posicionX}}","{{casillero.fields.posicionY}}","{{casillero.fields.jugador}}")</script>
-                    </div>
+                    </li>
                 {% endfor %}
             </ul>
         {% endfor %}
-    </li>
+    </section>
 
     <section class="menu" id="menu">
 

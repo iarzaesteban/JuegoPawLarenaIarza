@@ -328,10 +328,6 @@ button{
   bottom: 18vh;
 }
 
-.seleccionada {
-  background-color: salmon;
-}
-
 #nueva-cuenta #nueva-cuenta-submit{
   position: relative;
   top:7vh;
