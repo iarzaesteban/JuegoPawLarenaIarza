@@ -52,6 +52,7 @@ class MenuPrincipal extends Controller{
     }
 
     public function login(){
+        
         $titulo = 'Menu';
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.login.twig', []);
