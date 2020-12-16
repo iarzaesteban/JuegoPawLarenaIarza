@@ -12,13 +12,13 @@
 
     <li class="tablero" id="tablero">
         {% for fila in filasCasilleros %} 
-            <li class="fila" id="fila">
+            <ul class="fila" id="fila">
                 {% for casillero in fila %} 
-                    <li class="celda" id="celda">
-                        <button id="celda_x_y"> {{casillero.fields.id}} </button>
-                    </li>
+                    <div class="celda" id="celda">
+                        <a id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}"> {{casillero.fields.id}} </a>
+                    </div>
                 {% endfor %}
-            </li>
+            </ul>
         {% endfor %}
     </li>
 
