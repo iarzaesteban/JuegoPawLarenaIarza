@@ -1,0 +1,58 @@
+#nueva-cuenta{
+    display: wrap;
+    position: relative;
+    width: 25vw;
+    left: 35vw;
+}
+#nueva-cuenta label{
+    font-style: italic;
+    font-weight: bold;
+}
+#nueva-cuenta #nueva-cuenta-submit{
+    position: relative;
+    top:2vh;
+    left:6vw;
+    width: 15vw;
+}
+
+@media only screen and (orientation:landscape) and (min-width: 1024px) {
+#nueva-cuenta{
+    display: wrap;
+    font-size: x-large;
+    position: relative;
+    top:10vh;
+    width: 25vw;
+    height: 10vh;
+    left: 25vw;
+}
+#nueva-cuenta label{
+    display: block;
+    font-style: italic;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#nueva-cuenta input{
+    display: block;
+    font-size: x-large;
+    width: 50vw;
+    height: 5vh;
+}
+#nueva-cuenta #nueva-cuenta-submit{
+    position: relative;
+    top:7vh;
+    left:12vw;
+    height: 10vh;
+    width: 25vw;
+}
+}
+
+@media only screen and  (min-width: 1025px) {
+#nueva-cuenta #nueva-cuenta-submit{
+    position: relative;
+    top:7vh;
+    left:12vw;
+    height: 10vh;
+    width: 25vw;
+}
+}

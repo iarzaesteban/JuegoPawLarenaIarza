@@ -2,11 +2,16 @@
 
 {% block head %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="/assets/style/login.css"/>
     <script src="/assets/js/components/HTMLContainerModifier.js"></script>
 {% endblock %}
 
 {% block main %}
+
+    <h1 class="titulo-principal"> Empidemoilogy </h1>
+    <p class="eslogan">El juego que te enferma</p>
     {{ parent() }}    
+
     <form name="nueva-cuenta-login" id="nueva-cuenta-login">
         <out id="signup-out" class="invisible">
         </out>
@@ -18,6 +23,7 @@
         </label>
         <button id="nueva-cuenta-submit-login" class="">Crear cuenta</button>
     </form>
+    
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.PostDinamicoFormConResultadoOut("nueva-cuenta","signup-out","nueva-cuenta-submit","/login")

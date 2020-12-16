@@ -115,24 +115,7 @@ button{
   width: 15vw;
 }
 
-#nueva-cuenta-login{
-  display: wrap;
-  position: relative;
-  width: 25vw;
-  top:30vh;
-  left: 35vw;
-}
 
-#nueva-cuenta-login label{
-  font-style: italic;
-  font-weight: bold;
-}
-#nueva-cuenta-login #nueva-cuenta-submit-login{
-  position: relative;
-  top:5vh;
-  left:5vw;
-  width: 15vw;
-}
 
 @media only screen and (orientation:landscape) and (min-width: 1024px) {
 
@@ -253,36 +236,6 @@ button{
   width: 25vw;
 }
 
-#nueva-cuenta-login{
-  display: wrap;
-  font-size: 2em;
-  position: relative;
-  top:30vh;
-  width: 25vw;
-  height: 10vh;
-  left: 35vw;
-}
-
-#nueva-cuenta-login label{
-  display: block;
-  font-style: italic;
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-#nueva-cuenta-login input{
-  display: block;
-  font-size: x-large;
-  width: 40vw;
-  height: 5vh;
-}
-
-#nueva-cuenta-login #nueva-cuenta-submit-login{
-  position: relative;
-  top:5vh;
-  left:7vw;
-  width: 25vw;
-}
 
 }
   
@@ -338,7 +291,7 @@ button{
 .titulo-principal{
   -webkit-transform: rotate(-7deg); 
   -moz-transform: rotate(-7deg); 
-  -ms-transform: rotate(-7deg); 
+  -ms-transform: rotate(-7deg);   
   -o-transform: rotate(-7deg); 
   transform: rotate(-7deg); 
   
@@ -381,11 +334,5 @@ button{
   height: 10vh;
   width: 25vw;
 }
-#nueva-cuenta-login #nueva-cuenta-submit-login{
-  position: relative;
-  top:5vh;
-  left:3vw;
-  height: 15vh;
-  width: 35vw;
-}
+
 }
