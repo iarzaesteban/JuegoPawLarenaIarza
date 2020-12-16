@@ -254,6 +254,26 @@ class Juego extends Model {
         }
         return parent::save();
     }
+
+    public function getAyuda() {
+        return "Reglas:
+        
+        Comienza el juego, y se elige un orden de tirada al azar.
+        Cada jugador tira un dado, por turnos.
+        Para tirar un dado presionar el botón \"tirar\".
+        Luego de tirar, puede ocupar tantos casilleros como indique el número que sacó con el dado.
+        Algunas veces, esta cantidad puede verse afectada. 
+        Como cuando se está bajo los efectos de una carta, o de alguna casilla.
+        Cuando saque un 1, puede usar una carta.
+        Para ver las cartas, presionar el botón \"cartas\".
+        Las cartas tienen diferentes efectos sobre las fichas del rival.
+        Se pueden leer los diferentes efectos en el menú de cartas.
+        
+        Luego de ocupar un casillero los rivales no pueden quitarseló.
+        Pero puede perder el casillero con efectos de cartas.
+        Luego de 12 turnos, o cuando no hayan más casilleros disponibles,
+        gana el jugador con más cantidad de casilleros.";
+    }
 }
 
     
