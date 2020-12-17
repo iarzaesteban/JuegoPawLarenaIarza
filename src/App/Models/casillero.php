@@ -90,13 +90,13 @@ class Casillero extends Model {
 
     public function isVacio() {
         if (is_null($this->fields["jugador"])){
-            return false;
+            return true;
         }
-        return $this->fields["jugador"] != "";
+        return $this->fields["jugador"] == "";
     }
 
     public function toJson() {
-        return "{'posicionX' : '" . $this->fields["posicionX"] . "', 'posicionY' : '" . $this->fields["posicionY"] . "', 'jugador' : '" . $this->fields["jugador"] ."' }";
+        return "{\"posicionX\" : \"" . $this->fields["posicionX"] . "\", \"posicionY\" : \"" . $this->fields["posicionY"] . "\", \"jugador\" : \"" . $this->fields["jugador"] ."\" },";
     }
 }
 

@@ -24,8 +24,14 @@ class TableroManager {
     }
 
     refresh(celdas) {
-        console.log("celdas")
-        this.validas = celdas;
+        console.log(celdas)
+        var obj = JSON.parse(celdas)
+        this.validas = []
+        var i = 0;
+        for (i = 0; i < obj.length; i++) {
+            console.log(obj[i])
+            this.validas.push("celda_" + obj[i].posicionX + "_" + obj[i].posicionY)
+        } 
     }
 
 }
