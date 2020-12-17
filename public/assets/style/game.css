@@ -65,6 +65,8 @@ body{
     display : none;
 }
 
+#seleccionada {
+    background-color: red;
 }
 
 @media only screen and (orientation:landscape) and (min-width: 1024px) {
@@ -129,4 +131,41 @@ a{
     bottom: 97.5vh;
     color: aqua;
 } 
+.seleccionada {
+    background-color: yellow;
+}
+
+.header-juego {
+    position: absolute;
+    display: flex;
+    background-color: salmon;
+    top : 0;
+    left: 0;
+    width: 100vw;
+    height: 5vh;
+}
+
+.tablero {
+    position: relative;
+    display: flex;
+    background-color: salmon;
+    top : 12vh;
+    left: 1vw;
+    width: 95vw;
+    height: 80vh;
+    align-items: unset;
+    overflow: hidden;
+    display: block;
+}
+
+.menu {
+    z-index: 100;
+    background-color: grey;
+    position: absolute;
+    width: 80vw;
+    height: 10vh;
+    text-align: center;
+    padding: 4vw;
+
+}
 }
