@@ -82,7 +82,7 @@ class TableroManager {
     agregarEventoMover(elem, derecha, arriba, target) {
         elem.addEventListener("click", ()=>{
             target.scrollLeft += derecha
-            target.scrollTop += arriba
+            target.scrollTop -= arriba
         })
     }
 }
