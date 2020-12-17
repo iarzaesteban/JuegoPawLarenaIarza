@@ -1,7 +1,6 @@
-[
-{% for celda in celdasValidas %} 
+{{celdasValidas | raw}}
+{# {% for celda in celdasValidas %} 
     {
         "celda_{{celda.posicionX}}_{{celda.posicionY}}"
     },
-{% endfor %}
-]
+{% endfor %} #}

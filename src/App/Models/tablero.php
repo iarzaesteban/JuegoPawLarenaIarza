@@ -131,41 +131,52 @@ class Tablero extends Model {
                     if ($x % 2 == 0) {
                         if ((($x -1) > -1) && (($y + 1) < count($this->casilleros[$x]))) {
                             if ($this->casilleros[$x - 1][$y + 1]->isVacio()){
-                                $res .= $this->casilleros[$x - 1][$y + 1].toJson();
+                                $res .= $this->casilleros[$x - 1][$y + 1]->toJson();
                             }
                         }
-                        if ((($x + 1) < count($this->casilleros[$x])) && (($y -1) > -1)) {
+                        if ((($x + 1) < count($this->casilleros)) && (($y -1) > -1)) {
                             if ($this->casilleros[$x + 1][$y - 1]->isVacio()){
-                                $res .= $this->casilleros[$x + 1][$y - 1].toJson();
+                                $res .= $this->casilleros[$x + 1][$y - 1]->toJson();
                             }
                         }
                     } else {
-                        
+                        if ((($y -1) > -1) && (($x + 1) < count($this->casilleros))) {
+                            if ($this->casilleros[$x + 1][$y - 1]->isVacio()){
+                                $res .= $this->casilleros[$x + 1][$y - 1]->toJson();
+                            }
+                        }
+                        if ((($y + 1) < count($this->casilleros[$x])) && (($x -1) > -1)) {
+                            if ($this->casilleros[$x - 1][$y + 1]->isVacio()){
+                                $res .= $this->casilleros[$x - 1][$y + 1]->toJson();
+                            }
+                        }
                     }
                     if (($x -1) > -1) {
                         if ($this->casilleros[$x - 1][$y]->isVacio()){
-                            $res .= $this->casilleros[$x - 1][$y].toJson();
+                            $res .= $this->casilleros[$x - 1][$y]->toJson();
                         }
                     }
-                    if (($y + 1) < count($this->casilleros[$x])) {
+                    if (($x + 1) < count($this->casilleros)) {
                         if ($this->casilleros[$x + 1][$y]->isVacio()){
-                            $res .= $this->casilleros[$x + 1][$y].toJson();
+                            $res .= $this->casilleros[$x + 1][$y]->toJson();
                         }
                     }
                     if (($y -1) > -1) {
                         if ($this->casilleros[$x][$y - 1]->isVacio()){
-                            $res .= $this->casilleros[$x][$y - 1].toJson();
+                            $res .= $this->casilleros[$x][$y - 1]->toJson();
                         }
                     }
-                    if (($y + 1) < count($this->casilleros)) {
+                    if (($y + 1) < count($this->casilleros[$x])) {
                         if ($this->casilleros[$x][$y + 1]->isVacio()){
-                            $res .= $this->casilleros[$x][$y + 1].toJson();
+                            $res .= $this->casilleros[$x][$y + 1]->toJson();
                         }
                     }
                 }
             }
         }
+        $res  = substr($res,0,strlen($res) - 1); # sin la ultima coma
         $res .= "]";
+        return $res;
     }
 }
 

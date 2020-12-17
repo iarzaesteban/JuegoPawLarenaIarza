@@ -55,8 +55,7 @@ class MenuPartidaController extends Controller{
             } else {
                 $juego = $this->instanciarJuego("nombre-sala");
                 $notificacion = $juego->tirarDado($this->session->get("USUARIO"));
-                $celdasValidas = $juego->getCeldasValidasStr($this->session->get("USUARIO"));
-                $this->twigLoader('game.notificar.twig', compact("notificacion", "celdasValidas"));
+                $this->twigLoader('game.notificar.twig', compact("notificacion"));
             }
         }
         //return $this->modelname->tirarDado();
@@ -175,6 +174,7 @@ class MenuPartidaController extends Controller{
             } else {
                 $juego = $this->instanciarJuego("nombre-sala");
                 $celdasValidas = $juego->getCeldasValidasStr($this->session->get("USUARIO"));
+                $this->logger->debug("CELDAS VALIDAS: $celdasValidas");
                 $this->twigLoader('game.cells.twig', compact("celdasValidas"));
             }
         }
