@@ -22,7 +22,7 @@
             <ul class="fila" id="fila">
                 {% for casillero in fila %} 
                     <li>
-                        <button id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}" class="celda"> A </button>
+                        <button id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}" class="celda"> </button>
                         <script>new Celda("{{casillero.fields.posicionX}}","{{casillero.fields.posicionY}}","{{casillero.fields.jugador}}")</script>
                     </li>
                 {% endfor %}
@@ -48,6 +48,10 @@
         {{ayuda}}
     </section>
 
+    <section class="puntuaciones" id="puntuaciones">
+
+    </section>
+
     <section class="aux" id="aux">
 
     </section>
@@ -56,6 +60,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.postConScheduler("notificacion","/getMenu?nombre-sala={{juego.fields.nombre}}", 4000, []);
             HTMLContainerModifier.postConScheduler("cartas","/getCartas?nombre-sala={{juego.fields.nombre}}", 4000, []);
+            HTMLContainerModifier.postConScheduler("puntuaciones","/puntuaciones?nombre-sala={{juego.fields.nombre}}", 4000, []);
             HTMLContainerModifier.refreshObject(tableroManager, "/getCasillerosValidos?nombre-sala={{juego.fields.nombre}}", 4000);
             HTMLContainerModifier.postDinamico("menu-out","tirar","/tirar?nombre-sala={{juego.fields.nombre}}")
             HTMLContainerModifier.ocuparPostDinamico("menu-out","ocupar","{{juego.fields.nombre}}",tableroManager)

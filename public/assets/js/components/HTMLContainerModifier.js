@@ -125,6 +125,13 @@ class HTMLContainerModifier {
         })
     }
 
+    static removeClassOfAll(clase) {
+        var elementos = document.querySelectorAll('.' + clase)
+        for (var i = 0; i < document.length; i++) {
+            document[i].classList.remove(clase)
+        }
+    }
+
     static removeClass(id, c) {
         var div = document.getElementById(id)
         if (div) {

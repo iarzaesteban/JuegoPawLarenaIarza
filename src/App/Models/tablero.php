@@ -36,6 +36,15 @@ class Tablero extends Model {
     //    }
     }
 
+    public function ocuparPorPosicion($posicionX, $posicionY, $jugador) {
+        $casillero = new Casillero();
+        $casillero->setLogger($this->logger);
+        $casillero->setConnection($this->connection);
+        $casillero->setTablero($this->fields["id"]);
+        $casillero->setJugador($jugador);
+        $casillero->update();
+    }
+
     public function ocupar($json, $jugador) {
         $res = false;
         try {

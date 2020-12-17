@@ -29,8 +29,9 @@ class TableroManager {
         this.validas = []
         var i = 0;
         for (i = 0; i < obj.length; i++) {
-            console.log(obj[i])
-            this.validas.push("celda_" + obj[i].posicionX + "_" + obj[i].posicionY)
+            var id = "celda_" + obj[i].posicionX + "_" + obj[i].posicionY
+            HTMLContainerModifier.addClass(id, "disponible")
+            this.validas.push(id)
         } 
     }
 
@@ -44,6 +45,15 @@ class TableroManager {
         )
     }
 
+    loadJugadores(json) {
+        var li = document.getElementById("puntuaciones")
+        li.innerHTML = "";
+        for(var i = 0 ; i < json.length ; i++) {
+            var ul = document.createElement("ul")
+            ul.innerHTML = json[i].nombre + " - " + json[i].puntuacion
+            li.appendChild(ul)
+        }
+    }
 }
 
 

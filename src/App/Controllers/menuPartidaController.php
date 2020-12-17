@@ -198,4 +198,35 @@ class MenuPartidaController extends Controller{
             }
         }
     }
+
+    public function actualizar() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warning("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Prm.invalidos");
+                $this->twigLoader('user.landingpage.twig', []);
+            } else {
+                
+            }
+        }
+    }
+
+    public function puntuaciones() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warning("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Prm.invalidos");
+                $this->twigLoader('user.landingpage.twig', []);
+            } else {
+                $juego = $this->instanciarJuego("nombre-sala");
+                $jugadores = $juego->getJugadores();
+                $jugadorTurno = $juego->getJugadorTurno();
+                $this->twigLoader('game.players.twig', compact("jugadores", "jugadorTurno"));
+            }
+        }
+    }
 }

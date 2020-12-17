@@ -268,6 +268,15 @@ class Juego extends Model {
         $tablero->setConnection($this->connection);
         $tablero->setJuegoId($this->fields["id"]);
         $tablero->load();
+        $i = 0;
+        foreach($this->jugadores as $jugador){
+            if (($i % 2) == 1){
+                $tablero->ocuparPorPosicion(($i + 10), 10, $jugador["nombre"]);
+                $i += 1;
+            } else {
+                $tablero->ocuparPorPosicion(($i + 10), 1, $jugador["nombre"]);
+            }
+        }
         $this->logger->debug("Tablero load: " . json_encode($tablero));
         $this->tablero = $tablero;
     }
@@ -355,11 +364,11 @@ class Juego extends Model {
         $idx = 0;
         $sigIdx = 0;
         for ($idx = 0; $idx < count($this->jugadores) ; $idx++) {
-            if ($this->jugadores[$idx]["fields"]["nombre"] == $this->fields["jugadorEnTurno"]) {
+            if ($this->jugadores[$idx]["nombre"] == $this->fields["jugadorEnTurno"]) {
                 $sigIdx = ($idx + 1) % count($this->jugadores);
             }
         }
-        $this->fields["jugadorEnTurno"] = $this->jugadores[$sigIdx]["fields"]["nombre"];
+        $this->fields["jugadorEnTurno"] = $this->jugadores[$sigIdx]["nombre"];
         $this->setEsperandoTirada();
         $this->update();
     }
