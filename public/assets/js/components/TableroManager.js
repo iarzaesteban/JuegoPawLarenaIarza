@@ -34,6 +34,16 @@ class TableroManager {
         } 
     }
 
+    actualizarTablero(sala) {
+        $.post("/actualizar?nombre-sala=" + sala,
+            [],
+            function(data, status){
+                console.log(data)
+                //todo: actualizar tablero
+            }
+        )
+    }
+
 }
 
 

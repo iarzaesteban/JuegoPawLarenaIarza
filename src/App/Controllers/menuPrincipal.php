@@ -23,7 +23,7 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $this->twigLoader('guest.landingpage.twig', compact("ayuda"));
         } else {
-            $this->twigLoader('game.twig', compact("ayuda"));
+            $this->twigLoader('user.landingpage.twig', compact("ayuda"));
         }
     }
 
@@ -146,6 +146,7 @@ class MenuPrincipal extends Controller{
                 $juego->setLogger($this->logger);
                 $juego->setConnection($this->connection);
                 $juego->setNombre($nombreSala);
+                $juego->setEstadoNoIniciado();
                 $jugadores = $juego->getJugadores();
                 $this->logger->debug("jugadores: ". json_encode($jugadores));
                 $this->twigLoader('user.room.players.twig', compact("nombreSala", "jugadores"));
@@ -238,6 +239,8 @@ class MenuPrincipal extends Controller{
                 $juego->setLogger($this->logger);
                 $juego->setConnection($this->connection);
                 $juego->setNombre($this->request->get("nombre-sala"));
+                $juego->setEstadoNoIniciado();
+                $juego->load();
                 $juego->setEstadoIniciado();
                 $juego->iniciarJuego();
                 $this->session->put("nombre-sala", $nombreSala);

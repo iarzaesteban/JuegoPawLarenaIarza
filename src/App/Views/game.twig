@@ -58,6 +58,7 @@
             HTMLContainerModifier.postConScheduler("cartas","/getCartas?nombre-sala={{juego.fields.nombre}}", 4000, []);
             HTMLContainerModifier.refreshObject(tableroManager, "/getCasillerosValidos?nombre-sala={{juego.fields.nombre}}", 4000);
             HTMLContainerModifier.postDinamico("menu-out","tirar","/tirar?nombre-sala={{juego.fields.nombre}}")
+            HTMLContainerModifier.ocuparPostDinamico("menu-out","ocupar","{{juego.fields.nombre}}",tableroManager)
         })
     </script>
 {% endblock %}

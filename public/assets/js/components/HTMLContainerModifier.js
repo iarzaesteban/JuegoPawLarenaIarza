@@ -102,6 +102,28 @@ class HTMLContainerModifier {
         },time,"JavaScript");
     }
 
+    static ocuparPostDinamico(outId, buttonId, sala, tableroManager){
+        this.loadEvent(buttonId, "click", ()=>{
+            $.post("/ocupar?nombre-sala=" + sala,
+                tableroManager.seleccionadas,
+                function(data, status){
+                    var res = document.getElementById(outId)
+                    console.log(data)
+                    if (res) {
+                        if (data == "error"){
+                            console.warn("No se puede ocupar... No es su turno...")
+                        } else {
+                            tableroManager.actualizarTablero(sala)
+                            res.innerHTML = data
+                        }
+                    } else {
+                        console.error("No se encontró el elemento out: " + outID)
+                    }
+            })
+            return false
+        })
+    }
+
     static removeClass(id, c) {
         var div = document.getElementById(id)
         if (div) {

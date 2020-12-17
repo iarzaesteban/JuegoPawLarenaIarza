@@ -67,6 +67,10 @@ class Juego extends Model {
         $this->fields["estado"] = $this->estadoIniciado;
     }
 
+    public function setEstadoNoIniciado() {
+        $this->fields["estado"] = $this->estadoNoIniciado;
+    }
+
     public function iniciarJuego(){
         $pos = 0;
         $this->load();
@@ -191,10 +195,11 @@ class Juego extends Model {
         $this->logger->debug("juego->getJugadores()");
         $this->load();
         $query = "SELECT P.* FROM $this->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
-        $query .= " J.nombre=:nombre and J.estado='" . $this->fields["estado"];
+        $query .= " J.nombre=:nombre and J.estado=:estado";
         $this->logger->debug("query: $query");
         $sentencia = $this->connection->prepare($query);
         $sentencia->bindValue(":nombre", $this->fields["nombre"]);
+        $sentencia->bindValue(":estado", $this->fields["estado"]);
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return $sentencia->fetchAll();

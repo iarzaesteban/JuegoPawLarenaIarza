@@ -3,7 +3,6 @@
 {% block head %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="/assets/style/login.css"/>
-    <script src="/assets/js/components/HTMLContainerModifier.js"></script>
 {% endblock %}
 
 {% block main %}
@@ -26,7 +25,7 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            HTMLContainerModifier.PostDinamicoFormConResultadoOut("nueva-cuenta","signup-out","nueva-cuenta-submit","/login")
+            HTMLContainerModifier.PostDinamicoFormConResultadoOut("nueva-cuenta-login","signup-out","nueva-cuenta-submit","/login")
         })
     </script>
 {% endblock %}
