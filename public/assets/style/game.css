@@ -1,9 +1,58 @@
+main{
+    height: 80vh;
+    width:85vw ;
+}
+#jugador-game{
+    position: relative;
+    display:inline-block;
+    margin: 0;
+}
+
+#puntucaion-game{
+    position: relative;
+    margin: 0;
+    display:inline-block; 
+    left: 15vw;
+}
+#ayuda{
+    position: relative;
+    margin: 0;
+    display:inline-block; 
+    left: 60vw;
+}
+
+#tablero{
+    border-color: red;
+    height: 90vh;
+    width: 97vw;
+    border-style: solid;
+}
+#cartas{
+    position: relative;
+    margin: 0;
+    display:inline-block; 
+    bottom: 96.5vh;
+    left: 50vw;
+    
+}
+
+#menu-game{
+    position: relative;
+    margin: 0;
+    display:inline-block; 
+    bottom: 96.5vh;
+    left: 92vw;
+}
 
 #fila {
     display: flex;
 }
 
-  
+.invisible{
+    font-size: 2em;
+    visibility: hidden;
+    display : none;
+}
 
 #seleccionada {
     background-color: red;

@@ -9,8 +9,8 @@
 
 {% block header %}
     <section>
-        <p> Jugador: {{jugador.fields.nombre}} </p>
-        <p> Puntuación: {{jugador.fields.puntuacion}}</p>
+        <p id="jugador-game"> Jugador: {{jugador.fields.nombre}} </p>
+        <p id= "puntucaion-game"> Puntuación: {{jugador.fields.puntuacion}}</p>
         <a id="ayuda">Ayuda</a>
     </section>
 {% endblock %}
@@ -30,12 +30,12 @@
         {% endfor %}
     </section>
 
-    <section class="menu" id="menu">
-
-    </section>
+    
+    <a href="#" id="menu-game">Menu</a>
+    
 
     <section class="cartas" id="cartas">
-
+         <a href="#" id="cartas-game">Mis Cartas</a>
     </section>
 
     <section class="invisible" id="modal-ayuda">
