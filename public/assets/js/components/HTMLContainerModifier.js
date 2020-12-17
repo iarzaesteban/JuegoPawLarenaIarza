@@ -104,8 +104,8 @@ class HTMLContainerModifier {
 
     static ocuparPostDinamico(outId, buttonId, sala, tableroManager){
         this.loadEvent(buttonId, "click", ()=>{
-            $.post("/ocupar?nombre-sala=" + sala,
-                tableroManager.seleccionadas,
+            $.post("/ocupar?nombre-sala=" + sala +"&seleccion={" +tableroManager.seleccionadas.join(', ')+"}",
+                {seleccion : tableroManager.seleccionadas},
                 function(data, status){
                     var res = document.getElementById(outId)
                     console.log(data)
@@ -115,6 +115,7 @@ class HTMLContainerModifier {
                         } else {
                             tableroManager.actualizarTablero(sala)
                             res.innerHTML = data
+                            tableroManager.seleccionadas = []
                         }
                     } else {
                         console.error("No se encontró el elemento out: " + outID)

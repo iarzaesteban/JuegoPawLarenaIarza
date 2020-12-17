@@ -70,6 +70,25 @@ class MenuPartidaController extends Controller{
         return $this->modelname->obtenerComodines();
     }
 
+    public function ocupar() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warning("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Prm.invalidos");
+                $this->twigLoader('guest.landingpage.twig', []);
+            } else {
+                $juego = $this->instanciarJuego("nombre-sala");
+                if ($juego->ocupar($this->request->get("seleccion"), $this->session->get("USUARIO"))){
+                    echo "OK";
+                } else {
+                    echo "ERROR";
+                }
+            }
+        }
+    }
+
     public function ocuparCasilleros(Casillero $casilleros){
         $this->modelname->ocuparCasilleros($casilleros);
     }

@@ -36,6 +36,30 @@ class Tablero extends Model {
     //    }
     }
 
+    public function ocupar($json, $jugador) {
+        $res = false;
+        try {
+            foreach($json as $flatCasillero) {
+                $array = explode("_",$flatCasillero);
+                $casillero = new Casillero();
+                $casillero->setLogger($this->logger);
+                $casillero->setConnection($this->connection);
+                $casillero->fields["posicionX"] = $array[1];
+                $casillero->fields["posicionY"] = $array[2];
+                $casillero->fields["tablero"] = $this->fields["id"];
+                $casillero->load();
+                if ($casillero->isVacio()) {
+                    $casillero->ocupar($jugador);
+                    $res = true;
+                }
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return $res;
+    }
+
     public function setCasilleros($casilleros) {
         $this->casilleros = $casilleros;
     }
@@ -94,6 +118,7 @@ class Tablero extends Model {
     }
 
     public function getFilasCasilleros() {
+        $this->logger->debug("tablero->getFilasCasilleros(): " . json_encode($this->casilleros));
         return $this->casilleros;
     }
 
@@ -120,61 +145,73 @@ class Tablero extends Model {
     }
 
     public function getCeldasValidasStr($jugador) {
+        $this->logger->debug("tablero->getCeldasValidasStr($jugador)");
         $res = "[";
         $x = 0;
+        $this->logger->debug("Casilleros cargados en tablero: " . json_encode($this->casilleros));
         for ($x = 0; $x < count($this->casilleros); $x++){
             $fila = $this->casilleros[$x];
             for ($y = 0; $y < count($this->casilleros[$x]); $y++){
                 if ($this->casilleros[$x][$y]->fields["jugador"] == $jugador) {
-                    $this->logger->debug("Casilleros disponibles: Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
+                    $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                     //todo: verificar paridad
                     if ($x % 2 == 0) {
                         if ((($x -1) > -1) && (($y + 1) < count($this->casilleros[$x]))) {
                             if ($this->casilleros[$x - 1][$y + 1]->isVacio()){
                                 $res .= $this->casilleros[$x - 1][$y + 1]->toJson();
+                                $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                             }
                         }
                         if ((($x + 1) < count($this->casilleros)) && (($y -1) > -1)) {
                             if ($this->casilleros[$x + 1][$y - 1]->isVacio()){
                                 $res .= $this->casilleros[$x + 1][$y - 1]->toJson();
+                                $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                             }
                         }
                     } else {
                         if ((($y -1) > -1) && (($x + 1) < count($this->casilleros))) {
                             if ($this->casilleros[$x + 1][$y - 1]->isVacio()){
                                 $res .= $this->casilleros[$x + 1][$y - 1]->toJson();
+                                $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                             }
                         }
                         if ((($y + 1) < count($this->casilleros[$x])) && (($x -1) > -1)) {
                             if ($this->casilleros[$x - 1][$y + 1]->isVacio()){
                                 $res .= $this->casilleros[$x - 1][$y + 1]->toJson();
+                                $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                             }
                         }
                     }
                     if (($x -1) > -1) {
                         if ($this->casilleros[$x - 1][$y]->isVacio()){
                             $res .= $this->casilleros[$x - 1][$y]->toJson();
+                            $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                         }
                     }
                     if (($x + 1) < count($this->casilleros)) {
                         if ($this->casilleros[$x + 1][$y]->isVacio()){
                             $res .= $this->casilleros[$x + 1][$y]->toJson();
+                            $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                         }
                     }
                     if (($y -1) > -1) {
                         if ($this->casilleros[$x][$y - 1]->isVacio()){
                             $res .= $this->casilleros[$x][$y - 1]->toJson();
+                            $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                         }
                     }
                     if (($y + 1) < count($this->casilleros[$x])) {
                         if ($this->casilleros[$x][$y + 1]->isVacio()){
                             $res .= $this->casilleros[$x][$y + 1]->toJson();
+                            $this->logger->debug("Casilleros disponibles: jugador-> $jugador  Fila: $x -> Columna: $y" . json_encode($this->casilleros[$x][$y]));
                         }
                     }
                 }
             }
         }
-        $res  = substr($res,0,strlen($res) - 1); # sin la ultima coma
+        if (strlen($res) > 1){
+            $res = substr($res,0,strlen($res) - 1); # sin la ultima coma
+        }
         $res .= "]";
         return $res;
     }

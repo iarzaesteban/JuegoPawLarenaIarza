@@ -46,6 +46,7 @@ main{
 
 #fila {
     display: flex;
+    z-index: 1000;
 }
 
 .invisible{

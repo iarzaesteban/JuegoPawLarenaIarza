@@ -19,7 +19,7 @@ class Casillero extends Model {
             'posicionX'  => $x,
             'posicionY'  => $y,
             "tablero" => null,
-            "jugador" => null
+            "jugador" => ""
         ];
         $this->x = $x;
         $this->y = $y;
@@ -55,6 +55,7 @@ class Casillero extends Model {
 
     public function setJugador($jugador) {
         $this->jugador = $jugador;
+        $this->fields["jugador"] = $jugador;
     }
 
     public function getDescipcionCasillero(){
@@ -68,6 +69,7 @@ class Casillero extends Model {
     
     public function ocupar($jugador) {
         $this->setJugador($jugador);
+        $this->update();
     }
 
     public function findByTablero($tablero) {
@@ -81,11 +83,6 @@ class Casillero extends Model {
             "posicionX" => $this->fields["posicionX"],
             "posicionY" => $this->fields["posicionY"],
         ]);
-        if ($this->fields["jugador"] != "") {
-            $this->logger->debug("JGUADOR ENCONTRADO: " . $this->fields["jugador"]);
-        } else {
-            $this->logger->debug("JGUADOR NO ENCONTRADO..");
-        }
     }
 
     public function isVacio() {

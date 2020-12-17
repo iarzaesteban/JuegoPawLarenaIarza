@@ -72,6 +72,7 @@ $router->get('/crearCuenta','menuPrincipal@crearCuenta');
 $router->post('/crearCuenta','menuPrincipal@crearCuentaAlmacenar');
 $router->get('/login','menuPrincipal@login');
 $router->post('/login','menuPrincipal@loginAutenticar');
+//$router->get('/loginGoogle','menuPrincipal@loginGoogle');
 $router->get('/sala','menuPrincipal@sala');
 $router->get('/crearSala','menuPrincipal@crearSala');
 $router->post('/salaObtenerListaJugadores','menuPrincipal@obtenerListaJugadores');
@@ -84,3 +85,14 @@ $router->post('/getMenu','MenuPartidaController@getMenu');
 $router->post('/getCartas','MenuPartidaController@getCartas');
 $router->post('/tirar','MenuPartidaController@tirarDados');
 $router->post('/getCasillerosValidos','MenuPartidaController@getCasillerosValidos');
+$router->post('/ocupar','MenuPartidaController@ocupar');
+
+// $clientID = 
+// $clientSecret = 
+// $redirectUri = 
+// $client = new Google_Client();
+// $client->setClientId($clientID);
+// $client->setClientSecret($clientSecret);
+// $client->setRedirectUri($redirectUri);
+// $client->addScope("email");
+// $client->addScope("profile");

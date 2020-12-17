@@ -8,7 +8,7 @@
     <h1 class="titulo-principal"> Epidemoilogy </h1>
     {% for juego in juegos %} 
         <li>
-            <button id="irASala"> {{juego.nombre}} </button>
+            <button id="irASala_{{juego.nombre}}"> {{juego.nombre}} </button>
     {% endfor %}
 
             <button id="crearSala"> Crear sala </button>

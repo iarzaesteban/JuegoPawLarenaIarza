@@ -100,11 +100,12 @@ class Juego extends Model {
         $this->jugadores = $this->getJugadores();
         $this->setEstadoJugadores($this->estadoIniciado);
         $this->fields["estado"] = $this->estadoIniciado;
-        //$this->logger->debug("Jugadores: " . json_encode($this->jugadores));
+        $this->logger->debug("Iniciar juego: Jugadores: " . json_encode($this->jugadores));
         $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
         $this->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
         $this->setEsperandoTirada();
-        $this->save();
+        $this->setEstadoIniciado();
+        $this->update();
     }
 
     public function obtenerCantidadFilas() {
@@ -144,6 +145,18 @@ class Juego extends Model {
 
     public function obtenerComodines(){
         return $this->jugadorEnTurno->getCartas();
+    }
+
+    public function ocupar($json, $jugador) {
+        if ($this->fields["jugadorEnTurno"] == $jugador){
+            $res = $this->tablero->ocupar($json, $jugador);
+            if ($res) {
+                $this->asignarSiguienteJugador();
+                $this->update();
+            }
+            return $res;
+        }
+        return true;
     }
 
     public function ocuparCasilleros(Casillero $casilleros){
@@ -245,7 +258,7 @@ class Juego extends Model {
             "nombre" => $this->fields["nombre"],
             "estado" => $this->fields["estado"]
         ]);
-        //$this->logger->debug("Juego: " . json_encode($this->fields));
+        $this->logger->debug("Juego: " . json_encode($this->fields));
         $jugador = new Jugador();
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
@@ -255,6 +268,7 @@ class Juego extends Model {
         $tablero->setConnection($this->connection);
         $tablero->setJuegoId($this->fields["id"]);
         $tablero->load();
+        $this->logger->debug("Tablero load: " . json_encode($tablero));
         $this->tablero = $tablero;
     }
 
@@ -333,7 +347,21 @@ class Juego extends Model {
     }
 
     public function getCeldasValidasStr($jugador) {
+        $this->logger->debug("juego->getCeldasValidasStr($jugador)");
         return $this->tablero->getCeldasValidasStr($jugador);
+    }
+
+    public function asignarSiguienteJugador() {
+        $idx = 0;
+        $sigIdx = 0;
+        for ($idx = 0; $idx < count($this->jugadores) ; $idx++) {
+            if ($this->jugadores[$idx]["fields"]["nombre"] == $this->fields["jugadorEnTurno"]) {
+                $sigIdx = ($idx + 1) % count($this->jugadores);
+            }
+        }
+        $this->fields["jugadorEnTurno"] = $this->jugadores[$sigIdx]["fields"]["nombre"];
+        $this->setEsperandoTirada();
+        $this->update();
     }
 
     static public function getAyuda() {

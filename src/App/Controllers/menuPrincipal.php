@@ -240,8 +240,6 @@ class MenuPrincipal extends Controller{
                 $juego->setConnection($this->connection);
                 $juego->setNombre($this->request->get("nombre-sala"));
                 $juego->setEstadoNoIniciado();
-                $juego->load();
-                $juego->setEstadoIniciado();
                 $juego->iniciarJuego();
                 $this->session->put("nombre-sala", $nombreSala);
                 $menuPartida = new MenuPartidaController();
