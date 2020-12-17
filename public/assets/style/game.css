@@ -31,6 +31,7 @@ body{
     width: 96.5vw;
     background-color: salmon;
     border-style: solid;
+    overflow: hidden;
 }
 #cartas{
     position: relative;
@@ -86,25 +87,58 @@ body{
     display : none;
 }
 
-.seleccionada {
-    background-color: yellow;
+.notificacion {
+    position: absolute;
+    left: 10vw;
+    top: 80vh;
+    width: 80vw;
+    height: 5vh;
+    overflow: hidden;
+    padding: 4vh;
+    z-index: 1000;
+    background-color: rgba(235, 207, 53, 0.5);
+    border-radius: 5vw;
 }
 
-.disponible {
+.boton-arriba {
+    position: absolute;
+    top: 5vh;
+    width: 95vw;
+    height: 5vh;
+    transform: none;
     background-color: grey;
 }
 
-.puntuaciones {
+.boton-derecha {
     position: absolute;
-    top: 15vh;
-    right: 5vw;
-    width: 20vw;
-    height: 25vh;
-    background-color: rgba(255, 217, 0, 0.712);
-    text-size-adjust: 3vh;
+    right: 1vh;
+    width: 5vw;
+    height: 80vh;
+    top: 10vh;
+    transform: none;
+    background-color: grey;
 }
 
-.enfatizar {
+.boton-izquierda {
+    position: absolute;
+    left: 1vh;
+    width: 5vw;
+    height: 80vh;
+    top: 10vh;
+    transform: none;
+    background-color: grey;
+}
+
+.boton-abajo {
+    position: absolute;
+    bottom: 1vh;
+    width: 95vw;
+    height: 5vh;
+    transform: none;
+    background-color: grey;
+}
+
+#seleccionada {
     background-color: red;
 }
 

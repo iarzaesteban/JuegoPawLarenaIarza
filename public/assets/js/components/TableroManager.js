@@ -3,6 +3,30 @@ class TableroManager {
     constructor() {
         this.seleccionadas = [];
         this.validas = [];
+        document.addEventListener("DOMContentLoaded", () => {
+            var aux = document.getElementById("aux")
+            var tablero = document.getElementById("tablero")
+            var boton = document.createElement("button")
+            boton.id = "arriba"
+            boton.classList.add("boton-arriba")
+            this.agregarEventoMover(boton, 0, 10, tablero)
+            aux.appendChild(boton)
+            var botonDerecha = document.createElement("button")
+            botonDerecha.id = "derecha"
+            botonDerecha.classList.add("boton-derecha")
+            this.agregarEventoMover(botonDerecha, 10, 0, tablero)
+            aux.appendChild(botonDerecha)
+            var botonizquierda = document.createElement("button")
+            botonizquierda.id = "izquierda"
+            botonizquierda.classList.add("boton-izquierda")
+            this.agregarEventoMover(botonizquierda, -10, 0, tablero)
+            aux.appendChild(botonizquierda)
+            var botonabajo = document.createElement("button")
+            botonabajo.id = "abajo"
+            botonabajo.classList.add("boton-abajo")
+            this.agregarEventoMover(botonabajo, 0, -10, tablero)
+            aux.appendChild(botonabajo)
+        })
     }
 
     seClickeoCelda(posX, posY, id) {
@@ -53,6 +77,13 @@ class TableroManager {
             ul.innerHTML = json[i].nombre + " - " + json[i].puntuacion
             li.appendChild(ul)
         }
+    }
+
+    agregarEventoMover(elem, derecha, arriba, target) {
+        elem.addEventListener("click", ()=>{
+            target.scrollLeft += derecha
+            target.scrollTop += arriba
+        })
     }
 }
 

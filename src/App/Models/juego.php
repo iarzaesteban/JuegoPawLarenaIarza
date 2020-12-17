@@ -208,7 +208,7 @@ class Juego extends Model {
         $this->logger->debug("juego->getJugadores()");
         $this->load();
         $query = "SELECT P.* FROM $this->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
-        $query .= " J.nombre=:nombre and J.estado=:estado";
+        $query .= " J.nombre=:nombre and P.estado=:estado";
         $this->logger->debug("query: $query");
         $sentencia = $this->connection->prepare($query);
         $sentencia->bindValue(":nombre", $this->fields["nombre"]);
