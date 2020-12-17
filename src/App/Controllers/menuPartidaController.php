@@ -45,7 +45,21 @@ class MenuPartidaController extends Controller{
     }
 
     public function tirarDados(){
-        return $this->modelname->tirarDado();
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warning("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Prm.invalidos");
+                $this->twigLoader('guest.landingpage.twig', []);
+            } else {
+                $juego = $this->instanciarJuego("nombre-sala");
+                $notificacion = $juego->tirarDado($this->session->get("USUARIO"));
+                $celdasValidas = $juego->getCeldasValidasStr($this->session->get("USUARIO"));
+                $this->twigLoader('game.notificar.twig', compact("notificacion", "celdasValidas"));
+            }
+        }
+        //return $this->modelname->tirarDado();
     } 
 
 
@@ -98,9 +112,23 @@ class MenuPartidaController extends Controller{
                 $this->logger->warning("Prm.invalidos");
                 $this->twigLoader('guest.landingpage.twig', []);
             } else {
-                
+                $juego = $this->instanciarJuego("nombre-sala");
+                if ($juego->isJugadorTirando($this->session->get("USUARIO"))){
+                    //$this->mostrarMenuTirar();
+                } else {
+                    $this->notificar($juego);
+                }
             }
         }
+    }
+
+    private function mostrarMenuTirar() {
+        $this->twigLoader('game.menu.tirar.twig', []);
+    }
+
+    public function notificar($juego) {
+        $notificacion = $juego->getNotificacion();
+        $this->twigLoader('game.notificar.twig', compact("notificacion"));
     }
 
     public function getCartas() {
@@ -134,5 +162,21 @@ class MenuPartidaController extends Controller{
         $usuario->setNombre($this->session->get("USUARIO"));
         $usuario->load();
         return $usuario;
+    }
+
+    public function getCasillerosValidos() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warning("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Prm.invalidos");
+                $this->twigLoader('guest.landingpage.twig', []);
+            } else {
+                $juego = $this->instanciarJuego("nombre-sala");
+                $celdasValidas = $juego->getCeldasValidasStr($this->session->get("USUARIO"));
+                $this->twigLoader('game.cells.twig', compact("celdasValidas"));
+            }
+        }
     }
 }

@@ -13,11 +13,14 @@ class Dado extends Model {
 
     public function __construct(){
         $this->cantCaras = 6;
+        $this->fields = [
+            'id'    => null,
+            'nombre'  => null,
+            'descripcion'  => null
+        ];
+        $this->table = 'dado';
     }   
      
-    public $table = 'dado';
-    private $queryBuilder;
-
     public $cantCaras;
     public $caraSeleccionada;
 
@@ -26,22 +29,8 @@ class Dado extends Model {
     }
 
     public function tirar(){
-        $this->caraSeleccionada = mt_rand(1,$cantCaras);
-    }
-
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-
-    }
-    public $fields = [
-        'id'    => null,
-        'nombre'  => null,
-        'descripcion'  => null
-    ];
-
-
-
-    
+        $this->caraSeleccionada = mt_rand(1,$this->cantCaras);
+    }    
 }
 
 ?>

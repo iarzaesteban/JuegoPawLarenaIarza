@@ -18,7 +18,8 @@ class Casillero extends Model {
             'id'    => null,
             'posicionX'  => $x,
             'posicionY'  => $y,
-            "tablero" => null
+            "tablero" => null,
+            "jugador" => null
         ];
         $this->x = $x;
         $this->y = $y;
@@ -75,11 +76,27 @@ class Casillero extends Model {
     }
 
     public function load() {
-        $posicion = new Posicion($this->x, $this->y);
-        $posicion->setLogger($this->logger);
-        $posicion->setConnection($this->connection);
-        $posicion->load();
-        $this->fields["posicion"] = $posicion->fields["id"];
+        $this->loadByFields([
+            "tablero" => $this->fields["tablero"],
+            "posicionX" => $this->fields["posicionX"],
+            "posicionY" => $this->fields["posicionY"],
+        ]);
+        if ($this->fields["jugador"] != "") {
+            $this->logger->debug("JGUADOR ENCONTRADO: " . $this->fields["jugador"]);
+        } else {
+            $this->logger->debug("JGUADOR NO ENCONTRADO..");
+        }
+    }
+
+    public function isVacio() {
+        if (is_null($this->fields["jugador"])){
+            return false;
+        }
+        return $this->fields["jugador"] != "";
+    }
+
+    public function toJson() {
+        return "{'posicionX' : '" . $this->fields["posicionX"] . "', 'posicionY' : '" . $this->fields["posicionY"] . "', 'jugador' : '" . $this->fields["jugador"] ."' }";
     }
 }
 

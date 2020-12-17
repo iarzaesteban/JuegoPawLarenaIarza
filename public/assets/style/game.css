@@ -65,8 +65,6 @@ body{
     display : none;
 }
 
-#seleccionada {
-    background-color: red;
 }
 
 @media only screen and (orientation:landscape) and (min-width: 1024px) {
