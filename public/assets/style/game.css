@@ -1,6 +1,9 @@
 main{
-    height: 80vh;
-    width:85vw ;
+    height: 90vh;
+}
+body{
+    display: inline-block;
+    width: 90vw;
 }
 #jugador-game{
     position: relative;
@@ -18,30 +21,38 @@ main{
     position: relative;
     margin: 0;
     display:inline-block; 
-    left: 60vw;
+    left: 50vw;
 }
 
 #tablero{
     border-color: red;
-    height: 90vh;
-    width: 97vw;
+    height: 88vh;
+    width: 96.5vw;
     border-style: solid;
 }
 #cartas{
     position: relative;
     margin: 0;
     display:inline-block; 
-    bottom: 96.5vh;
-    left: 50vw;
-    
+    bottom: 94.5vh;
+    left: 40vw;
+    font-style: italic;
+    color: aqua;
+}
+#cartas-game{
+    text-decoration: none;
+    color: aqua;
 }
 
 #menu-game{
+    text-decoration: none;
     position: relative;
     margin: 0;
     display:inline-block; 
-    bottom: 96.5vh;
+    bottom: 94.5vh;
     left: 92vw;
+    font-style: italic;
+    color: aqua;
 }
 
 #fila {
@@ -56,4 +67,68 @@ main{
 
 #seleccionada {
     background-color: red;
+}
+
+@media only screen and (orientation:landscape) and (min-width: 1024px) {
+p{
+    font-size: 2em;
+}
+a{
+    position: relative;
+    font-size: 2em;
+}   
+#tablero{
+    margin-top: 0.5em;
+    border-color: red;
+    border-width: 0.5em;
+    border-style: solid;
+    width: 97vw;
+    height: 88vh;
+}
+
+#cartas-game{
+    text-decoration: none;
+    left: 1vw;
+    top: -1vh;
+    font-style: italic;
+    color: aqua;
+    
+}
+#ayuda{
+    left: 45vw;
+}
+#menu-game{
+    text-decoration: none;
+    font-style: italic;
+    left: 90vw;
+    bottom: 96vh;
+    color: aqua;
+}
+}
+
+@media only screen and  (min-width: 1025px) {
+#tablero{
+    margin-top: 0.5em;
+    border-color: red;
+    border-width: 0.5em;
+    border-style: solid;
+    width: 96vw;
+    height: 88vh;
+}
+
+#cartas-game{
+    text-decoration: none;
+    left: 1vw;
+    top: -3vh;
+    font-style: italic;
+    color: aqua;
+}
+
+#menu-game{
+    text-decoration: none;
+    font-style: italic;
+    left: 92vw;
+    bottom: 97.5vh;
+    color: aqua;
+} 
 }
