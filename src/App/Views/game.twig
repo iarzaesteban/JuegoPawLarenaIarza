@@ -31,8 +31,10 @@
     </section>
 
     <section class="menu" >
-        <out id="menu"></out>
+        <out id="notificacion"></out>
+        <out id="menu-out"></out>
         <button id="tirar">Tirar</button>
+        <button id="ocupar">Ocupar casilleros</button>
     </section>
 
     <section class="cartas" id="cartas">
@@ -45,9 +47,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            HTMLContainerModifier.postConScheduler("menu","/getMenu?nombre-sala={{juego.fields.nombre}}", 4000, []);
+            HTMLContainerModifier.postConScheduler("notificacion","/getMenu?nombre-sala={{juego.fields.nombre}}", 4000, []);
             HTMLContainerModifier.postConScheduler("cartas","/getCartas?nombre-sala={{juego.fields.nombre}}", 4000, []);
-            HTMLContainerModifier.postDinamico("menu","tirar","/tirar?nombre-sala={{juego.fields.nombre}}")
+            HTMLContainerModifier.postDinamico("menu-out","tirar","/tirar?nombre-sala={{juego.fields.nombre}}")
         })
     </script>
 {% endblock %}

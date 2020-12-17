@@ -26,7 +26,8 @@ class Juego extends Model {
             'jugadorEnTurno'  => null,  
             'creador' => null,
             'notificacion' => null,
-            'ultimoNumero' => null
+            'ultimoNumero' => null,
+            'esperandoTirada' => null
         ];
         $this->table = 'juego';
         $this->nombre =$nom;
@@ -98,6 +99,7 @@ class Juego extends Model {
         //$this->logger->debug("Jugadores: " . json_encode($this->jugadores));
         $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
         $this->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
+        $this->setEsperandoTirada();
         $this->save();
     }
 
@@ -111,9 +113,16 @@ class Juego extends Model {
 
     public function tirarDado($jugador){
         if ($jugador == $this->fields["jugadorEnTurno"]){
-            $this->dado = new Dado();
-
-            return $this->dados;
+            if ($this->isEsperandoTirada()) {
+                $this->dado = new Dado();
+                $this->dado->tirar();
+                $this->fields["ultimoNumero"] = $this->dado->getCara();
+                $this->setTiraron();
+                $this->update();
+                return "Haz tirado un dado, sacaste: " . $this->fields["ultimoNumero"];
+            } else {
+                return "Acabas de tirar...";
+            }
         } else {
             return "Tirada no autorizada. " . $this->getNotificacion();
         }
@@ -299,6 +308,23 @@ class Juego extends Model {
 
     public function getNotificacion() {
         return $this->fields["notificacion"];
+    }
+
+    public function setEsperandoTirada() {
+        $this->fields["esperandoTirada"] = "S";
+    }
+
+    public function setTiraron() {
+        $this->fields["esperandoTirada"] = "N";
+    }
+
+    public function isEsperandoTirada() {
+        return $this->fields["esperandoTirada"] == "S";
+    }
+
+    public function update() {
+        //$this->fields["id"] = intval($this->fields["id"]);
+        parent::update();
     }
 
     static public function getAyuda() {
