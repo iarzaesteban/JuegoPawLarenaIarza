@@ -8,8 +8,7 @@ class Celda {
             var id = "celda_" + posX + "_" + posY
             HTMLContainerModifier.loadEvent(id, "click", ()=>{
                 console.log("Se clickeo: " + id)
-                var tabM = new TableroManager
-                tabM.seClickeoCelda(id)
+                tableroManager.seClickeoCelda(posX, posY, id)
             })
         }
     }

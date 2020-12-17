@@ -48,10 +48,15 @@
         {{ayuda}}
     </section>
 
+    <section class="aux" id="aux">
+
+    </section>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             HTMLContainerModifier.postConScheduler("notificacion","/getMenu?nombre-sala={{juego.fields.nombre}}", 4000, []);
             HTMLContainerModifier.postConScheduler("cartas","/getCartas?nombre-sala={{juego.fields.nombre}}", 4000, []);
+            HTMLContainerModifier.refreshObject(tableroManager, "/getCasillerosValidos?nombre-sala={{juego.fields.nombre}}", 4000);
             HTMLContainerModifier.postDinamico("menu-out","tirar","/tirar?nombre-sala={{juego.fields.nombre}}")
         })
     </script>

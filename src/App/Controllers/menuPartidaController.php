@@ -55,7 +55,8 @@ class MenuPartidaController extends Controller{
             } else {
                 $juego = $this->instanciarJuego("nombre-sala");
                 $notificacion = $juego->tirarDado($this->session->get("USUARIO"));
-                $this->twigLoader('game.notificar.twig', compact("notificacion"));
+                $celdasValidas = $juego->getCeldasValidasStr($this->session->get("USUARIO"));
+                $this->twigLoader('game.notificar.twig', compact("notificacion", "celdasValidas"));
             }
         }
         //return $this->modelname->tirarDado();
@@ -161,5 +162,21 @@ class MenuPartidaController extends Controller{
         $usuario->setNombre($this->session->get("USUARIO"));
         $usuario->load();
         return $usuario;
+    }
+
+    public function getCasillerosValidos() {
+        if (is_null($this->session->get("USUARIO"))) {
+            $this->logger->warning("Acceso no autorizado");
+            $this->twigLoader('guest.landingpage.twig', []);
+        } else {
+            if (is_null($this->request->get("nombre-sala"))) {
+                $this->logger->warning("Prm.invalidos");
+                $this->twigLoader('guest.landingpage.twig', []);
+            } else {
+                $juego = $this->instanciarJuego("nombre-sala");
+                $celdasValidas = $juego->getCeldasValidasStr($this->session->get("USUARIO"));
+                $this->twigLoader('game.cells.twig', compact("celdasValidas"));
+            }
+        }
     }
 }

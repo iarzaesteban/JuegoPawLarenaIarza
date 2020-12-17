@@ -92,6 +92,16 @@ class HTMLContainerModifier {
         })
     }
 
+    static refreshObject(obj, url, time) {
+        setInterval(function(){
+            $.post(url,
+                "",
+                function(data, status){
+                    obj.refresh(data)
+            })
+        },time,"JavaScript");
+    }
+
     static removeClass(id, c) {
         var div = document.getElementById(id)
         if (div) {

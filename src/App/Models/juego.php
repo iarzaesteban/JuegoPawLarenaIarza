@@ -327,6 +327,10 @@ class Juego extends Model {
         parent::update();
     }
 
+    public function getCeldasValidasStr($jugador) {
+        return $this->tablero->getCeldasValidasStr($jugador);
+    }
+
     static public function getAyuda() {
         return "Reglas:
         

@@ -83,3 +83,4 @@ $router->get('/partida','MenuPartidaController@verTablero');
 $router->post('/getMenu','MenuPartidaController@getMenu');
 $router->post('/getCartas','MenuPartidaController@getCartas');
 $router->post('/tirar','MenuPartidaController@tirarDados');
+$router->post('/getCasillerosValidos','MenuPartidaController@getCasillerosValidos');
