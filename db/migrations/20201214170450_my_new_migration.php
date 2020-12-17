@@ -59,7 +59,7 @@ final class MyNewMigration extends AbstractMigration
         
         $table->addColumn('posicionX', 'integer')
               ->addColumn('posicionY', 'integer')
-              ->addColumn('jugador', 'integer', ['null' => true])
+              ->addColumn('jugador', 'string', ['null' => true])
               ->addColumn('tablero', 'integer')
               //->addColumn('posicion', 'integer')
               ->create();
