@@ -141,4 +141,33 @@ class Model{
         }
         return false;
     }
+
+    public function update() {
+        $this->logger->debug("models->update()" . json_encode($this->fields));
+        $update = "UPDATE " . $this->table . " SET ";
+        foreach ($this->fields as $clave => $valor){
+            if ($clave != "id") {
+                $update .= $clave . "= :" . $clave . ",";
+            }
+        }
+        $update  = substr($update,0,strlen($update) - 1); # sin la ultima coma
+        $update .= " WHERE id=:id";
+        $this->logger->debug("update: $update");
+        $sentencia = $this->connection->prepare($update);
+        foreach ($this->fields as $clave => $valor){
+            if ($clave != "id") {
+                $this->logger->debug("bind value -> : $clave     valor -> $valor");
+                $sentencia->bindValue(":$clave", $valor);
+            }
+        }
+        if (!array_key_exists("id", $this->fields)) {
+            $sentencia->bindValue(":id", $this->id);
+        } else {
+            $sentencia->bindValue(":id", $this->fields["id"]);
+        }
+        $this->logger->debug("query: $update");
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return true;
+    }
 }
