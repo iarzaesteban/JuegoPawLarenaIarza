@@ -14,7 +14,7 @@ class Casillero extends Model {
 
 
     public function __construct($x = 0, $y = 0){
-        $this->fields = [
+        $this->dbHanlder->fields = [
             'id'    => null,
             'posicionX'  => $x,
             'posicionY'  => $y,
@@ -23,7 +23,7 @@ class Casillero extends Model {
         ];
         $this->x = $x;
         $this->y = $y;
-        $this->table = 'casillero';
+        $this->dbHanlder->table = 'casillero';
     }  
 
     public $descripcionCasillero;
@@ -33,12 +33,12 @@ class Casillero extends Model {
     private $y;
 
     public function setTablero($tablero) {
-        $this->fields["tablero"] = $tablero;
+        $this->dbHanlder->fields["tablero"] = $tablero;
     }
 
     public function setPosicion($x, $y) {
-        $this->fields["posicionX"] = $x;
-        $this->fields["posicionY"] = $y;
+        $this->dbHanlder->fields["posicionX"] = $x;
+        $this->dbHanlder->fields["posicionY"] = $y;
     }
 
     public function setDescripcionCasillero($dc){
@@ -55,7 +55,7 @@ class Casillero extends Model {
 
     public function setJugador($jugador) {
         $this->jugador = $jugador;
-        $this->fields["jugador"] = $jugador;
+        $this->dbHanlder->fields["jugador"] = $jugador;
     }
 
     public function getDescipcionCasillero(){
@@ -79,21 +79,21 @@ class Casillero extends Model {
 
     public function load() {
         $this->loadByFields([
-            "tablero" => $this->fields["tablero"],
-            "posicionX" => $this->fields["posicionX"],
-            "posicionY" => $this->fields["posicionY"],
+            "tablero" => $this->dbHanlder->fields["tablero"],
+            "posicionX" => $this->dbHanlder->fields["posicionX"],
+            "posicionY" => $this->dbHanlder->fields["posicionY"],
         ]);
     }
 
     public function isVacio() {
-        if (is_null($this->fields["jugador"])){
+        if (is_null($this->dbHanlder->fields["jugador"])){
             return true;
         }
-        return $this->fields["jugador"] == "";
+        return $this->dbHanlder->fields["jugador"] == "";
     }
 
     public function toJson() {
-        return "{\"posicionX\" : \"" . $this->fields["posicionX"] . "\", \"posicionY\" : \"" . $this->fields["posicionY"] . "\", \"jugador\" : \"" . $this->fields["jugador"] ."\" },";
+        return "{\"posicionX\" : \"" . $this->dbHanlder->fields["posicionX"] . "\", \"posicionY\" : \"" . $this->dbHanlder->fields["posicionY"] . "\", \"jugador\" : \"" . $this->dbHanlder->fields["jugador"] ."\" },";
     }
 }
 

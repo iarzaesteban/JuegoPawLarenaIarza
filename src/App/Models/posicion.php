@@ -13,12 +13,12 @@ class Posicion extends Model {
     public function __construct($x,$y){
         $this->x = $x;
         $this->y = $y;
-        $this->fields = [
+        $this->dbHanlder->fields = [
             "id" => null,
             'posicionX'    => $x,
             'posicionY'  => $y
         ];
-        $this->table = 'posicion';
+        $this->dbHanlder->table = 'posicion';
     }
 
     public $x;
@@ -49,16 +49,16 @@ class Posicion extends Model {
 
     public function load() {
         $res = $this->findByFields([
-            "posicionX" => $this->fields["posicionX"],
-            "posicionY" => $this->fields["posicionY"]
+            "posicionX" => $this->dbHanlder->fields["posicionX"],
+            "posicionY" => $this->dbHanlder->fields["posicionY"]
         ]);
         if (count($res) == 1) {
-            $this->fields["id"] = $res[0]["id"];
+            $this->dbHanlder->fields["id"] = $res[0]["id"];
         } else {
             if ($this->save()){
                 $this->loadByFields([
-                    "posicionX" => $this->fields["posicionX"],
-                    "posicionY" => $this->fields["posicionY"]
+                    "posicionX" => $this->dbHanlder->fields["posicionX"],
+                    "posicionY" => $this->dbHanlder->fields["posicionY"]
                 ]);
             }            
         }

@@ -13,12 +13,12 @@ class Dado extends Model {
 
     public function __construct(){
         $this->cantCaras = 6;
-        $this->fields = [
+        $this->dbHanlder->fields = [
             'id'    => null,
             'nombre'  => null,
             'descripcion'  => null
         ];
-        $this->table = 'dado';
+        $this->dbHanlder->table = 'dado';
     }   
      
     public $cantCaras;

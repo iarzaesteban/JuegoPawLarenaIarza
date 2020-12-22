@@ -11,16 +11,16 @@ use Src\Core\Exceptions\invalidValueFormatException;
 class Jugador extends Model {
 
     public function __construct($nombre = "", $juego = ""){
-        $this->fields = [
+        $this->dbHanlder->fields = [
             'nombre' => null,
             'juego'  => null,
             "puntuacion" => null,
             "estado" => null
         ]; 
         $this->nombre = $nombre;
-        $this->fields["nombre"] = $nombre;
-        $this->fields["juego"] = $juego;
-        $this->table = 'jugador';
+        $this->dbHanlder->fields["nombre"] = $nombre;
+        $this->dbHanlder->fields["juego"] = $juego;
+        $this->dbHanlder->table = 'jugador';
     }  
 
     public $nombre ;
@@ -40,19 +40,19 @@ class Jugador extends Model {
     // ];
 
     public function setNombre($nombre) {
-        $this->fields["nombre"] = $nombre;
+        $this->dbHanlder->fields["nombre"] = $nombre;
     }
 
     public function setPuntuacion($puntuacion) {
-        $this->fields["puntuacion"] = $puntuacion;
+        $this->dbHanlder->fields["puntuacion"] = $puntuacion;
     }
 
     public function setJuego($juego) {
-        $this->fields["juego"] = $juego;
+        $this->dbHanlder->fields["juego"] = $juego;
     }
 
     public function setEstado($estado) {
-        $this->fields["estado"] = $estado;
+        $this->dbHanlder->fields["estado"] = $estado;
     }
 
     public function setID($id){
@@ -103,11 +103,11 @@ class Jugador extends Model {
     }
     
     public function load(){
-        $user = $this->queryByField("nombre", $this->fields["nombre"]);
+        $user = $this->queryByField("nombre", $this->dbHanlder->fields["nombre"]);
         if (count($user) == 1) {
             foreach ($user[0] as $clave => $valor){
-                if (array_key_exists($clave, $this->fields)) {
-                    $this->fields[$clave] = $valor;
+                if (array_key_exists($clave, $this->dbHanlder->fields)) {
+                    $this->dbHanlder->fields[$clave] = $valor;
                 }
             }
             return true;
@@ -117,9 +117,9 @@ class Jugador extends Model {
     
     public function save(){
         $user = $this->findByFields([
-            "nombre" => $this->fields["nombre"],
-            "estado" => $this->fields["estado"],
-            "juego" => $this->fields["juego"]
+            "nombre" => $this->dbHanlder->fields["nombre"],
+            "estado" => $this->dbHanlder->fields["estado"],
+            "juego" => $this->dbHanlder->fields["juego"]
         ]);
         if (count($user) == 0) {
             $this->logger->debug("guardando jugador");

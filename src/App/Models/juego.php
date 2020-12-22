@@ -19,7 +19,7 @@ class Juego extends Model {
     public $filasCadaPar = 10;
     
     public function __construct($nom = null,$cantDados = [],$enfermedades = [],$comodines = [],$jugador = null) {
-        $this->fields = [
+        $this->dbHanlder->fields = [
             'id'    => null,
             'nombre'  => null,
             'estado'  => null, 
@@ -29,7 +29,7 @@ class Juego extends Model {
             'ultimoNumero' => null,
             'esperandoTirada' => null
         ];
-        $this->table = 'juego';
+        $this->dbHanlder->table = 'juego';
         $this->nombre =$nom;
         for($contador = 0; $contador < count($cantDados); $contador++){
             $this->dados = new Dado();
@@ -56,7 +56,7 @@ class Juego extends Model {
     
     public function obtenerSalasAbiertas() {
         $this->logger->debug("juego->obtenerSalasAbiertas()");
-        $query = "SELECT * FROM $this->table WHERE estado = '$this->estadoNoIniciado'";
+        $query = "SELECT * FROM $this->dbHanlder->table WHERE estado = '$this->estadoNoIniciado'";
         $sentencia = $this->connection->prepare($query);
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
@@ -64,11 +64,11 @@ class Juego extends Model {
     }
 
     public function setEstadoIniciado() {
-        $this->fields["estado"] = $this->estadoIniciado;
+        $this->dbHanlder->fields["estado"] = $this->estadoIniciado;
     }
 
     public function setEstadoNoIniciado() {
-        $this->fields["estado"] = $this->estadoNoIniciado;
+        $this->dbHanlder->fields["estado"] = $this->estadoNoIniciado;
     }
 
     public function iniciarJuego(){
@@ -90,20 +90,20 @@ class Juego extends Model {
         }
         //$casilleros = $this->generarCasilleros();
         //$this->logger->debug("Casilleros: " . json_encode($casilleros));
-        $this->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas);
-        $this->tablero->setLogger($this->logger);
-        $this->tablero->setConnection($this->connection);
-        $this->tablero->fields["juegoID"] = $this->fields["id"];
-        $this->tablero->fields["cantidadColumnas"] = $this->columnas;
-        $this->tablero->setCasilleros($this->generarCasilleros());
+        $this->dbHanlder->tablero = new Tablero($this->obtenerCantidadFilas(), $this->columnas);
+        $this->dbHanlder->tablero->setLogger($this->logger);
+        $this->dbHanlder->tablero->setConnection($this->connection);
+        $this->dbHanlder->tablero->fields["juegoID"] = $this->dbHanlder->fields["id"];
+        $this->dbHanlder->tablero->fields["cantidadColumnas"] = $this->columnas;
+        $this->dbHanlder->tablero->setCasilleros($this->generarCasilleros());
         //todo: agregar jugadores a casillero
-        $this->tablero->save();
+        $this->dbHanlder->tablero->save();
         $this->jugadores = $this->getJugadores();
         $this->setEstadoJugadores($this->estadoIniciado);
-        $this->fields["estado"] = $this->estadoIniciado;
+        $this->dbHanlder->fields["estado"] = $this->estadoIniciado;
         $this->logger->debug("Iniciar juego: Jugadores: " . json_encode($this->jugadores));
         $this->jugadorEnTurno =  $this->jugadores[0]["nombre"];
-        $this->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
+        $this->dbHanlder->fields["jugadorEnTurno"] = $this->jugadores[0]["nombre"];
         $this->setEsperandoTirada();
         $this->setEstadoIniciado();
         $this->update();
@@ -118,14 +118,14 @@ class Juego extends Model {
     }
 
     public function tirarDado($jugador){
-        if ($jugador == $this->fields["jugadorEnTurno"]){
+        if ($jugador == $this->dbHanlder->fields["jugadorEnTurno"]){
             if ($this->isEsperandoTirada()) {
                 $this->dado = new Dado();
                 $this->dado->tirar();
-                $this->fields["ultimoNumero"] = $this->dado->getCara();
+                $this->dbHanlder->fields["ultimoNumero"] = $this->dado->getCara();
                 $this->setTiraron();
                 $this->update();
-                return "Haz tirado un dado, sacaste: " . $this->fields["ultimoNumero"];
+                return "Haz tirado un dado, sacaste: " . $this->dbHanlder->fields["ultimoNumero"];
             } else {
                 return "Acabas de tirar...";
             }
@@ -149,8 +149,8 @@ class Juego extends Model {
     }
 
     public function ocupar($json, $jugador) {
-        if ($this->fields["jugadorEnTurno"] == $jugador){
-            $res = $this->tablero->ocupar($json, $jugador);
+        if ($this->dbHanlder->fields["jugadorEnTurno"] == $jugador){
+            $res = $this->dbHanlder->tablero->ocupar($json, $jugador);
             if ($res) {
                 $this->asignarSiguienteJugador();
                 $this->update();
@@ -161,7 +161,7 @@ class Juego extends Model {
     }
 
     public function ocuparCasilleros(Casillero $casilleros){
-        $this->tablero->setCasilleros($this->jugadorEnTurno,$casilleros);
+        $this->dbHanlder->tablero->setCasilleros($this->jugadorEnTurno,$casilleros);
     }
 
     public function cambiarJugador(){
@@ -202,35 +202,35 @@ class Juego extends Model {
     }   
     
     public function setNombre($nombre) {
-        $this->fields["nombre"] = $nombre;
+        $this->dbHanlder->fields["nombre"] = $nombre;
     }
 
     public function getJugadores() {
         $this->logger->debug("juego->getJugadores()");
         $this->load();
-        $query = "SELECT P.* FROM $this->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
+        $query = "SELECT P.* FROM $this->dbHanlder->table J JOIN jugador P ON P.juego=J.nombre WHERE ";
         $query .= " J.nombre=:nombre and P.estado=:estado";
         $this->logger->debug("query: $query");
         $sentencia = $this->connection->prepare($query);
-        $sentencia->bindValue(":nombre", $this->fields["nombre"]);
-        $sentencia->bindValue(":estado", $this->fields["estado"]);
+        $sentencia->bindValue(":nombre", $this->dbHanlder->fields["nombre"]);
+        $sentencia->bindValue(":estado", $this->dbHanlder->fields["estado"]);
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return $sentencia->fetchAll();
     }
     
     public function crear($usuario) {
-        if ($this->hasValue("nombre", $this->fields["nombre"])) {
+        if ($this->hasValue("nombre", $this->dbHanlder->fields["nombre"])) {
             return false;
         }
-        $this->fields["estado"] = $this->estadoNoIniciado;
-        $this->fields["creador"] = $usuario;
+        $this->dbHanlder->fields["estado"] = $this->estadoNoIniciado;
+        $this->dbHanlder->fields["creador"] = $usuario;
         return $this->save();
     }
 
     public function agregarJugador($jugadorNombre) {
         $this->logger->debug("juego->agregarJugador($jugadorNombre)");
-        $jugador = new Jugador($jugadorNombre, $this->fields["nombre"]);
+        $jugador = new Jugador($jugadorNombre, $this->dbHanlder->fields["nombre"]);
         $jugador->fields["estado"] = $this->estadoNoIniciado;
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
@@ -245,7 +245,7 @@ class Juego extends Model {
     }
 
     public function isListo() {
-        $juego = $this->queryByField("nombre", $this->fields["nombre"]);
+        $juego = $this->queryByField("nombre", $this->dbHanlder->fields["nombre"]);
         //$this->logger->debug("Estado del juego: ". json_encode($juego));
         return $juego[0]["estado"] == $this->estadoIniciado;
     }
@@ -256,10 +256,10 @@ class Juego extends Model {
 
     public function load() {
         $this->loadByFields([
-            "nombre" => $this->fields["nombre"],
-            "estado" => $this->fields["estado"]
+            "nombre" => $this->dbHanlder->fields["nombre"],
+            "estado" => $this->dbHanlder->fields["estado"]
         ]);
-        $this->logger->debug("Juego: " . json_encode($this->fields));
+        $this->logger->debug("Juego: " . json_encode($this->dbHanlder->fields));
         $jugador = new Jugador();
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
@@ -267,7 +267,7 @@ class Juego extends Model {
         $tablero = new Tablero();
         $tablero->setLogger($this->logger);
         $tablero->setConnection($this->connection);
-        $tablero->setJuegoId($this->fields["id"]);
+        $tablero->setJuegoId($this->dbHanlder->fields["id"]);
         $tablero->load();
         $i = 0;
         foreach($this->jugadores as $jugador){
@@ -279,18 +279,18 @@ class Juego extends Model {
             }
         }
         $this->logger->debug("Tablero load: " . json_encode($tablero));
-        $this->tablero = $tablero;
+        $this->dbHanlder->tablero = $tablero;
     }
 
     public function getTablero() {
-        return $this->tablero;
+        return $this->dbHanlder->tablero;
     }
 
     public function save() {
         $res = parent::save();
-        if (!is_null($this->tablero)) {
+        if (!is_null($this->dbHanlder->tablero)) {
             //
-            //$this->tablero->save();
+            //$this->dbHanlder->tablero->save();
         }
         if (!is_null($this->jugadores)) {
             foreach ($this->jugadores as $jugador) {
@@ -298,9 +298,9 @@ class Juego extends Model {
                 $jug->setLogger($this->logger);
                 $jug->setConnection($this->connection);
                 $jug->setNombre($jugador["nombre"]);
-                $jug->setEstado($this->fields["estado"]);
+                $jug->setEstado($this->dbHanlder->fields["estado"]);
                 $jug->setPuntuacion(0);
-                $jug->setJuego($this->fields["nombre"]);
+                $jug->setJuego($this->dbHanlder->fields["nombre"]);
                 $jug->save();
             }
         }
@@ -327,49 +327,49 @@ class Juego extends Model {
     public function getFilasCasilleros() {
         $this->load();     
         $this->logger->debug("juego->getFilasCasilleros()");
-        //$this->logger->debug("tablero: " . json_encode($this->tablero));
-        return $this->tablero->getFilasCasilleros();   
+        //$this->logger->debug("tablero: " . json_encode($this->dbHanlder->tablero));
+        return $this->dbHanlder->tablero->getFilasCasilleros();   
     }
 
     public function isJugadorTirando($jugador) {
-        return $this->fields["jugadorEnTurno"] == $jugador;
+        return $this->dbHanlder->fields["jugadorEnTurno"] == $jugador;
     }
 
     public function getNotificacion() {
-        return $this->fields["notificacion"];
+        return $this->dbHanlder->fields["notificacion"];
     }
 
     public function setEsperandoTirada() {
-        $this->fields["esperandoTirada"] = "S";
+        $this->dbHanlder->fields["esperandoTirada"] = "S";
     }
 
     public function setTiraron() {
-        $this->fields["esperandoTirada"] = "N";
+        $this->dbHanlder->fields["esperandoTirada"] = "N";
     }
 
     public function isEsperandoTirada() {
-        return $this->fields["esperandoTirada"] == "S";
+        return $this->dbHanlder->fields["esperandoTirada"] == "S";
     }
 
     public function update() {
-        //$this->fields["id"] = intval($this->fields["id"]);
+        //$this->dbHanlder->fields["id"] = intval($this->dbHanlder->fields["id"]);
         parent::update();
     }
 
     public function getCeldasValidasStr($jugador) {
         $this->logger->debug("juego->getCeldasValidasStr($jugador)");
-        return $this->tablero->getCeldasValidasStr($jugador);
+        return $this->dbHanlder->tablero->getCeldasValidasStr($jugador);
     }
 
     public function asignarSiguienteJugador() {
         $idx = 0;
         $sigIdx = 0;
         for ($idx = 0; $idx < count($this->jugadores) ; $idx++) {
-            if ($this->jugadores[$idx]["nombre"] == $this->fields["jugadorEnTurno"]) {
+            if ($this->jugadores[$idx]["nombre"] == $this->dbHanlder->fields["jugadorEnTurno"]) {
                 $sigIdx = ($idx + 1) % count($this->jugadores);
             }
         }
-        $this->fields["jugadorEnTurno"] = $this->jugadores[$sigIdx]["nombre"];
+        $this->dbHanlder->fields["jugadorEnTurno"] = $this->jugadores[$sigIdx]["nombre"];
         $this->setEsperandoTirada();
         $this->update();
     }
