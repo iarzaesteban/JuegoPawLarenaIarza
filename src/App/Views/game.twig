@@ -22,6 +22,7 @@
             <ul class="fila" id="fila">
                 {% for casillero in fila %} 
                     <li>
+                        {# todo: cambiar campos de posicion a data #}
                         <button id="celda_{{casillero.fields.posicionX}}_{{casillero.fields.posicionY}}" class="celda"> </button>
                         <script>new Celda("{{casillero.fields.posicionX}}","{{casillero.fields.posicionY}}","{{casillero.fields.jugador}}")</script>
                     </li>

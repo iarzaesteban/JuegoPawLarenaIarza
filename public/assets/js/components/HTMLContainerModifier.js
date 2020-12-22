@@ -9,6 +9,7 @@ class HTMLContainerModifier {
         }
     }
 
+    //todo: cambiar llamados a clase paw
     static redirectOnClick(containerID, url) {
         this.loadEvent(containerID, "click", ()=>{document.location.replace(url)})
     }
@@ -18,6 +19,7 @@ class HTMLContainerModifier {
         if (div) {
             div.addEventListener("submit", function(ev) {
                 ev.preventDefault()
+                //todo: quitar jQuery
                 $.post(url,
                     $("#"+formID).serialize(),
                     function(data, status){
@@ -48,6 +50,7 @@ class HTMLContainerModifier {
 
     static redirectWithCondition(url, strExpected, time, urlReturn, params) {
         setInterval(function(){
+            //todo: quitar jQuery
             $.post(url,
                 params,
                 function(data, status){
@@ -62,6 +65,7 @@ class HTMLContainerModifier {
 
     static postConScheduler(outID, url, time, params = []) {
         setInterval(function(){
+            //todo: quitar jQuery
             $.post(url,
                 params,
                 function(data, status){
@@ -77,6 +81,7 @@ class HTMLContainerModifier {
 
     static postDinamico(outID, buttonID, url) {
         this.loadEvent(buttonID, "click", ()=>{
+            //todo: quitar jQuery
             $.post(url,
                 [],
                 function(data, status){
@@ -94,6 +99,7 @@ class HTMLContainerModifier {
 
     static refreshObject(obj, url, time) {
         setInterval(function(){
+            //todo: quitar jQuery
             $.post(url,
                 "",
                 function(data, status){
@@ -104,6 +110,7 @@ class HTMLContainerModifier {
 
     static ocuparPostDinamico(outId, buttonId, sala, tableroManager){
         this.loadEvent(buttonId, "click", ()=>{
+            //todo: quitar jQuery
             $.post("/ocupar?nombre-sala=" + sala +"&seleccion={" +tableroManager.seleccionadas.join(', ')+"}",
                 {seleccion : tableroManager.seleccionadas},
                 function(data, status){

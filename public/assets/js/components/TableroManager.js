@@ -60,6 +60,7 @@ class TableroManager {
     }
 
     actualizarTablero(sala) {
+        //todo: quitar jQuery
         $.post("/actualizar?nombre-sala=" + sala,
             [],
             function(data, status){

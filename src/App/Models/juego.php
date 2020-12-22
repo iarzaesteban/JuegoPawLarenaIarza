@@ -96,6 +96,7 @@ class Juego extends Model {
         $this->tablero->fields["juegoID"] = $this->fields["id"];
         $this->tablero->fields["cantidadColumnas"] = $this->columnas;
         $this->tablero->setCasilleros($this->generarCasilleros());
+        //todo: agregar jugadores a casillero
         $this->tablero->save();
         $this->jugadores = $this->getJugadores();
         $this->setEstadoJugadores($this->estadoIniciado);

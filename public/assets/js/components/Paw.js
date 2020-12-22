@@ -23,4 +23,8 @@ class Paw{
         }
         return elemento
     }
+
+    static redirectOnClick(containerID, url) {
+        this.loadEvent(containerID, "click", ()=>{document.location.replace(url)})
+    }
 }
