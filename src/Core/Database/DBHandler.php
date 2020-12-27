@@ -8,7 +8,7 @@ use Src\Core\Traits\loggable;
 use Src\Core\Traits\connectable;
 use PDO;
 
-class DBHanlder {
+class DBHandler {
     use loggable;
     use connectable;
 

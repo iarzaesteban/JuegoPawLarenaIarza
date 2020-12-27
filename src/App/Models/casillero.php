@@ -13,18 +13,24 @@ use Src\App\Models\tipo_casillero;
 class Casillero extends Model {
 
 
-    public function __construct($x = 0, $y = 0){
-        $this->dbHanlder->fields = [
+    public function __construct($class, $dbHandler = null){
+        Parent::__construct($class, $dbHandler);
+        $this->dbHandler->fields = [
             'id'    => null,
-            'posicionX'  => $x,
-            'posicionY'  => $y,
+            'posicionX'  => null,
+            'posicionY'  => null,
             "tablero" => null,
             "jugador" => ""
         ];
+        $this->dbHandler->table = 'casillero';
+    }  
+
+    public function incializarCasillero($x = 0, $y = 0) {
         $this->x = $x;
         $this->y = $y;
-        $this->dbHanlder->table = 'casillero';
-    }  
+        $this->dbHandler->setField("posicionX", $x);
+        $this->dbHandler->setField("posicionY", $y);
+    }
 
     public $descripcionCasillero;
     public $jugador;
@@ -33,12 +39,12 @@ class Casillero extends Model {
     private $y;
 
     public function setTablero($tablero) {
-        $this->dbHanlder->fields["tablero"] = $tablero;
+        $this->dbHandler->fields["tablero"] = $tablero;
     }
 
     public function setPosicion($x, $y) {
-        $this->dbHanlder->fields["posicionX"] = $x;
-        $this->dbHanlder->fields["posicionY"] = $y;
+        $this->dbHandler->fields["posicionX"] = $x;
+        $this->dbHandler->fields["posicionY"] = $y;
     }
 
     public function setDescripcionCasillero($dc){
@@ -55,7 +61,7 @@ class Casillero extends Model {
 
     public function setJugador($jugador) {
         $this->jugador = $jugador;
-        $this->dbHanlder->fields["jugador"] = $jugador;
+        $this->dbHandler->fields["jugador"] = $jugador;
     }
 
     public function getDescipcionCasillero(){
@@ -73,27 +79,26 @@ class Casillero extends Model {
     }
 
     public function findByTablero($tablero) {
-        $this->logger->debug("Tablero: ". json_encode($tablero->fields));
-        return $this->findByFields(["tablero" => $tablero->fields["id"]]);
+        return $this->findByFields(["tablero" => $tablero->getId()]);
     }
 
     public function load() {
         $this->loadByFields([
-            "tablero" => $this->dbHanlder->fields["tablero"],
-            "posicionX" => $this->dbHanlder->fields["posicionX"],
-            "posicionY" => $this->dbHanlder->fields["posicionY"],
+            "tablero" => $this->dbHandler->fields["tablero"],
+            "posicionX" => $this->dbHandler->fields["posicionX"],
+            "posicionY" => $this->dbHandler->fields["posicionY"],
         ]);
     }
 
     public function isVacio() {
-        if (is_null($this->dbHanlder->fields["jugador"])){
+        if (is_null($this->dbHandler->fields["jugador"])){
             return true;
         }
-        return $this->dbHanlder->fields["jugador"] == "";
+        return $this->dbHandler->fields["jugador"] == "";
     }
 
     public function toJson() {
-        return "{\"posicionX\" : \"" . $this->dbHanlder->fields["posicionX"] . "\", \"posicionY\" : \"" . $this->dbHanlder->fields["posicionY"] . "\", \"jugador\" : \"" . $this->dbHanlder->fields["jugador"] ."\" },";
+        return "{\"posicionX\" : \"" . $this->dbHandler->fields["posicionX"] . "\", \"posicionY\" : \"" . $this->dbHandler->fields["posicionY"] . "\", \"jugador\" : \"" . $this->dbHandler->fields["jugador"] ."\" },";
     }
 }
 

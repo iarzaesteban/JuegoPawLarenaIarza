@@ -11,28 +11,30 @@ use Src\Core\Exceptions\invalidValueFormatException;
 
 class Usuario extends Model {
 
-    public function __construct($nombre, $password, $mail = null){
-        $this->dbHanlder->fields = [
+    public function __construct($class, $dbHandler = null){
+        parent::__construct($class, $dbHandler);
+        $this->dbHandler->setFields([
             'nombre' => null,
             'password' => null,
             'mail' => null
-        ]; 
-        $this->nombre = $nombre;
-        $this->mail = $mail;
-        $this->dbHanlder->fields["nombre"] = $nombre;
-        $this->dbHanlder->fields["password"] = $password;
-        $this->dbHanlder->fields["mail"] = $mail;
-        $this->dbHanlder->table = 'usuario';
+        ]); 
+        $this->dbHandler->table = 'usuario';
     }  
-
-    public $nombre ;
-    public $mail;
+    
+    public function inicializarUsuario($nombre, $password, $mail = null) {
+        $this->dbHandler->fields["nombre"] = $nombre;
+        $this->dbHandler->fields["password"] = $password;
+        $this->dbHandler->fields["mail"] = $mail;
+    }
 
     public function autenticar() {
-        $query = "SELECT * FROM $this->dbHanlder->table WHERE nombre=:nombre AND password=:password";
+        $query = "SELECT * FROM " . $this->dbHandler->getTable() . " WHERE nombre=:nombre AND password=:password";
+        $this->logger->debug("Query: $query");
         $sentencia = $this->connection->prepare($query);
-        $sentencia->bindValue(":nombre", $this->dbHanlder->fields["nombre"]);
-        $sentencia->bindValue(":password", $this->dbHanlder->fields["password"]);
+        $sentencia->bindValue(":nombre", $this->dbHandler->getField("nombre"));
+        $sentencia->bindValue(":password", $this->dbHandler->getField("password"));
+        $this->logger->debug("Query: " . $this->dbHandler->getField("nombre"));
+        $this->logger->debug("Query: " . $this->dbHandler->getField("password"));
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return count($sentencia->fetchAll()) <> 0;
@@ -40,18 +42,18 @@ class Usuario extends Model {
 
     public function save() {
         $this->logger->debug("Jugador->save()");
-        if ($this->hasValue("mail", $this->dbHanlder->fields["mail"])){
+        if ($this->hasValue("mail", $this->dbHandler->fields["mail"])){
             return false;
         }
         return parent::save();
     }     
     
     public function load(){
-        $user = $this->queryByField("nombre", $this->dbHanlder->fields["nombre"]);
+        $user = $this->queryByField("nombre", $this->dbHandler->fields["nombre"]);
         if (count($user) == 1) {
             foreach ($user[0] as $clave => $valor){
-                if (array_key_exists($clave, $this->dbHanlder->fields)) {
-                    $this->dbHanlder->fields[$clave] = $valor;
+                if (array_key_exists($clave, $this->dbHandler->fields)) {
+                    $this->dbHandler->fields[$clave] = $valor;
                 }
             }
             return true;

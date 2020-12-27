@@ -17,6 +17,7 @@ use Src\Core\Request;
 use Src\Core\Router;
 use Src\Core\Session;
 use Src\Core\Config;
+use Src\Core\Model;
 use Src\Core\Database\ConnectionBuilder;
 
 if(session_id() == ''){
@@ -63,6 +64,7 @@ $request = new Request;
 
 $router = new Router;
 
+Model::init($log, $connection);
 $router->setLogger($log);
 $router->setConnection($connection);
 $router->setRequest($request);

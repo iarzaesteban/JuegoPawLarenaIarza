@@ -6,7 +6,7 @@ namespace Src\App\Controllers;
 use Src\Core\Controller;
 
 use Src\App\Models\menu_principal;
-use Src\App\Models\Usuario;
+use Src\Core\Model;
 use Src\App\Models\CasilleroNormal;
 use Src\App\Models\Juego;
 use Src\App\Controllers\MenuPartidaController;
@@ -41,7 +41,8 @@ class MenuPrincipal extends Controller{
         $nombre = $this->request->get('usuario');
         $password = $this->request->get('password');
         $mail = $this->request->get('mail');
-        $jugador = new Usuario($nombre, $password, $mail);
+        $jugador = Model::factory("Usuario");
+        $jugador->inicializarUsuario($nombre, $password, $mail);
         $jugador->setLogger($this->logger);
         $jugador->setConnection($this->connection);
         if ($jugador->save()) {
@@ -66,9 +67,8 @@ class MenuPrincipal extends Controller{
         if (is_null($this->session->get("USUARIO"))) {
             $nombre = $this->request->get('usuario');
             $password = $this->request->get('password');
-            $jugador = new Usuario($nombre, $password);
-            $jugador->setLogger($this->logger);
-            $jugador->setConnection($this->connection);
+            $jugador = Model::factory("Usuario");
+            $jugador->inicializarUsuario($nombre, $password);
             if ($jugador->autenticar()) {
                 $this->session->put("USUARIO", $nombre);
                 $this->twigLoader('user.loginCorrect.twig', []);
@@ -95,9 +95,10 @@ class MenuPrincipal extends Controller{
                 // $nombre = $this->request->get("nombre");
                 // $this->twigLoader('user.room.creation.twig', compact("jugadores", "nombre"));
             } else {
-                $juego = new Juego();
+                /*$juego = new Juego();
                 $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
+                $juego->setConnection($this->connection);*/
+                $juego = Model::factory("Juego");
                 $juegos = $juego->obtenerSalasAbiertas();
                 $this->twigLoader('user.room.twig', compact("juegos"));
             }
@@ -115,9 +116,10 @@ class MenuPrincipal extends Controller{
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
                 $usuario = $this->session->get("USUARIO");
-                $juego = new Juego();
+                /*$juego = new Juego();
                 $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
+                $juego->setConnection($this->connection);*/
+                $juego = Model::factory("Juego");
                 $juego->setNombre($this->request->get("nombre-sala"));
                 if ($juego->crear($this->session->get("USUARIO"))) {
                     $juego->ingresarSala($this->session->get("USUARIO"));
@@ -142,9 +144,10 @@ class MenuPrincipal extends Controller{
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
                 $usuario = $this->session->get("USUARIO");
-                $juego = new Juego();
+                /*$juego = new Juego();
                 $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
+                $juego->setConnection($this->connection);*/
+                $juego = Model::factory("Juego");
                 $juego->setNombre($nombreSala);
                 $juego->setEstadoNoIniciado();
                 $jugadores = $juego->getJugadores();
@@ -164,9 +167,10 @@ class MenuPrincipal extends Controller{
             } else {
                 $nombreSala = $this->request->get("nombreSala");
                 $usuario = $this->session->get("USUARIO");
-                $juego = new Juego();
+                /*$juego = new Juego();
                 $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
+                $juego->setConnection($this->connection);*/
+                $juego = Model::factory("Juego");
                 $juego->setNombre($nombreSala);
                 $jugadores = $juego->getJugadores();
                 $this->twigLoader('user.room.players.twig', compact("nombreSala", "usuario"));
@@ -183,9 +187,10 @@ class MenuPrincipal extends Controller{
             } else {
                 $nombreSala = $this->request->get("nombre-sala");
                 $usuario = $this->session->get("USUARIO");
-                $juego = new Juego();
+                /*$juego = new Juego();
                 $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
+                $juego->setConnection($this->connection);*/
+                $juego = Model::factory("Juego");
                 $juego->setNombre($nombreSala);
                 if ($juego->isListo()) {
                     echo "OK";
@@ -211,9 +216,7 @@ class MenuPrincipal extends Controller{
     } 
 
     public function ingresarSala(){
-        $juego = new Juego();
-        $juego->setLogger($this->logger);
-        $juego->setConnection($this->connection);
+        $juego = Model::factory("Juego");
         $juego->setNombre($this->request->get("nombre"));
         if (!$juego->ingresarSala($this->session->get("USUARIO"))){
             $this->logger->error("Jugador no ingresado");
@@ -235,9 +238,7 @@ class MenuPrincipal extends Controller{
                 $this->index();
             } else {
                 $nombreSala = $this->request->get("nombreSala");
-                $juego = new Juego();
-                $juego->setLogger($this->logger);
-                $juego->setConnection($this->connection);
+                $juego = Model::factory("Juego");
                 $juego->setNombre($this->request->get("nombre-sala"));
                 $juego->setEstadoNoIniciado();
                 $juego->iniciarJuego();

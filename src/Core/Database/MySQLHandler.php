@@ -4,15 +4,39 @@
 namespace Src\Core\Database;
 
 use Src\Core\Database\QueryBuilder;
+use Src\Core\Database\DBHandler;
 use PDO;
 
-class MySQLHandler extends DBHanlder {
+class MySQLHandler extends DBHandler {
 
     public $table;
     public $fields = [
 
     ];
     private $id;
+
+    public function setFields($fields = []) {
+        $this->fields = $fields;
+    }
+
+    public function getField($field) {
+        if (array_key_exists($field, $this->fields)) {
+            return $this->fields["$field"];
+        }
+        return null;
+    }
+
+    public function setField($field, $value) {
+        if (array_key_exists($field, $this->fields)) {
+            $this->fields["$field"] = $value;
+            return true;
+        }
+        return false;
+    }
+
+    public function getTable() {
+        return $this->table;
+    }
 
     public function save() {
         $this->logger->debug("Guardando en $this->table -> " . json_encode($this->fields));

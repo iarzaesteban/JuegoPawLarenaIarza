@@ -10,18 +10,22 @@ use Src\Core\Exceptions\invalidValueFormatException;
 
 class Jugador extends Model {
 
-    public function __construct($nombre = "", $juego = ""){
-        $this->dbHanlder->fields = [
+    public function __construct($class, $dbHandler = null) {
+        Parent::__construct($class, $dbHandler);
+        $this->dbHandler->setFields([
             'nombre' => null,
             'juego'  => null,
             "puntuacion" => null,
             "estado" => null
-        ]; 
-        $this->nombre = $nombre;
-        $this->dbHanlder->fields["nombre"] = $nombre;
-        $this->dbHanlder->fields["juego"] = $juego;
-        $this->dbHanlder->table = 'jugador';
+        ]); 
+        $this->dbHandler->table = 'jugador';
     }  
+
+    public function inicializarJugador($nombre = "", $juego = "") {
+        $this->nombre = $nombre;
+        $this->dbHandler->fields["nombre"] = $nombre;
+        $this->dbHandler->fields["juego"] = $juego;
+    }
 
     public $nombre ;
     public $id;
@@ -30,38 +34,25 @@ class Jugador extends Model {
     public $cartas = array();
     public $casillerosOcupados = array();
 
-    // public $fields = [
-    //     'id'    => null,
-    //     'carta'  => null,
-    //     'casillero'  => null,
-    //     'nombre' => null,
-    //     'password' => null,
-    //     'mail' => null
-    // ];
+    public function setNombre($nombre) { $this->dbHandler->fields["nombre"] = $nombre; }
 
-    public function setNombre($nombre) {
-        $this->dbHanlder->fields["nombre"] = $nombre;
-    }
+    public function getNombre() { return $this->dbHandler->getField("nombre");}
 
-    public function setPuntuacion($puntuacion) {
-        $this->dbHanlder->fields["puntuacion"] = $puntuacion;
-    }
+    public function setPuntuacion($puntuacion) { $this->dbHandler->fields["puntuacion"] = $puntuacion; }
 
-    public function setJuego($juego) {
-        $this->dbHanlder->fields["juego"] = $juego;
-    }
+    public function getPuntuacion() { return $this->dbHandler->getField("puntuacion");}
 
-    public function setEstado($estado) {
-        $this->dbHanlder->fields["estado"] = $estado;
-    }
+    public function setJuego($juego) { $this->dbHandler->fields["juego"] = $juego; }
 
-    public function setID($id){
-        $this->id = $id;
-    }
+    public function getJuego() { return $this->dbHandler->getField("juego");}
 
-    public function getID(){
-        return $this->id ;
-    }
+    public function setEstado($estado) { $this->dbHandler->fields["estado"] = $estado; }
+
+    public function getEstado() { return $this->dbHandler->getField("estado");}
+
+    public function setID($id){ $this->id = $id; }
+
+    public function getID(){ return $this->id ; }
 
     public function setCarta(Carta $carta){
         $this->cartas[] = $carta;
@@ -103,11 +94,11 @@ class Jugador extends Model {
     }
     
     public function load(){
-        $user = $this->queryByField("nombre", $this->dbHanlder->fields["nombre"]);
+        $user = $this->queryByField("nombre", $this->dbHandler->fields["nombre"]);
         if (count($user) == 1) {
             foreach ($user[0] as $clave => $valor){
-                if (array_key_exists($clave, $this->dbHanlder->fields)) {
-                    $this->dbHanlder->fields[$clave] = $valor;
+                if (array_key_exists($clave, $this->dbHandler->fields)) {
+                    $this->dbHandler->fields[$clave] = $valor;
                 }
             }
             return true;
@@ -117,9 +108,9 @@ class Jugador extends Model {
     
     public function save(){
         $user = $this->findByFields([
-            "nombre" => $this->dbHanlder->fields["nombre"],
-            "estado" => $this->dbHanlder->fields["estado"],
-            "juego" => $this->dbHanlder->fields["juego"]
+            "nombre" => $this->dbHandler->fields["nombre"],
+            "estado" => $this->dbHandler->fields["estado"],
+            "juego" => $this->dbHandler->fields["juego"]
         ]);
         if (count($user) == 0) {
             $this->logger->debug("guardando jugador");
@@ -130,8 +121,8 @@ class Jugador extends Model {
 
     public function findByJuego($juego) {
         return $this->findByFields([
-            "juego" => $juego->fields["nombre"],
-            "estado" => $juego->fields["estado"]
+            "juego" => $juego->getNombre(),
+            "estado" => $juego->getEstado()
         ]);
     }
 }

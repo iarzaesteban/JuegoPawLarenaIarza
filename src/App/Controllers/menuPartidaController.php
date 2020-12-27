@@ -164,9 +164,7 @@ class MenuPartidaController extends Controller{
     }
 
     public function instanciarJuego($param){
-        $juego = new Juego();
-        $juego->setLogger($this->logger);
-        $juego->setConnection($this->connection);
+        $juego = Model::factory("Juego");
         $juego->setNombre($this->request->get($param));
         $juego->setEstadoIniciado();
         $juego->load();
@@ -174,9 +172,7 @@ class MenuPartidaController extends Controller{
     }
 
     public function instanciarUsuario() {
-        $usuario = new Jugador();
-        $usuario->setLogger($this->logger);
-        $usuario->setConnection($this->connection);
+        $usuario = Model::factory("Jugador");
         $usuario->setNombre($this->session->get("USUARIO"));
         $usuario->load();
         return $usuario;

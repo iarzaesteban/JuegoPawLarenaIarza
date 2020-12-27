@@ -25,9 +25,11 @@ class CasillerosFactory {
         $res = null;
         $random = rand(1,100);
         if ($random < 90) {
-            $res = new CasilleroNormal($i ,$k);
+            $res = Model::factory("CasilleroNormal");
+            $res->inicializarCasillero($i ,$k);
         } else {
-            $res = new CasilleroNormal($i ,$k);
+            $res = Model::factory("CasilleroNormal");
+            $res->inicializarCasillero($i ,$k);
         }
         return $res;
     }
