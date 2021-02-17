@@ -8,7 +8,7 @@ use Exception;
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
-class Puntaje extends Model {
+class Puntaje  {
 
     public $table = 'puntaje';
     private $queryBuilder;
@@ -39,15 +39,6 @@ class Puntaje extends Model {
     public function getTiempo(){
         return $this->tiempo;
     }
-
-    public $fields = [
-        'id'    => null,
-        'nombreJugador'  => null,
-        'casilleroOcupado' => null,
-        'tiempo' => null
-    ];
-
-
     
 }
 

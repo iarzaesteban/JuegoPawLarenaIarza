@@ -18,13 +18,22 @@ class Tablero extends Model {
     public $filas;
     public $columnas;
 
-    public function __construct($class, $dbHandler = null){//$descripcionesCasilleros array de desc de casilleros en tablero
-        Parent::__construct($class, $dbHandler);
-        $this->dbHandler->setFields([
-            'id'    => null,
-            "juegoID" => null,
-            "cantidadColumnas" => null
-        ]);
+    public function __construct($dbHandler = null, $parameters = null){//$descripcionesCasilleros array de desc de casilleros en tablero
+        Parent::__construct($dbHandler);
+        if (is_null($parameters))
+        {
+            $this->dbHandler->addField("id");
+            $this->dbHandler->addField("juegoID");
+            $this->dbHandler->addField("cantidadColumnas");
+        } else {
+            if (array_key_exists("nombre", $parameters)) {
+                $this->set("nombre", $parameters["nombre"]);
+                $this->load();
+            } else {
+                $this->setParameters($parameters);
+            }
+        }
+        $this->setTableName("tablero");
     //     for ($contador = 0; $contador < $fil; $contador++) {
     //         for ($contador1 = 0; $contador1 < $col; $contador1++) {
     //             $casillero = new Casillero($descripcionesCasilleros[$c]);
@@ -43,8 +52,10 @@ class Tablero extends Model {
     public function getId() { return $this->dbHandler->getField("id"); }
 
     public function ocuparPorPosicion($posicionX, $posicionY, $jugador) {
-        $res = Model::factory("Casillero");
+        $casillero = Model::factory("Casillero");
         $casillero->setTablero($this->dbHandler->fields["id"]);
+        $casillero->set("posicionX", $posicionX);
+        $casillero->set("posicionY", $posicionY);
         $casillero->setJugador($jugador);
         $casillero->update();
     }
@@ -54,7 +65,7 @@ class Tablero extends Model {
         try {
             foreach($json as $flatCasillero) {
                 $array = explode("_",$flatCasillero);
-                $res = Model::factory("Casillero");
+                $casillero = Model::factory("Casillero");
                 $casillero->fields["posicionX"] = $array[1];
                 $casillero->fields["posicionY"] = $array[2];
                 $casillero->fields["tablero"] = $this->dbHandler->fields["id"];
@@ -87,7 +98,7 @@ class Tablero extends Model {
         $tableroAux = array();
         for ($contador = 0; $contador < $this->filas; $contador++) {
             for ($contador1 = 0; $contador1 < $this->columnas; $contador1++) {
-                if ($casilleros[$contador][$contador1]->getJugador($jugador)) {
+                if ($this->casilleros[$contador][$contador1]->getJugador($jugador)) {
                     $tableroAux[$contador][$contador1] = $jugador;
                 }else{
                     $tableroAux[$contador][$contador1] = '0';

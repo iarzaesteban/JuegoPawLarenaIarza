@@ -5,7 +5,7 @@ namespace Src\App\Controllers;
 
 use Src\Core\Controller;
 
-use Src\App\Models\menu_principal;
+use Src\App\Models\MenuPrincipal;
 use Src\Core\Model;
 use Src\App\Models\CasilleroNormal;
 use Src\App\Models\Juego;
@@ -14,7 +14,7 @@ use Src\App\Controllers\MenuPartidaController;
 
 class MenuPrincipal extends Controller{
 
-    public ?string $modelname = menu_principal::class;
+    public ?string $modelname = MenuPrincipal::class;
 
 
     public function index(){

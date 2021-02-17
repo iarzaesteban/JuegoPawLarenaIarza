@@ -136,9 +136,7 @@ class MySQLHandler extends DBHandler
         $res = $sentencia->fetchAll();
         if (count($res) == 1) {
             foreach ($res[0] as $clave => $valor) {
-                if (array_key_exists($clave, $this->fields)) {
-                    $this->fields[$clave] = $valor;
-                }
+                $this->set($clave, $valor);
             }
             return true;
         }
@@ -152,15 +150,15 @@ class MySQLHandler extends DBHandler
             $query .= "$clave = :$clave AND ";
         }
         $query = substr($query, 0, strlen($query) - 4); # sin la ultima coma
-        $sentencia = $this->connection->prepare($query);
+        $sentence = $this->connection->prepare($query);
         foreach ($params as $clave => $valor) {
             $this->logger->debug("bind value -> : $clave     valor -> $valor");
-            $sentencia->bindValue(":" . $clave, $valor);
+            $sentence->bindValue(":" . $clave, $valor);
         }
         $this->logger->debug("query: $query");
-        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
-        $sentencia->execute();
-        return $sentencia->fetchAll();
+        $sentence->setFetchMode(PDO::FETCH_ASSOC);
+        $sentence->execute();
+        return $sentence->fetchAll();
     }
 
     public function loadByFields($params): bool
@@ -169,9 +167,7 @@ class MySQLHandler extends DBHandler
         //$this->logger->debug(json_encode($res));
         if (count($res) == 1) {
             foreach ($res[0] as $clave => $valor) {
-                if (array_key_exists($clave, $this->fields)) {
-                    $this->fields[$clave] = $valor;
-                }
+                $this->set($clave, $valor);
             }
             return true;
         }
@@ -210,5 +206,25 @@ class MySQLHandler extends DBHandler
 
     public function delete($find = null) {
 
+    }
+
+    public function addField($field)
+    {
+        $this->fields["$field"] = null;
+    }
+
+    public function setTableName($table)
+    {
+        $this->table = $table;
+    }
+
+    public function set($field, $value)
+    {
+        $this->fields["$field"] = $value;
+    }
+
+    public function get($field)
+    {
+        return $this->fields["$field"];
     }
 }

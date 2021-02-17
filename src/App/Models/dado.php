@@ -8,7 +8,7 @@ use Exception;
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
-class Dado extends Model {
+class Dado {
 
 
     public function __construct(){

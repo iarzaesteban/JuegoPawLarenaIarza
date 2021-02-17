@@ -12,8 +12,14 @@ class Enfermedad extends Model {
 
 
 
-    public function __construct($e){
-        $this->nombreEnfermedad = $e;
+    public function __construct($dbHandler = null, $parametros = null){
+        Parent::__construct($dbHandler);
+        if (is_null($parametros))
+        {
+
+        } else {
+            $this->setParameters($parametros);
+        }
     }  
 
 

@@ -44,6 +44,16 @@ class Model
         return $this->dbHandler->exists();
     }
 
+    public function addField($field): bool
+    {
+        return $this->dbHandler->addField($field);
+    }
+
+    public function setTableName($table): bool
+    {
+        return $this->dbHandler->setTableName($table);
+    }
+
     public function hasValue($field, $value): int
     {
         return $this->dbHandler->hasValue($field, $value);
@@ -105,12 +115,28 @@ class Model
         Model::$staticConnection = $connection;
     }
 
-    public static function factory($nombre, $dbHandler = null)
+    public static function factory($nombre, $dbHandler = null, $parametros = null)
     {
         $path = "Src\\App\\Models\\{$nombre}";
-        $obj = new $path($dbHandler);
+        $obj = new $path($dbHandler, $parametros);
         $obj->setLogger(Model::$staticLogger);
         $obj->setConnection(Model::$staticConnection);
         return $obj;
+    }
+
+    public function setParameters($parameters) {
+        foreach ($parameters as $field => $value) {
+            $this->set($field, $value);
+        }
+    }
+
+    public function set($field, $value)
+    {
+        $this->dbHandler->set($field, $value);
+    }
+
+    public function get($field)
+    {
+        return $this->dbHandler->get($field);
     }
 }

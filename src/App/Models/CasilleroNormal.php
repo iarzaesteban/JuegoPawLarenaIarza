@@ -8,5 +8,3 @@ class CasilleroNormal extends Casillero {
 
     
 }
-
-?>

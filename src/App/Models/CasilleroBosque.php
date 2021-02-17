@@ -7,9 +7,7 @@ class CasilleroBosque extends Casillero {
 
     public function ocupar($jugador) {
         //todo: Aplicar reglas casillero
-        parent::ocupar($jugador);
+        //parent::ocupar($jugador);
     }
     
 }
-
-?>

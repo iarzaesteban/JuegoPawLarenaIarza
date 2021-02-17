@@ -8,7 +8,7 @@ use Exception;
 use src\Core\Exceptions\invalidValueFormatException;
 use src\App\Models\posicion;
 
-class Casilleros_ocupados extends Model {
+class Casilleros_ocupados {
 
     public $table = 'casilleros_ocupados';
     private $queryBuilder;

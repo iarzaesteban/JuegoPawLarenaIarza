@@ -23,6 +23,16 @@ class DBHandler
         $this->logger->error("DBHandler->exists() no implementado");
     }
 
+    public function addField($field)
+    {
+        $this->logger->error("DBHandler->addField($field) no implementado");
+    }
+
+    public function setTableName($table)
+    {
+        $this->logger->error("DBHandler->setTableName($table) no implementado");
+    }
+
     public function hasValue($field, $value)
     {
         $this->logger->error("DBHandler->hasValue($field, $value) no implementado");
@@ -56,5 +66,15 @@ class DBHandler
     public function delete($find = null)
     {
         $this->logger->error("DBHandler->delete($find) no implementado");
+    }
+
+    public function set($field, $value)
+    {
+        $this->logger->error("DBHandler->set($field, $value) no implementado");
+    }
+
+    public function get($field)
+    {
+        $this->logger->error("DBHandler->get($field) no implementado");
     }
 }

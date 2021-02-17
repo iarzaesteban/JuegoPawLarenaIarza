@@ -8,19 +8,9 @@ use Exception;
 use Src\Core\Exceptions\invalidValueFormatException;
 
 
-class Menu_principal extends Model {
+class MenuPrincipal {
 
-    public $table = 'menu_principal';
-    private $queryBuilder;
-
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-
-    }
-    public $fields = [
-        'juegos'    => null,
-        'puntajes'  => null
-    ];
+    public String $table = 'menu_principal';
 
     public function obtenerSalas(){
 
