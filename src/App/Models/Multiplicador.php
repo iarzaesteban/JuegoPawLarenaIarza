@@ -3,9 +3,6 @@
 namespace Src\App\Models;
 
 use Src\Core\Model;
-use Exception;
-
-use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Multiplicador extends Model
@@ -40,11 +37,6 @@ class Multiplicador extends Model
     public function setIsVigente($v)
     {
         $this->isVigente = $v;
-    }
-
-    public function getMultiplicador()
-    {
-        return $this->multiplicador;
     }
 
 

@@ -3,10 +3,7 @@
 namespace Src\App\Models;
 
 use Src\Core\Model;
-use Exception;
 use PDO;
-
-use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Usuario extends Model
@@ -32,7 +29,7 @@ class Usuario extends Model
         $this->set("mail", $mail);
     }
 
-    public function autenticar()
+    public function autenticar(): bool
     {
         $query = "SELECT * FROM " . $this->dbHandler->getTable() . " WHERE nombre=:nombre AND password=:password";
         $this->logger->debug("Query: $query");

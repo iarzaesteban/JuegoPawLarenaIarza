@@ -3,10 +3,6 @@
 namespace Src\App\Models;
 
 use Src\Core\Model;
-use Exception;
-
-use Src\Core\Exceptions\invalidValueFormatException;
-
 
 class TipoCasillero extends Model {
 

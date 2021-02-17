@@ -33,7 +33,7 @@ class Juego extends Model
         $this->setTableName('juego');
     }
 
-    public function inicializarJuego($nom = null, $cantDados = [], $enfermedades = [], $comodines = [], $jugador = null)
+    public function inicializarJuego($nom = null, $cantDados = [], $enfermedades = [], $comodines = [])
     {
         $this->nombre = $nom;
         for ($contador = 0; $contador < count($cantDados); $contador++) {
@@ -96,7 +96,6 @@ class Juego extends Model
 
     public function iniciarJuego()
     {
-        $pos = 0;
         $this->load();
         for ($contador = 0; $contador < count($this->comodines); $contador++) {//Mezclamos comodines
             $pos = mt_rand(0, count($this->comodines));
@@ -217,12 +216,6 @@ class Juego extends Model
         return count($this->jugadores);
     }
 
-
-    public function obtenerAgentes()
-    {
-        return $this->agentes;
-    }
-
     public function ingresarSala($jugador)
     {
         $this->load();
@@ -327,7 +320,7 @@ class Juego extends Model
     {
         $res = parent::save();
         if (!is_null($this->tablero)) {
-            //
+            //todo:
             //$this->tablero->save();
         }
         if (!is_null($this->jugadores)) {

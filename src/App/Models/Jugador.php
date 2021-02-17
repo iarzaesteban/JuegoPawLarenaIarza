@@ -3,9 +3,6 @@
 namespace Src\App\Models;
 
 use Src\Core\Model;
-use Exception;
-
-use Src\Core\Exceptions\invalidValueFormatException;
 
 
 class Jugador extends Model
@@ -71,14 +68,15 @@ class Jugador extends Model
     public function tirarCarta(Carta $carta)
     {
         if (in_array($carta, $this->cartas)) {
-            $carta->invocar();
+            return $carta->invocar();
         }
+        return false;
     }
 
     public function setCasillerosOcupados($posciones)
     {
         $c = 1;
-        for ($contador = 0; $contador < count($posciones); $contador + 2) {
+        for ($contador = 0; $contador < count($posciones); $contador += 2) {
             $this->casillerosOcupados = new Casilleros_ocupados($posciones[$contador], $posciones[$c]);
             $c = $c + 2;
         }

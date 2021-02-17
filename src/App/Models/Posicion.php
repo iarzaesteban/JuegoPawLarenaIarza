@@ -3,10 +3,6 @@
 namespace Src\App\Models;
 
 use Src\Core\Model;
-use Exception;
-
-use Src\Core\Exceptions\invalidValueFormatException;
-
 
 class Posicion extends Model
 {
@@ -23,22 +19,6 @@ class Posicion extends Model
         }
         $this->dbHandler->table = 'posicion';
     }
-
-    public function getX()
-    {
-        return $this->x;
-    }
-
-
-    public function getY()
-    {
-        return $this->y;
-    }
-
-    public $fields = [
-        'x' => null,
-        'y' => null
-    ];
 
     public function load($find = null): bool
     {

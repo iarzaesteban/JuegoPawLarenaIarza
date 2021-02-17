@@ -2,21 +2,10 @@
 
 namespace Src\App\Models;
 
-use Src\Core\Model;
-use Exception;
-
-use Src\Core\Exceptions\invalidValueFormatException;
-
-
 class Puntaje  {
 
     public $table = 'puntaje';
-    private $queryBuilder;
 
-    public function setQueryBuilder(QueryBuilder  $qb){
-        $this->queryBuilder = $qb;
-
-    }
     public $nombreJugador;
     public $casillerosOcupados;
     public $tiempo;
