@@ -12,7 +12,7 @@ use Src\App\Models\Juego;
 use Src\App\Controllers\MenuPartidaController;
 
 
-class MenuPrincipal extends Controller{
+class Menu_principal extends Controller{
 
     public ?string $modelname = MenuPrincipal::class;
 

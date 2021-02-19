@@ -13,7 +13,12 @@
       },
       {
         "name": "Nicolás Larena",
-        "email": "NicolasLarena@gmail.com",
+        "email": "NicolasLarena@hotmail.com",
+        "role": "Main Developer"
+      },
+      {
+        "name": "Victoria Medina",
+        "email": "victoriamedina@gmail.com",
         "role": "Main Developer"
       }
     ],

@@ -348,8 +348,8 @@ class Juego extends Model
         foreach ($jugadores as $flatJug) {
             $jugador = Model::factory("Jugador");
             $jugador->inicializarJugador($flatJug["nombre"], $flatJug["juego"]);
-            $jugador->fields["estado"] = $estado;
-            $jugador->fields["puntuacion"] = $flatJug["puntuacion"];
+            $jugador->set("estado", $estado);
+            $jugador->set("puntuacion", $flatJug["puntuacion"]);
             $jugador->save();
         }
     }
@@ -373,7 +373,7 @@ class Juego extends Model
 
     public function setTiraron()
     {
-        $this->dbHandler->fields["esperandoTirada"] = "N";
+        $this->set("esperandoTirada", "N");
     }
 
     /*public function isEsperandoTirada() {
